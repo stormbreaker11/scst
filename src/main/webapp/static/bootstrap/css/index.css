@@ -1,0 +1,19 @@
+.title1{
+height:40px;
+background:#52658f;
+}
+.title1 p{
+padding:5px;
+font-size:22px;
+text-align:center;
+color:white;
+}
+.box{
+border: 1px solid #6b589d;
+margin-top:30px;
+margin-bottom:30px;
+}
+.comboselect{
+	width:195px !important;
+}
+

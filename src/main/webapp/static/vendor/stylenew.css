@@ -1,0 +1,59 @@
+
+.wrapper {
+	background:;
+}
+.container{
+	background-color: white;
+}
+.header{
+    background: #ddd;
+    border-bottom: 1px solid white;
+}
+.header img{
+	width:100% !important;
+}
+
+.footerlist li p{
+	color:white;
+	margin-top:-10px;
+}
+.footerlist li{
+	margin-top:25px;
+	padding-left:20px;
+	list-style:none;
+	float:left;
+}
+.footerlist li a{
+color:white;
+text-decoration:none;
+}
+.footerlist li a:hover{
+color:pink;
+}
+.niclogo{
+	height:50px;
+}
+.footerp{
+	color:white;
+}
+.footer {
+	background-color: #15548a;
+	min-height: 100px;
+}
+
+.footer h5 {
+	font-size:17px;
+	padding-top: 15px; color : #ff0080;
+	text-align: center;
+	color: white;
+}
+
+.umdiv{
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 20px 0 rgba(0, 0, 0, 0.19);
+    border-top: 2px solid #4ea2de;
+    height: 450px;
+    background: #f5f5f5;
+}
+.umimg{
+    margin-top: 50px;
+}

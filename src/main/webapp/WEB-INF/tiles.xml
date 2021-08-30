@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<!-- Base Definition -->
+	<definition name="home-definition"
+		template="/WEB-INF/tiles/layout/homelayout.jsp"> 
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/WEB-INF/tiles/template/deptlog.jsp"/> 
+		<put-attribute name="header2" value="/WEB-INF/tiles/template/header2.jsp"/> 
+		<put-attribute name="sidemenu" value="/WEB-INF/tiles/template/petitionheader.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/template/footer.jsp" />
+		<put-attribute name="body" value="" /> </definition>
+
+	
+<definition name="admin-definition"
+		template="/WEB-INF/tiles/layout/homelayout.jsp"> 
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/WEB-INF/tiles/template/deptlog.jsp"/> 
+		<put-attribute name="sidemenu" value="/WEB-INF/tiles/template/mainheader.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/template/footer.jsp" />
+		<put-attribute name="body" value="" /> </definition>
+	
+
+
+
+	<!-- Home Page -->
+	<definition name="adminhome" extends="admin-definition">
+		<put-attribute name="title" value="SC-ST Commission" />
+		<put-attribute name="body"
+			value="/WEB-INF/pages/home.jsp" />
+	</definition>
+	
+	<!-- Registration Page -->
+	<definition name="pettitionhome" extends="home-definition">
+		<put-attribute name="title" value="SC-ST Commission" />
+		<put-attribute name="body"
+			value="/WEB-INF/pages/home1.jsp" />
+	</definition>
+	
+	<!-- Registration Page -->
+	<definition name="registration" extends="home-definition">
+		<put-attribute name="title" value="SC-ST Commission" />
+		<put-attribute name="body"
+			value="/WEB-INF/pages/REGISTERPETITION.jsp" />
+	</definition>
+	
+	<!-- PETITIONDETAILS Page -->
+	<definition name="PETITIONDETAILS" extends="home-definition">
+		<put-attribute name="title" value="SC-ST Commission" />
+		<put-attribute name="body"
+			value="/WEB-INF/pages/PETITIONDETAILS.jsp" />
+	</definition>
+	
+	<!-- VIEWPETITIONSTATUS Page -->
+	<definition name="VIEWPETITIONSTATUS" extends="home-definition">
+		<put-attribute name="title" value="SC-ST Commission" />
+		<put-attribute name="body"
+			value="/WEB-INF/pages/VIEWPETITIONSTATUS.jsp" />
+	</definition>
+
+	<!-- Dashboard Page -->
+	<definition name="dashboard" extends="admin-definition">
+		<put-attribute name="title" value="SC-ST Commission" />
+		<put-attribute name="body"
+			value="/WEB-INF/pages/Dashboard.jsp" />
+	</definition>
+
+
+</tiles-definitions>
