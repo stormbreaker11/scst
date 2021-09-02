@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AchievementsInitiativesController {
 	@RequestMapping("/achievementsandinitiatives.htm")
 	public String achievementsandInitiatives() {
+		System.out.println("");
 		return "AchievementsandInitiatives";
 		
 	}

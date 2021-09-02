@@ -216,6 +216,8 @@ margin-right: 10px;
 			
 <h1 align="center" style="color: #2d3990;" >Petition - Land</h1>
 		<div class="col-md-12">
+		
+		<form:form name="petition" modelAttribute="petitionland" >
 		<table style="font-size: 20px;"  width="100%" align="center">
 	<tr>
 	<td  >
@@ -257,20 +259,20 @@ margin-right: 10px;
 												<label class="col-md-6">Kind
 													of Land <span class="star">*</span></label>
 												<div class="col-md-6">
-													<select class="form-control SelectStyle"
-														id="">
-														<option>--Select--
-														</option>
-														<option>Agricultural
+													<form:select class="form-control SelectStyle"
+														id="landKind" path="landKind">
+														<form:option value="0">--Select--
+														</form:option>
+														<form:option value="1">Agricultural
 															land
-														</option>
-														<option>Housing
+														</form:option>
+														<form:option value="1" >Housing
 															Land
-														</option>
-														<option>Forest
+														</form:option>
+														<form:option value="1" >Forest
 															Land
-														</option>
-													</select>
+														</form:option>
+													</form:select>
 												</div>
 											</div>
 										</div>
@@ -280,27 +282,27 @@ margin-right: 10px;
 												<label class="col-md-6">Type
 													of Land <span class="star">*</span></label>
 												<div class="col-md-6">
-													<select class="form-control SelectStyle"
-														id="pitition1">
-														<option>--Select--
-														</option>
-														<option
+													<form:select class="form-control SelectStyle"
+														id="pitition1" path="landType">
+														<form:option value="0">--Select--
+														</form:option>
+														<form:option
 															value="pland">
 															Patta
 															land
-														</option>
-														<option
+														</form:option>
+														<form:option
 															value="pland">
 															Govt.
 															Assigned
 															land
-														</option>
-														<option
+														</form:option>
+														<form:option
 															value="oland">
 															Other
 															Land
-														</option>
-													</select>
+														</form:option>
+													</form:select>
 												</div>
 											</div>
 										</div>
@@ -314,9 +316,9 @@ margin-right: 10px;
 													petitioner(100
 													words) <span class="star">*</span></label>
 												<div class="col-md-6">
-													<textarea
+													<form:textarea
 														cols=39
-														rows=2></textarea>
+														rows=2 maxlength="100" id="appeal" path="appeal"></form:textarea>
 												</div>
 											</div>
 										</div>
@@ -328,9 +330,9 @@ margin-right: 10px;
 													(500 words)
 												<span class="star">*</span></label>
 												<div class="col-sm-6">
-													<textarea
-														cols=39
-														rows=7></textarea>
+													<form:textarea
+														cols=39 path="pet_detail" maxlength="500" id="pet_detail"
+														rows=7></form:textarea>
 												</div>
 											</div>
 										</div>
@@ -345,17 +347,17 @@ margin-right: 10px;
 													in any
 													court <span class="star">*</span></label>
 												<div class="col-md-6">
-													<select class="form-control SelectStyle"
-														id="court">
-														<option>--Select--
-														</option>
-														<option
+													<form:select class="form-control SelectStyle"
+														id="court" path="courtComp ">
+														<form:option value="0" >--Select--
+														</form:option>
+														<form:option
 															value="Yes">
 															Yes
-														</option>
-														<option>No
-														</option>
-													</select>
+														</form:option>
+														<form:option value="No" >No
+														</form:option>
+													</form:select>
 												</div>
 											</div>
 										</div>
@@ -369,9 +371,9 @@ margin-right: 10px;
 														Court</label>
 													<div
 														class="col-md-6">
-														<input type="text"
-															placeholder=" Court name "
-															class="form-control">
+														<form:input type="text" id="courtName" maxlength="50"
+															placeholder=" Court name " 
+															class="form-control" path="courtName"/>
 													</div>
 												</div>
 											</div>
@@ -383,22 +385,22 @@ margin-right: 10px;
 														Select State</label>
 													<div
 														class="col-md-6">
-														<select class="form-control SelectStyle"
-															id="">
-															<option>--Select--
-															</option>
-															<option>Telangana
-															</option>
-															<option>Andhra Pradesh
-															</option>
-															<option>Karnataka
-															</option>
-															<option>State-4
-															</option>
-															<option>State-5
-															</option>
+														<form:select class="form-control SelectStyle"
+															id="courtState" path="courtState">
+															<form:option value="0">--Select--
+															</form:option>
+															<form:option value="1">Telangana
+															</form:option>
+															<form:option value="1" >Andhra Pradesh
+															</form:option>
+															<form:option value="1">Karnataka
+															</form:option>
+															<form:option value="1">State-4
+															</form:option>
+															<form:option value="1">State-5
+															</form:option>
 
-														</select>
+														</form:select>
 													</div>
 											</div>
 											</div>
@@ -411,49 +413,22 @@ margin-right: 10px;
 													</label>
 													<div
 														class="col-md-6">
-														<select class="form-control SelectStyle"
-															id="">
-															<option>--Select--
-															</option>
-															<option>Hyderabad
-															</option>
-															<option>Rangareddy
-															</option>
-															<option>Nizamabad
-															</option>
-															<option>Mahabubnagar
-															</option>
-															<option>Medak
-															</option>
-															<option>Nalgonda
-															</option>
-															<option>Warangal
-															</option>
-															<option>Karimnagar
-															</option>
-															<option>Adilabad
-															</option>
-															<option>Khammam
-															</option>
-															<option>Khammam
-															</option>
-															<option>Medchal
-															</option>
-															<option>Vikarabad
-															</option>
-															<option>Sangareddy
-															</option>
-															<option>Siddipet
-															</option>
-															<option>Hanmakonda
-															</option>
-															<option>Nagakarnool
-															</option>
-															<option>Yadadri
-															</option>
-															<option>Komaram-bheem
-															</option>
-														</select>
+														<form:select class="form-control SelectStyle" path="courtDist"
+															id="courtDist">
+															<form:option value="0" >--Select--
+															</form:option>
+															<form:option value="1" >Hyderabad
+															</form:option>
+															<form:option value="2">Rangareddy
+															</form:option>
+															<form:option value="1">Nizamabad
+															</form:option>
+															<form:option value="3" >Mahabubnagar
+															</form:option>
+															<form:option value="4" >Medak
+															</form:option>
+															
+														</form:select>
 													</div>
 												</div>
 											</div>
@@ -465,18 +440,18 @@ margin-right: 10px;
 														Select Mandal</label>
 													<div
 														class="col-md-6">
-														<select class="form-control SelectStyle"
-															id="">
-															<option>--Select--
-															</option>
-															<option>Mandal-1
-															</option>
-															<option>Mandal-2
-															</option>
-															<option>Mandal-3
-															</option>
+														<form:select id="courtMandal" class="form-control SelectStyle"
+															path="courtMandal">
+															<form:option value="0">--Select--
+															</form:option>
+															<form:option value="1" >Mandal-1
+															</form:option>
+															<form:option value="2" >Mandal-2
+															</form:option>
+															<form:option value="3" >Mandal-3
+															</form:option>
 
-														</select>
+														</form:select>
 													</div>
 												</div>
 											</div>
@@ -489,9 +464,9 @@ margin-right: 10px;
 														</label>
 													<div
 														class="col-md-6">
-														<input type="text"
-															placeholder=" Type case number"
-															class="form-control">
+														<form:input type="text"
+															placeholder=" Type case number" path="caseNo"
+															class="form-control" maxlength="30"/>
 													</div>
 												</div>
 											</div>
@@ -502,17 +477,16 @@ margin-right: 10px;
 													Status of Case
 													</label>
 												<div class="col-md-6">
-													<select class="form-control SelectStyle"
-														id="Casestatus">
-														<option>--Select--
-														</option>
-														<option>
-															
+													<form:select class="form-control SelectStyle"
+														id="Casestatus" path="caseStatus">
+														<form:option value="0">--Select--
+														</form:option>
+														<form:option value="P">
 															Pending
-														</option>
-														<option value="Disposed">Disposed
-														</option>
-													</select>
+														</form:option>
+														<form:option value="D">Disposed
+														</form:option>
+													</form:select>
 												</div>
 											</div>
 										</div>
@@ -521,7 +495,7 @@ margin-right: 10px;
                     <div class="col-sm-7 col-md-offset-2 form-group">
                     <label class="col-md-6">Upload the Court Orders</label>
                     <div class="col-md-6">
-                    <input name="" placeholder="" class="form-control" type="file">
+                    <input name="courtorders" placeholder="" class="form-control" type="file">
                     </div>
                     </div>
                     
@@ -555,27 +529,13 @@ margin-right: 10px;
 <div class="col-sm-7 col-md-offset-2 form-group">
 <label class="col-md-6">Select District <span class="star">*</span> </label>
 <div class="col-md-6">
-<select class="form-control SelectStyle" id="">
-<option>--Select--</option>
-<option>Hyderabad</option>
-<option>Rangareddy</option>
-<option >Nizamabad</option>
-<option >Mahabubnagar</option>
-<option >Medak</option>
-<option >Nalgonda</option>
-<option >Warangal</option>
-<option >Karimnagar</option>
-<option >Adilabad</option>
-<option >Khammam</option>
-<option >Khammam</option>
-<option>Medchal</option>
-<option>Vikarabad</option>
-<option >Sangareddy</option>
-<option >Siddipet</option>
-<option >Hanmakonda</option>
-<option >Nagakarnool</option>
-<option >Yadadri</option>
-<option >Komaram-bheem</option>
+<select class="form-control SelectStyle" id="landDistrict" name="landDistrict">
+<option value="0">--Select--</option>
+<option value="1" >Hyderabad</option>
+<option value="2">Rangareddy</option>
+<option value="3" >Nizamabad</option>
+<option value="4" >Mahabubnagar</option>
+
 </select>
 </div>
 </div>
@@ -584,9 +544,9 @@ margin-right: 10px;
 <div class="col-sm-7 col-md-offset-2 form-group">
 <label class="col-md-6">Select Mandal <span class="star">*</span> </label>
 <div class="col-md-6">
-<select class="form-control SelectStyle" id="">
-<option>--Select--</option>
-<option>Mandal-1</option>
+<select class="form-control SelectStyle" id="landmandal" path="landmandal">
+<option value="0" >--Select--</option>
+<option value="0">Mandal-1</option>
 <option>Mandal-2</option>
 <option >Mandal-3</option>
 <option >AMBERPET</option>
@@ -606,11 +566,11 @@ margin-right: 10px;
 <div class="col-sm-7 col-md-offset-2 form-group">
 <label class="col-md-6">Revenue Village  </label>
 <div class="col-md-6">
-<select class="form-control SelectStyle" id="">
-<option>--Select--</option>
-<option>Village-1</option>
-<option>Village-2</option>
-<option>Village-3</option>
+<select class="form-control SelectStyle" name="landvillage" id="landvillage">
+<option value="0">--Select--</option>
+<option value="1" >Village-1</option>
+<option value="2" >Village-2</option>
+<option value="3" >Village-3</option>
 </select>
 </div>
 </div>
@@ -623,9 +583,9 @@ margin-right: 10px;
 														number</label>
 													<div
 														class="col-md-6">
-														<input type="text"
+														<input type="text" id="passbookNo" name="passbookNo"
 															placeholder=" Patta number"
-															class="form-control">
+															class="form-control" maxlength="10" >
 													</div>
 												</div>
 											</div>
@@ -640,7 +600,7 @@ margin-right: 10px;
 													<div
 														class="col-md-6">
 														<input type="text"
-															placeholder=" Survey number "
+															placeholder=" Survey number" maxlength="15"  id="surveyNo" name="surveyNo"
 															class="form-control">
 													</div>
 												</div>
@@ -654,7 +614,7 @@ margin-right: 10px;
 													</label>
 													<div class="col-md-2">
 														<input type="text"
-															placeholder=""
+															placeholder="" id="extentOfLand" name="extentOfLand" 
 															class="form-control">
 													</div>	
 																						
@@ -675,7 +635,7 @@ margin-right: 10px;
 																					</div>
 																					<div class="col-md-2">
 													<div class="btn btn-primary"
-													style="text-align: left;">
+													style="text-align: left;" >
 														+ Add More
 												</div>
 							</div>			
@@ -818,7 +778,7 @@ margin-right: 10px;
 																					</div>
 																					<div class="col-md-2">
 													<div class="btn btn-primary"
-													style="text-align: left;">
+													style="text-align: left;" id="addLand">
 														+ Add More
 												</div>
 							</div>			
@@ -835,7 +795,7 @@ margin-right: 10px;
 												</div>
                         <div
 													class="table-responsive">
-													<table id="example"
+													<table id="landdetails"
 														class="table table-striped table-bordered">
 
 														<thead>
@@ -856,15 +816,7 @@ margin-right: 10px;
 															<th>Delete
 															</th>
 														</thead>
-									<tbody>
-										<td>1</td>
-										<td>Patta</td>
-										<td>22501</td>
-										<td>S140</td>
-										<td>0.5 acre</td>
-
-										<td><button>Delete</button></td>
-									</tbody>
+									
 								</table>
 												</div>
 											
@@ -1009,7 +961,6 @@ margin-right: 10px;
 							</div>
 						</div>
 					</div>
-
 											<div class="row">
 												<div
 													class="col-sm-7 col-md-offset-2 form-group">
@@ -1345,7 +1296,9 @@ margin-right: 10px;
                         </div>
                     </div>
                 </div>
+                 </form:form>
             </div>
+           
         </div>
 	
 	<script type="text/javascript">
@@ -1694,9 +1647,225 @@ margin-right: 10px;
 		});
 	</script>
 	
+		<script>
+	function addLand(){
 	
 	
+		var table = document.getElementById("");
+		var landDistrict = $("#landDistrict").val().trim();
+		var landmandal = $("#landmandal").val().trim();
+		var landvillage = $("#landvillage").val().trim();
+		var subject = $("#subject").val().trim();
+		var year = $("#period").val().trim();
+		var regex = /^[a-zA-Z]+(\s+[a-zA-Z]+)*$/;
+		if (degValue == "") {
+			alert("Exam/Degree is required");
+			$("#degree").focus();
+			return false;
+		}
+		if (regex.test(degValue)==false) {
+			alert("Invalid Exam/Degree");
+			$("#degree").focus();
+			return false;
+		}
+		if (per.length == 0) {
+			alert("Percentage is required");
+			$("#percentage").focus();
+			return false;
+		}
+		if (isNaN(per)) {
+			alert("Invalid percentage");
+			$("#percentage").focus();
+			return false;
+		}
+
+		if (year.length == 0) {
+			alert("Period of study is required");
+			$("#period").focus();
+			return false;
+		}
+		if (year.length != 9) {
+			alert("Period of Study is not valid");
+			$("#period").focus();
+			return false;
+		}
+		var toyear = parseInt(year.substring(5, 9));
+		var fromyear = parseInt(year.substring(0, 4));
+
+		var diff = toyear - fromyear;
+
+		if (diff == 0) {
+			alert("Period of study must be more than a Year.");
+			$("#period").focus();
+			return false;
+		}
+		if (diff < 0) {
+			alert("Period of study must be more than a Year.");
+			$("#period").focus();
+			return false;
+		}
+		
+
+		if (yearRegex.test(year) == false) {
+			alert("Invalid Period of Study");
+			$("#period").focus();
+			return false;
+		}
+
+		if (subject.length == 0) {
+			alert("Subject studied is required");
+			$("#subject").focus();
+			return false;
+		}
+		if (regex.test(subject) == false) {
+			alert("Invalid Subject name.");
+			$("#subject").focus();
+			return false;
+		}
+
+		if (universe.length == 0) {
+			alert("Name of the Institution");
+			$("#college").focus();
+			return false;
+		}
+		if (regex.test(universe) == false) {
+			alert("Invalid Name of the Institution");
+			$("#college").focus();
+			return false;
+		}
+
+		$('#dataTable').show();
+		var rowCount = table.rows.length;
+		var row = table.insertRow(rowCount);
+
+		var existingdegree = "";
+		var existingyear = "";
+		var tlength = (table.rows.length) - 1;
+		if (rowCount > 1) { //tr:nth-child(even)
+			$("#dataTable tr").closest('tr').find("input:eq(1)").each(
+					
+					function() {
+						
+						
+						existingdegree = this.value;
+						if (degValue == this.value) {
+							return false;
+						}
+					});
+
+			$("#dataTable tr").closest('tr').find("input:eq(4)").each(
+					function() {
+						existingyear = this.value;
+						if (year == this.value) {
+							return false;
+						}
+					});
+		}
+
+		if (existingdegree == degValue) {
+			alert("Exam/Degree already exists");
+			$("#degree").focus();
+			return false;
+		}
+
+		if (existingyear == year) {
+			alert("Period of Study alreay exists");
+			$("#period").focus();
+			return false;
+		} else {
+
+			var Sno = row.insertCell(0);
+			var selement = document.createElement("input");
+			selement.type = "text";
+			var length = (table.rows.length) - 1;
+			selement.size = "2";
+			selement.value = ++i;
+			selement.name = "sno";
+			Sno.appendChild(selement);
+			
+			var degTextVal = row.insertCell(1);
+			degTextVal.setAttribute("style", "display:none;");
+			var degElement = document.createElement("input");
+			degElement.type = "text";
+			var length = (table.rows.length) - 1;
+			degElement.size = "2";
+			degElement.value = degValue;
+			degElement.name = "education[" + length + "].exam";
+			degTextVal.appendChild(degElement);
+
+			var cell3 = row.insertCell(2);
+			var element2 = document.createElement("input");
+			element2.type = "text";
+			element2.setAttribute("style", "text-transform: capitilize");
+			var length = (table.rows.length) - 1;
+			element2.value = degValue;
+			element2.name = "DegreeText";
+			cell3.appendChild(element2);
+
+			var cell4 = row.insertCell(3);
+			var element3 = document.createElement("input");
+			element3.type = "text";
+			element3.value = per;
+			var length = (table.rows.length) - 1;
+			element3.size = "3";
+			element3.readonly;
+			element3.name = "education[" + length + "].percentage";
+			cell4.appendChild(element3);
+
+			var cell5 = row.insertCell(4);
+			var element4 = document.createElement("input");
+			element4.type = "text";
+			element4.value = year;
+			element4.size = "6";
+			var length = (table.rows.length) - 1;
+			element4.name = "education[" + length + "].yearOfPass";
+			cell5.appendChild(element4);
+
+			var cell7 = row.insertCell(5);
+			var element8 = document.createElement("input");
+			element8.type = "text";
+			element8.value = subject;
+
+			var length = (table.rows.length) - 1;
+			element8.name = "education[" + length + "].subjectStudied";
+			cell7.appendChild(element8);
+
+			
+			var cell6 = row.insertCell(6);
+			var deg = document.createElement("input");
+			deg.type = "text";
+			deg.size = "6";
+			deg.value = universe;
+			var length = (table.rows.length) - 1;
+			deg.name = "education[" + length + "].institution";
+			cell6.appendChild(deg);
+
+			var cell7 = row.insertCell(7);
+			var imgs = document.createElement('img');
+			imgs.setAttribute('data-toggle', 'tooltip');
+			imgs.setAttribute('data-placement', 'bottom');
+			imgs.setAttribute('title', 'Click to delete this row');
+			imgs.src = '${pageContext.request.contextPath}/static/image/delete-1-icon.png';
+			imgs.width = "20";
+			tableID = "dataTable";
+
+			imgs.onclick = function() {
+				var con = confirm("Are you sure you want to delete this Degree?");
+				if (con) {
+					deleteRow(this);
+					i--;
+				}
+			};
+
+			cell7.appendChild(imgs);
+			
+		   
+		}
+		
+	}
 	
+	}
+	</script>
 </body>
 
 </html>

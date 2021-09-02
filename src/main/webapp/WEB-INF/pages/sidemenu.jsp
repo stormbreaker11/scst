@@ -39,9 +39,56 @@ body {
 			</a> -->
 			<li><a href="viewpetitionDetails.htm" target="content">Petition
 					Details</a>
-			<li><a href="uploaddocs" target="content">Upload Documents</a>
-			<li><a href="#">View Petition Status</a>
+			<!-- <li><a href="uploaddocs" target="content">Upload Documents</a> -->
+			<!-- <li><a href="#">View Petition Status</a></li> -->
+			<li tabindex="-1" class='has-sub'> <a href="#" target="content">Fresh Registration<i class="caret"></i></a>
+				<ul>
+					<li  class='has-sub' ><a href="#" target="content">Land</a>
+					<ul>
+					<li><a  href="viewpetitionDetails.htm" target="content"><span>Petition Details</span></a></li>
+					<li><a href="prevcred" target="content"><span>Land
+								Details</span></a></li>
+								<li><a href="prevcred" target="content"><span>Respondent
+								Details</span></a></li>
+								<li><a href="prevcred" target="content"><span>Upload
+								Documents</span></a></li>
+					</ul></li>
+					<li  class='has-sub' ><a href="#" target="content">Atrocity</a>
+					<ul>
+					<li><a  href="educred" target="content"><span>Petition Details</span></a></li>
+					
+								<li><a href="prevcred" target="content"><span>Respondent
+								Details</span></a></li>
+								<li><a href="prevcred" target="content"><span>Upload
+								Documents</span></a></li>
+					</ul></li>
+					
+				</ul></li>
+				<li tabindex="-1" class='has-sub'> <a href="#" target="content">Modify<i class="caret"></i></a>
+				<ul>
+					<li  class='has-sub' ><a href="#" target="content">Land</a>
+					<ul>
+					<li><a  href="educred" target="content"><span>Petition Details</span></a></li>
+					<li><a href="prevcred" target="content"><span>Land
+								Details</span></a></li>
+								<li><a href="prevcred" target="content"><span>Respondent
+								Details</span></a></li>
+								<li><a href="prevcred" target="content"><span>Upload
+								Documents</span></a></li>
+					</ul></li>
+					<li  class='has-sub' ><a href="#" target="content">Atrocity</a>
+					<ul>
+					<li><a  href="educred" target="content"><span>Petition Details</span></a></li>
+					
+								<li><a href="prevcred" target="content"><span>Respondent
+								Details</span></a></li>
+								<li><a href="prevcred" target="content"><span>Upload
+								Documents</span></a></li>
+					</ul></li>
+					
+				</ul></li>
 		</ul>
+		
 	</div>
 
 </body>

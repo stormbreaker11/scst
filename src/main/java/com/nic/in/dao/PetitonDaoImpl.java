@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.nic.in.model.Petitioner;
 import com.nic.in.util.Date_Id_generator;
+import com.nic.in.util.PetitionIdGenerator;
 
 @Repository
 public class PetitonDaoImpl implements PetitionDao {
@@ -159,23 +161,17 @@ public class PetitonDaoImpl implements PetitionDao {
 		return plist;
 	}
 
-	/*
-	 * private String generatePetionId() { String
-	 * sql="select coalesce(max(petitioner_id), '0') from petitioner"; String
-	 * petitioner_id=""; try { petitioner_id=jdbcTemplate.queryForObject(sql,
-	 * String.class); if(petitioner_id.equals("0")) { petitioner_id="20200001"; }
-	 * else { int parseInt = Integer.parseInt(petitioner_id); parseInt=parseInt+1;
-	 * petitioner_id=String.valueOf(parseInt); } } catch (Exception e) {
-	 * petitioner_id=""; } return petitioner_id; }
-	 */
-
-	/*
-	 * private String generatePetionerId() { String sql=
-	 * "select coalesce(max(petition_id), '0') from petitioner"; String
-	 * petition_id=""; try { petition_id=jdbcTemplate.queryForObject(sql,
-	 * String.class); if(petition_id.equals("0")) { petition_id="20200001"; } else {
-	 * int parseInt = Integer.parseInt(petition_id);
-	 * petition_id=String.valueOf(++parseInt); System.out.println(petition_id); } }
-	 * catch (Exception e) { petition_id=""; } return petition_id; }
-	 */
+	@Override
+	public String createPetitionId(String type) {
+		String sql = "select max(right(petition_id, 8)) as pid from petitioner";
+		String idGenerate = "";
+		try {
+			String queryForObject = jdbcTemplate.queryForObject(sql, String.class);
+		 idGenerate = PetitionIdGenerator.idGenerate(queryForObject, type);
+		} catch (Exception e) {
+			e.printStackTrace();
+			idGenerate = "";
+		}
+		return idGenerate;
+	}
 }

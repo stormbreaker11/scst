@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,7 +39,7 @@ public class PetitionController {
 	// petition details page request mapper
 	@RequestMapping(value = "/registrtationdetails.htm")
 	public String petitionDetails() {
-		return "PETITIONDETAILS";
+		return "landpetition";
 	}
 
 	@RequestMapping(value = "/savePetition.htm", method = RequestMethod.POST)
@@ -93,32 +94,12 @@ public class PetitionController {
 		mode.addAttribute("petitions", petitions);
 		return "viewPetionDetails";
 	}
-	@RequestMapping(value = "/filepetion.htm")
-	public String filepetion(HttpServletRequest httpServletRequest, Model mode) {
+	@RequestMapping(value = "/filepetion.htm/{id}")
+	public String filepetion(HttpServletRequest httpServletRequest, Model mode, @PathVariable String id) {
+		
+		mode.addAttribute("pid", id);
 		return "filepetition";
 	}
 	
-	@RequestMapping(value = "/landdetails.htm")
-	public String petitionDetails(HttpServletRequest httpServletRequest, Model model, @RequestParam String type, @RequestParam String category) {
-		
-		model.addAttribute("ptype", type);
-		model.addAttribute("pcategory", category);
-		if(category.equals("Land")) {
-			return "PETITIONDETAILS";
-		}
-		if(category.equals("Service")) {
-			return "servicedetails";
-		}
-		if(category.equals("General")) {
-			return "generaldetails";
-		}
-		
-		if(category.equals("Atrocity")) {
-			return "atrocitydetails";
-		}
-		return category;
-		
-		
-		
-	}
+	
 }
