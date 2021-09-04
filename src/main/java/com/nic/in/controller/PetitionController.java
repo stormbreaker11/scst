@@ -97,7 +97,7 @@ public class PetitionController {
 	@RequestMapping(value = "/filepetion.htm/{id}")
 	public String filepetion(HttpServletRequest httpServletRequest, Model mode, @PathVariable String id) {
 		
-		mode.addAttribute("pid", id);
+		mode.addAttribute("pid", id); //id is petitioner id 
 		return "filepetition";
 	}
 	

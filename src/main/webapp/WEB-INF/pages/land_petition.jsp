@@ -219,7 +219,7 @@ margin-right: 10px;
 		
 		<form:form name="petition" modelAttribute="petitionland" >
 		<table style="font-size: 20px;"  width="100%" align="center">
-	<tr align="center">
+	<tr >
 	<td style="color: #2d3990;" >
 
 	<c:if test="${ptype=='I'}">
@@ -229,7 +229,7 @@ margin-right: 10px;
 	Type of Petition : Group
 	</c:if>
 	</td>
-	
+	<td style="color: #2d3990;" align="right">Category of Petition : Land</td>
 	</tr>
 	</table>
             
@@ -445,6 +445,8 @@ margin-right: 10px;
                         <td align="center"><button type="button" class="btn btn-success" onclick="submitDetails()" >Save as Draft</button></td>
                         </tr>
                         </table>
+                          <input type="hidden" name="pid" value="${pid }"/>
+                        
                            </form:form>
                         </div>
                       

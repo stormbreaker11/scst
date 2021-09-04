@@ -37,8 +37,8 @@ body {
 		<!-- 	<li><a href="viewpetitionstatus.htm" target="content">Petition
 					Status<i class="glyphicon glyphicon-pencil"></i>
 			</a> -->
-			<li><a href="viewpetitionDetails.htm" target="content">Petition
-					Details</a>
+		<!-- 	<li><a href="viewpetitionDetails.htm" target="content">Petition
+					Details</a></li> -->
 			<!-- <li><a href="uploaddocs" target="content">Upload Documents</a> -->
 			<!-- <li><a href="#">View Petition Status</a></li> -->
 			<li tabindex="-1" class='has-sub'> <a href="#" target="content">Fresh Registration<i class="caret"></i></a>

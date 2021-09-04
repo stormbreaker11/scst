@@ -5,13 +5,16 @@ public class Land {
 	private String petitionId;
 	private String petitionerId;
 	private int landId;
+	private String otherland;
+	private String landKind;
+	private String landType;
 	private String landDistrict;
 	private String landmandal;
 	private String landvillage;
 	private String passbookNo;
 	private String surveyNo;
 	private String extentOfLand;
-	private String landUnits;
+	private String units;
 	public String getPetitionId() {
 		return petitionId;
 	}
@@ -66,20 +69,31 @@ public class Land {
 	public void setExtentOfLand(String extentOfLand) {
 		this.extentOfLand = extentOfLand;
 	}
-	public String getLandUnits() {
-		return landUnits;
-	}
-	public void setLandUnits(String landUnits) {
-		this.landUnits = landUnits;
-	}
-	@Override
-	public String toString() {
-		return "Land [petitionId=" + petitionId + ", petitionerId=" + petitionerId + ", landId=" + landId
-				+ ", landDistrict=" + landDistrict + ", landmandal=" + landmandal + ", landvillage=" + landvillage
-				+ ", passbookNo=" + passbookNo + ", surveyNo=" + surveyNo + ", extentOfLand=" + extentOfLand
-				+ ", landUnits=" + landUnits + "]";
-	}
 	
+	public String getOtherland() {
+		return otherland;
+	}
+	public void setOtherland(String otherland) {
+		this.otherland = otherland;
+	}
+	public String getLandKind() {
+		return landKind;
+	}
+	public void setLandKind(String landKind) {
+		this.landKind = landKind;
+	}
+	public String getLandType() {
+		return landType;
+	}
+	public void setLandType(String landType) {
+		this.landType = landType;
+	}
+	public String getUnits() {
+		return units;
+	}
+	public void setUnits(String units) {
+		this.units = units;
+	}
 	
 	
 }

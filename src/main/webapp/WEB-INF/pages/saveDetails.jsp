@@ -58,7 +58,7 @@ response.setDateHeader("Expires", 0);
   <h4 class="card-text">Petition ID : ${pid }</h4>
   <h4>Please remember Petition ID for future reference </h4>
 </div>
-<div align="center"><a href="petitionlanddetails.htm"><button class="btn btn-primary">Continue to Land Details</button></a></div>
+<div align="center"><a href="petitionlanddetails.htm/${petitionerId}"><button class="btn btn-primary">Continue to Land Details</button></a></div>
 </body>
 
 </html>

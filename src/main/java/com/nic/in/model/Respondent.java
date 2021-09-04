@@ -3,7 +3,9 @@ package com.nic.in.model;
 public class Respondent {
 
 	private String respno;
+	private String respType;
 	private String respName;
+	private String respProffesion;
 	private String gender;
 	private String caste;
 	private String address;
@@ -11,6 +13,27 @@ public class Respondent {
 	private String mobile;
 	private String email;
 	private String district;
+	private String petitionerId;
+	
+	
+	public String getRespProffesion() {
+		return respProffesion;
+	}
+	public void setRespProffesion(String respProffesion) {
+		this.respProffesion = respProffesion;
+	}
+	public String getRespType() {
+		return respType;
+	}
+	public void setRespType(String respType) {
+		this.respType = respType;
+	}
+	public String getPetitionerId() {
+		return petitionerId;
+	}
+	public void setPetitionerId(String petitionerId) {
+		this.petitionerId = petitionerId;
+	}
 	public String getRespno() {
 		return respno;
 	}

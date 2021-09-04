@@ -46,9 +46,6 @@ response.setDateHeader("Expires", 0);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<!------ Include the above in your HEAD tag ---------->
-
-<!------ Include the above in your HEAD tag ---------->
 <style>
 .panel-primary>.panel-heading {
 	color: rgb(255, 255, 255);
@@ -214,7 +211,8 @@ margin-right: 10px;
 			
 <h1 align="center" style="color: #2d3990;" >Petition - Land</h1>
 		<div class="col-md-12">
-                          
+                          <form:form name="landdetails" id="landdetails" modelAttribute="landdetails">
+                          <form:input type="hidden" name="petitionerId"  path="petitionerId" id="petitionerId" value="${petitionerId}"/>
                         <div class="title1"  >
 													<b style="padding-left: 5px;">Land Details</b>
 													
@@ -226,20 +224,20 @@ margin-right: 10px;
 												<label class="col-md-6">Kind
 													of Land <span class="star">*</span></label>
 												<div class="col-md-6">
-													<select class="form-control SelectStyle"
-														id="landKind" path="landKind">
-														<option value="0">--Select--
-														</option>
-														<option value="1">Agricultural
+													<form:select class="form-control SelectStyle"
+														id="landKind" path="landKind" >
+														<form:option value="0">--Select--
+														</form:option>
+														<form:option value="1">Agricultural
 															land
-														</option>
-														<option value="1" >Housing
+														</form:option>
+														<form:option value="1" >Housing
 															Land
-														</option>
-														<option value="1" >Forest
+														</form:option>
+														<form:option value="1" >Forest
 															Land
-														</option>
-													</select>
+														</form:option>
+													</form:select>
 												</div>
 											</div></div>
 										
@@ -249,30 +247,47 @@ margin-right: 10px;
 												<label class="col-md-6">Type
 													of Land <span class="star">*</span></label>
 												<div class="col-md-6">
-													<select class="form-control SelectStyle"
-														id="pitition1" path="landType">
-														<option value="0">--Select--
-														</option>
-														<option
-															value="pland">
+													<form:select class="form-control SelectStyle"
+														id="pitition1" path="landType"  >
+														<form:option value="0">--Select--
+														</form:option>
+														<form:option
+															value="1">
 															Patta
 															land
-														</option>
-														<option
-															value="pland">
+														</form:option>
+														<form:option
+															value="2">
 															Govt.
 															Assigned
 															land
-														</option>
-														<option
-															value="oland">
+														</form:option>
+														<form:option
+															value="3">
 															Other
 															Land
-														</option>
-													</select>
+														</form:option>
+													</form:select>
 												</div>
 											</div>
 										</div>
+										
+										   <div class="otherland" id="3" style="display: none;">
+										<div class="row">
+											<div
+												class="col-sm-7 col-md-offset-2 form-group">
+												<label class="col-md-6">Others
+													Land <span class="star">*</span></label>
+												<div class="col-md-6">
+													<form:input type="text"
+														placeholder=" Type of land"
+														class="form-control" id="olandtext" maxlength="30" path="otherland" />
+												</div>
+											</div>
+										</div>
+										
+										<br>
+		</div>	
 												<br>
                         <div class="Petition170s1" id="land">
 										
@@ -283,14 +298,14 @@ margin-right: 10px;
 <div class="col-sm-7 col-md-offset-2 form-group">
 <label class="col-md-6">Select District <span class="star">*</span> </label>
 <div class="col-md-6">
-<select class="form-control SelectStyle" id="landDistrict" name="landDistrict">
-<option value="0">--Select--</option>
-<option value="1" >Hyderabad</option>
-<option value="2">Rangareddy</option>
-<option value="3" >Nizamabad</option>
-<option value="4" >Mahabubnagar</option>
+<form:select class="form-control SelectStyle" path="landDistrict" id="landDistrict" name="landDistrict">
+<form:option value="0">--Select--</form:option>
+<form:option value="1" >Hyderabad</form:option>
+<form:option value="2">Rangareddy</form:option>
+<form:option value="3" >Nizamabad</form:option>
+<form:option value="4" >Mahabubnagar</form:option>
 
-</select>
+</form:select>
 </div>
 </div>
 </div>
@@ -298,21 +313,13 @@ margin-right: 10px;
 <div class="col-sm-7 col-md-offset-2 form-group">
 <label class="col-md-6">Select Mandal <span class="star">*</span> </label>
 <div class="col-md-6">
-<select class="form-control SelectStyle" id="landmandal" path="landmandal">
-<option value="0" >--Select--</option>
-<option value="0">Mandal-1</option>
-<option>Mandal-2</option>
-<option >Mandal-3</option>
-<option >AMBERPET</option>
-<option >HIMAYATNAGAR</option>
-<option >Nampally</option>
-<option >Vikarabad</option>
-<option >Ashifabad</option>
-<option >Adilabad</option>
-<option >Kotpally</option>
-<option >Bhadradree</option>
+<form:select class="form-control SelectStyle" path="landmandal" id="landmandal" >
+<form:option value="0" >--Select--</form:option>
+<form:option value="0">Mandal-1</form:option>
 
-</select>
+
+
+</form:select>
 </div>
 </div>
 </div>
@@ -320,12 +327,12 @@ margin-right: 10px;
 <div class="col-sm-7 col-md-offset-2 form-group">
 <label class="col-md-6">Revenue Village  </label>
 <div class="col-md-6">
-<select class="form-control SelectStyle" name="landvillage" id="landvillage">
-<option value="0">--Select--</option>
-<option value="1" >Village-1</option>
-<option value="2" >Village-2</option>
-<option value="3" >Village-3</option>
-</select>
+<form:select class="form-control SelectStyle"  path="landvillage"  name="landvillage" id="landvillage">
+<form:option value="0">--Select--</form:option>
+<form:option value="1" >Village-1</form:option>
+<form:option value="2" >Village-2</form:option>
+<form:option value="3" >Village-3</form:option>
+</form:select>
 </div>
 </div>
 </div>
@@ -337,9 +344,9 @@ margin-right: 10px;
 														number</label>
 													<div
 														class="col-md-6">
-														<input type="text" id="passbookNo" name="passbookNo"
+														<form:input type="text" path="passbookNo" id="passbookNo" name="passbookNo"
 															placeholder=" Patta number"
-															class="form-control" maxlength="10" >
+															class="form-control" maxlength="10" />
 													</div>
 												</div>
 											</div>
@@ -353,9 +360,9 @@ margin-right: 10px;
 													<span class="star">*</span></label>
 													<div
 														class="col-md-6">
-														<input type="text"
-															placeholder=" Survey number" maxlength="15"  id="surveyNo" name="surveyNo"
-															class="form-control">
+														<form:input type="text"
+															placeholder=" Survey number" maxlength="15"  path="surveyNo"  id="surveyNo" name="surveyNo"
+															class="form-control"/>
 													</div>
 												</div>
 											</div>
@@ -367,172 +374,103 @@ margin-right: 10px;
 														of land
 													</label>
 													<div class="col-md-3">
-														<input type="text"
-															placeholder="" id="extentOfLand" name="extentOfLand" 
-															class="form-control">
+														<form:input type="text"
+															placeholder="" maxlength="6" path="extentOfLand" id="extentOfLand" name="extentOfLand" 
+															class="form-control"/>
 													</div>	
 													<div class="col-md-0">
 													
-<select class="form-control SelectStyle" id="" style="width: 125px;">
-<option value="0" >--Select--</option>
-<option value="1" >Acre</option>
-<option value="2" >Gunta</option>
-<option value="3" >Square yards</option>
-</select>
+<form:select class="form-control SelectStyle" path="units" style="width: 125px;" id="units" >
+<form:option value="0" >--Select--</form:option>
+<form:option value="1" >Acre</form:option>
+<form:option value="2" >Gunta</form:option>
+<form:option value="3" >Square yards</form:option>
+</form:select>
 </div>
 																				
 																					
 																					</div>
 																					<div class="col-md-2">
 													<div class="btn btn-primary"
-													style="text-align: left;" id="addmore" >
+													style="text-align: left;" id="addmore" onclick="addLand()" >
 														+ Add More
 												</div>
 							</div>			
 																					
 											</div>
 										</div>
+										<input type="hidden" name="pid"  value="${pid }">
+										</form:form>
+										
+										
+										
+										<div id="landdiv">
+										<div align="center" style="background: #2d3990; color: white; height: 30px; ">
+													<h3>Land
+														Details
+													</h3>
+												</div>
+                        <div
+													>
+													<table id="landTable"
+														class="table table-bordered" style="border: 1px solid black;	">
+
+														<thead>
+															<th style="display: none;"  >Land id</th>
+															<th style="text-align: center;"> S.No
+															</th>
+															<th>Kind of Land
+															</th>
+															<th>Type of Land
+															</th>
+															<th style="text-align: center;" >Patta
+																Number
+															</th>
+															<th style="text-align: center;" >Survey
+																Number
+															</th>
+															<th style="text-align: center;" >Extent of Land
+															</th>
+															<th style="text-align: center;" >Edit
+															</th>
+															<th style="text-align: center;" >Delete
+															</th>
+														</thead>
+														<tbody id="landtd">
+														
+														<c:forEach items="${lands }" var="alt" varStatus="counter">
+														<tr>
+														<td style="display: none;" id="hiddencode"  >${alt.landId }</td>
+														<td style="text-align: center;"  >${counter.count }</td>
+														<td >${alt.landKind }</td>
+														<td>${alt.landType }</td>
+														<td style="text-align: center;"  >${alt.passbookNo }</td>
+														<td style="text-align: center;"  >${alt.surveyNo }</td>
+														<td style="text-align: center;"  >${alt.extentOfLand } (${alt.units })</td>
+														<td style="text-align: center;" ><img height="22px"  data-toggle="tooltip" title="Click to edit details"  src="${pageContext.request.contextPath}/static/images/edit.png"></img></td>
+														<td style="text-align: center;" id="btn-remove" ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td>
+														</tr>
+																</c:forEach>
+														</tbody>
+									
+								</table>
+								
+								
+												</div>
+		<div align="center">
+			<div class="col-md-5 col-md-offset-4">
+				<a href="${pageContext.request.contextPath}/petition/respondent/respondentdetails.htm/${petitionerId }">
+					<div class="btn btn-md btn-primary">Continue</div>
+				</a>
+			</div>
+		</div></div>
+	</div>
+											
+										
 										
                         
                         
-                        <div class="otherland" id="oland" style="display: none;">
-										<div class="row">
-											<div
-												class="col-sm-7 col-md-offset-2 form-group">
-												<label class="col-md-6">Others
-													Land <span class="star">*</span></label>
-												<div class="col-md-6">
-													<input type="text"
-														placeholder=" Type of land"
-														class="form-control">
-												</div>
-											</div>
-										</div>
-										
-										<div class="row">
-<div class="col-sm-7 col-md-offset-2 form-group">
-<label class="col-md-6">Select District <span class="star">*</span> </label>
-<div class="col-md-6">
-<select class="form-control SelectStyle" id="">
-<option>--Select--</option>
-<option>Hyderabad</option>
-<option>Rangareddy</option>
-<option >Nizamabad</option>
-<option >Mahabubnagar</option>
-<option >Medak</option>
-<option >Nalgonda</option>
-<option >Warangal</option>
-<option >Karimnagar</option>
-<option >Adilabad</option>
-<option >Khammam</option>
-<option >Khammam</option>
-<option>Medchal</option>
-<option>Vikarabad</option>
-<option >Sangareddy</option>
-<option >Siddipet</option>
-<option >Hanmakonda</option>
-<option >Nagakarnool</option>
-<option >Yadadri</option>
-<option >Komaram-bheem</option>
-</select>
-</div>
-</div>
-</div>
-<div class="row">
-<div class="col-sm-7 col-md-offset-2 form-group">
-<label class="col-md-6">Select Mandal <span class="star">*</span> </label>
-<div class="col-md-6">
-<select class="form-control SelectStyle" id="">
-<option>--Select--</option>
-<option>Mandal-1</option>
-<option>Mandal-2</option>
-<option >Mandal-3</option>
-<option >AMBERPET</option>
-<option >HIMAYATNAGAR</option>
-<option >Nampally</option>
-<option >Vikarabad</option>
-<option >Ashifabad</option>
-<option >Adilabad</option>
-<option >Kotpally</option>
-<option >Bhadradree</option>
-
-</select>
-</div>
-</div>
-</div>
-<div class="row">
-<div class="col-sm-7 col-md-offset-2 form-group">
-<label class="col-md-6">Revenue Village  <span class="star">*</span> </label>
-<div class="col-md-6">
-<select class="form-control SelectStyle" id="">
-<option>--Select--</option>
-<option>Village-1</option>
-<option>Village-2</option>
-<option>Village-3</option>
-</select>
-</div>
-</div>
-</div>
-										<div class="row">
-											<div
-												class="col-sm-7 col-md-offset-2 form-group">
-												<label class="col-md-6">Patta Passbook
-													number</label>
-												<div class="col-md-6">
-													<input type="text"
-														placeholder=" Patta number"
-														class="form-control">
-												</div>
-											</div>
-										</div>
-
-										<div class="row">
-											<div
-												class="col-sm-7 col-md-offset-2 form-group">
-												<label class="col-md-6">Survey
-													number <span class="star">*</span></label>
-												<div class="col-md-6">
-													<input type="text"
-														placeholder=" Survey number "
-														class="form-control">
-												</div>
-											</div>
-										</div> <!-- extent of land -->
-										<div class="row">
-												<div
-													class="col-sm-7 col-md-offset-2 form-group">
-													<label
-														class="col-md-6">Extent
-														of land
-													</label>
-													<div class="col-md-3">
-														<input type="text"
-															placeholder=""
-															class="form-control">
-													</div>	
-													
-													<div class="col-md-1">
-													
-<select class="form-control SelectStyle" id="" style="width: 125px;">
-<option value="0" >--Select--</option>
-<option value="1" >Acre</option>
-<option value="2" >Gunta</option>
-<option value="3" >Square yards</option>
-</select>
-</div>
-																				
-																					
-																					</div>
-																					<div class="col-md-2">
-													<div class="btn btn-primary"
-													style="text-align: left;" onclick="addLand()">
-														+ Add More
-												</div>
-							</div>			
-																					
-											</div>
-										<br>
-		</div>							
+                     						
 </body>
 
 
@@ -635,16 +573,7 @@ margin-right: 10px;
 			}
 		});
 	</script>
-	<script>
-		$('#pitition1').on('change', function () {
-			if ($(this).val() === "pland") {
-				$(".ppetioner").show();
-			}
-			else {
-				$(".ppetioner").hide();
-			}
-		});
-	</script>
+	
 	<script>
 		$('#court').on('change', function () {
 			if ($(this).val() === "Yes") {
@@ -697,420 +626,143 @@ margin-right: 10px;
 		});
 	</script>
 
-	<script>
-		$('#pitition1').on('change', function () {
-			if ($(this).val() === "oland") {
-				$(".otherland").show();
-			}
-			else {
-				$(".otherland").hide();
-			}
-		});
-	</script>
-	<script>
-		$('#typeofatrocity').on('change', function () {
-			if ($(this).val() === "abuser") {
-				$(".abuser_show").show();
-			}
-			else {
-				$(".abuser_show").hide();
-			}
-		});
-	</script>
-	<script>
-		$('#respondentdetails').on('change', function () {
-			if ($(this).val() === "Private") {
-				$(".respondent_individual").show();
-			}
-			else {
-				$(".respondent_individual").hide();
-			}
-		});
-	</script>
-<script>
-		$('#respondentdetails').on('change', function () {
-			if ($(this).val() === "off") {
-				$(".Officials_20").show();
-			}
-			else {
-				$(".Officials_20").hide();
-			}
-		});
-	</script>
-	<script>
-		$('#respondent_Atrocity').on('change', function () {
-			if ($(this).val() === "Private2") {
-				$(".respondent_individual2").show();
-			}
-			else {
-				$(".respondent_individual2").hide();
-			}
-		});
-	</script>
-	<script>
-		$('#respondent_Atrocity').on('change', function () {
-			if ($(this).val() === "off2") {
-				$(".Officials_22").show();
-			}
-			else {
-				$(".Officials_22").hide();
-			}
-		});
-	</script>
-	<script>
-		$('#respondent_Service').on('change', function () {
-			if ($(this).val() === "Private3") {
-				$(".respondent_individual3").show();
-			}
-			else {
-				$(".respondent_individual3").hide();
-			}
-		});
-	</script>
-	<script>
-		$('#respondent_Service').on('change', function () {
-			if ($(this).val() === "off3") {
-				$(".Officials_23").show();
-			}
-			else {
-				$(".Officials_23").hide();
-			}
-		});
-	</script>
-	
-	
-	<script>
-		$('#respondent_General').on('change', function () {
-			if ($(this).val() === "Private4") {
-				$(".respondent_individual4").show();
-			}
-			else {
-				$(".respondent_individual4").hide();
-			}
-		});
-	</script>
-	<script>
-		$('#respondent_General').on('change', function () {
-			if ($(this).val() === "Off4") {
-				$(".Officials_4").show();
-			}
-			else {
-				$(".Officials_4").hide();
-			}
-		});
-	</script>
-	
-	<script>
-		$('#newexi').on('change', function () {
-			if ($(this).val() === "new") {
-				$(".newappy").show();
-			}
-			else {
-				$(".newappy").hide();
-			}
-		});
-	</script>
-	<script>
-		$('#newexi').on('change', function () {
-			if ($(this).val() === "exi") {
-				$(".exiappy").show();
-			}
-			else {
-				$(".exiappy").hide();
-			}
-		});
-	</script>
-	<script>
-		$('#appservice').on('change', function () {
-			if ($(this).val() === "yes1") {
-				$(".ifyes").show();
-			}
-			else {
-				$(".ifyes").hide();
-			}
-		});
-	</script>
-	<script>
-		$('#audact').on('change', function () {
-			if ($(this).val() === "yesAct") {
-				$(".ifyesCosmeticsAct").show();
-			}
-			else {
-				$(".ifyesCosmeticsAct").hide();
-			}
-		});
-	</script>
-	<script>
-		$('#Exemption').on('change', function () {
-			if ($(this).val() === "yesExemption") {
-				$(".ifyesExemption").show();
-			}
-			else {
-				$(".ifyesExemption").hide();
-			}
-		});
-	</script>
-
-	<script>
-		$('#Institutionservices').on('change', function () {
-			if ($(this).val() === "insTrust") {
-				$(".insTrusts").show();
-			}
-			else {
-				$(".insTrusts").hide();
-			}
-		});
-	</script>
-
-	<script>
-		$('#Institutionservices').on('change', function () {
-			if ($(this).val() === "addloc") {
-				$(".addlocs").show();
-			}
-			else {
-				$(".addlocs").hide();
-			}
-		});
-	</script>
-
-	<script>
-		$('#Institutionservices').on('change', function () {
-			if ($(this).val() === "Examining") {
-				$(".Examinings").show();
-			}
-			else {
-				$(".Examinings").hide();
-			}
-		});
-	</script>
-
-
 
 
 
 <script type="text/javascript">
 
 $('#pitition1').on('change', function () {
-	if ($(this).val() === "oland") {
+	if ($(this).val() === "3") {
 		$(".otherland").show();
 	}
 	else {
 		$(".otherland").hide();
 	}
 });
+
+$(function() {
+	$(document).ready(function() {
+		
+		var row=$("#landTable tr").length;
+		if (row==1) {
+			$('#landdiv').hide();
+		} else {
+			$('#landdiv').show();
+		}
+	});
+
+});
+
+//adding land details dynamically
 function addLand(){
 	
+	var landkind = $("#landKind").val();
+	var landkindText = $("#landKind option:selected").text();
 	
-	var table = document.getElementById("");
-	var landDistrict = $("#landDistrict").val().trim();
-	var landmandal = $("#landmandal").val().trim();
-	var landvillage = $("#landvillage").val().trim();
-	var subject = $("#subject").val().trim();
-	var year = $("#period").val().trim();
-	var regex = /^[a-zA-Z]+(\s+[a-zA-Z]+)*$/;
-	if (degValue == "") {
-		alert("Exam/Degree is required");
-		$("#degree").focus();
-		return false;
-	}
-	if (regex.test(degValue)==false) {
-		alert("Invalid Exam/Degree");
-		$("#degree").focus();
-		return false;
-	}
-	if (per.length == 0) {
-		alert("Percentage is required");
-		$("#percentage").focus();
-		return false;
-	}
-	if (isNaN(per)) {
-		alert("Invalid percentage");
-		$("#percentage").focus();
-		return false;
-	}
-
-	if (year.length == 0) {
-		alert("Period of study is required");
-		$("#period").focus();
-		return false;
-	}
-	if (year.length != 9) {
-		alert("Period of Study is not valid");
-		$("#period").focus();
-		return false;
-	}
-	var toyear = parseInt(year.substring(5, 9));
-	var fromyear = parseInt(year.substring(0, 4));
-
-	var diff = toyear - fromyear;
-
-	if (diff == 0) {
-		alert("Period of study must be more than a Year.");
-		$("#period").focus();
-		return false;
-	}
-	if (diff < 0) {
-		alert("Period of study must be more than a Year.");
-		$("#period").focus();
-		return false;
-	}
+	var pitition1 = $("#pitition1").val();
+	var pitition1Text = $("#pitition1  option:selected").text();
+	var olandtext = $("#olandtext").val();
+	var landDistrict = $("#landDistrict").val();
+	var landDistrictText = $("#landDistrict  option:selected").text();
+	var landmandal = $("#landmandal").val();
+	var landmandalText = $("#landmandal option:selected").text();
+	var landvillage = $("#landvillage").val();
+	var passbookNo = $("#passbookNo").val();
+	var surveyNo = $("#surveyNo").val();
+	var extentOfLand = $("#extentOfLand").val();
+	var units = $("#units  option:selected").text();
 	
+	   var frm = $('#landdetails').serialize();
+	   var k=0;
+		$.ajax({
+			url : '/scst/petition/land/addlanddetails.htm',
+			type : "POST",
+			data : frm,
 
-	if (yearRegex.test(year) == false) {
-		alert("Invalid Period of Study");
-		$("#period").focus();
-		return false;
-	}
+			
+			success : function(response) {
 
-	if (subject.length == 0) {
-		alert("Subject studied is required");
-		$("#subject").focus();
-		return false;
-	}
-	if (regex.test(subject) == false) {
-		alert("Invalid Subject name.");
-		$("#subject").focus();
-		return false;
-	}
-
-	if (universe.length == 0) {
-		alert("Name of the Institution");
-		$("#college").focus();
-		return false;
-	}
-	if (regex.test(universe) == false) {
-		alert("Invalid Name of the Institution");
-		$("#college").focus();
-		return false;
-	}
-
-	$('#dataTable').show();
-	var rowCount = table.rows.length;
-	var row = table.insertRow(rowCount);
-
-	var existingdegree = "";
-	var existingyear = "";
-	var tlength = (table.rows.length) - 1;
-	if (rowCount > 1) { //tr:nth-child(even)
-		$("#dataTable tr").closest('tr').find("input:eq(1)").each(
-				
-				function() {
-					
-					
-					existingdegree = this.value;
-					if (degValue == this.value) {
-						return false;
+				if(response=="N")
+					{
+					alert("Land details adding failed");
+					return false;
 					}
-				});
+				else{
 
-		$("#dataTable tr").closest('tr').find("input:eq(4)").each(
-				function() {
-					existingyear = this.value;
-					if (year == this.value) {
-						return false;
-					}
-				});
-	}
+					var row=$('.table-bordered tr').length;
+					if(row==1){
+						k=0;
+						}
+						k=$('.table-bordered tr:last-child td:nth-child(2)').html();
+					 var s = '<tr ><td align="center" style="display: none;" id="hiddencode">'
+							+ response
+							+ '</td><td align="center">'
+						+ ++k
+						+ '</td><td>'
+						+ landkindText
+						+ '</td><td>'
+						+ pitition1Text
+						+ '</td><td style="text-align: center;"  >'
+						+ passbookNo
+						+ '</td><td align="center" width: 15%"  >'
+						+ surveyNo
+						+ '</td><td style="text-align: center;"  >'
+						+ extentOfLand + (units)
+						+ '</td><td style="text-align: center;"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/edit.png"></img></td></td> <td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td></tr>'
+						
+						$("#landTable").append($(s)); 
+						$('#landdiv').show();
+						
+					alert("Land details added successfully");
+				}
+		}
 
-	if (existingdegree == degValue) {
-		alert("Exam/Degree already exists");
-		$("#degree").focus();
-		return false;
-	}
-
-	if (existingyear == year) {
-		alert("Period of Study alreay exists");
-		$("#period").focus();
-		return false;
-	} else {
-
-		var Sno = row.insertCell(0);
-		var selement = document.createElement("input");
-		selement.type = "text";
-		var length = (table.rows.length) - 1;
-		selement.size = "2";
-		selement.value = ++i;
-		selement.name = "sno";
-		Sno.appendChild(selement);
-		
-		var degTextVal = row.insertCell(1);
-		degTextVal.setAttribute("style", "display:none;");
-		var degElement = document.createElement("input");
-		degElement.type = "text";
-		var length = (table.rows.length) - 1;
-		degElement.size = "2";
-		degElement.value = degValue;
-		degElement.name = "education[" + length + "].exam";
-		degTextVal.appendChild(degElement);
-
-		var cell3 = row.insertCell(2);
-		var element2 = document.createElement("input");
-		element2.type = "text";
-		element2.setAttribute("style", "text-transform: capitilize");
-		var length = (table.rows.length) - 1;
-		element2.value = degValue;
-		element2.name = "DegreeText";
-		cell3.appendChild(element2);
-
-		var cell4 = row.insertCell(3);
-		var element3 = document.createElement("input");
-		element3.type = "text";
-		element3.value = per;
-		var length = (table.rows.length) - 1;
-		element3.size = "3";
-		element3.readonly;
-		element3.name = "education[" + length + "].percentage";
-		cell4.appendChild(element3);
-
-		var cell5 = row.insertCell(4);
-		var element4 = document.createElement("input");
-		element4.type = "text";
-		element4.value = year;
-		element4.size = "6";
-		var length = (table.rows.length) - 1;
-		element4.name = "education[" + length + "].yearOfPass";
-		cell5.appendChild(element4);
-
-		var cell7 = row.insertCell(5);
-		var element8 = document.createElement("input");
-		element8.type = "text";
-		element8.value = subject;
-
-		var length = (table.rows.length) - 1;
-		element8.name = "education[" + length + "].subjectStudied";
-		cell7.appendChild(element8);
-
-		
-		var cell6 = row.insertCell(6);
-		var deg = document.createElement("input");
-		deg.type = "text";
-		deg.size = "6";
-		deg.value = universe;
-		var length = (table.rows.length) - 1;
-		deg.name = "education[" + length + "].institution";
-		cell6.appendChild(deg);
-
-		var cell7 = row.insertCell(7);
-		var imgs = document.createElement('img');
-		imgs.setAttribute('data-toggle', 'tooltip');
-		imgs.setAttribute('data-placement', 'bottom');
-		imgs.setAttribute('title', 'Click to delete this row');
-		imgs.src = '${pageContext.request.contextPath}/static/image/delete-1-icon.png';
-		imgs.width = "20";
-		tableID = "dataTable";
-
-		imgs.onclick = function() {
-			var con = confirm("Are you sure you want to delete this Degree?");
-			if (con) {
-				deleteRow(this);
-				i--;
-			}
-		};
-
-		cell7.appendChild(imgs);
-	}
-	
+});
 }
+
+
+
+//deleting land details onclick
+$(document).on('click','#btn-remove', function() {
+	 
+    var $row = $(this).closest("tr"); // Find the row
+	var landcode = $row.find("#hiddencode").text();
+	var petitionerId=$("#petitionerId").val();
+	var con = confirm("Are you sure you want to delete?");
+	if (con) {
+		$.ajax({
+			url : '/scst/petition/land/deleteattachmentresult.htm',
+			type : "POST",
+			data : {
+				"landcode" : landcode,
+				"petitionerId": petitionerId
+			},
+			success : function(response) {
+				//$('#btn-remove').closest('tr').remove();
+				if(response=="Y"){
+					$(".table-bordered tr td").filter(function() {
+						return $(this).text() ===landcode;
+					}).closest("tr").remove();
+					var row=$("#landTable tr").length;
+					if (row == 1) {
+						$('#landdiv').hide();
+					} else {
+						$('#landdiv').show();
+					}
+					alert("Deleted succesfully");
+					}
+				else{
+					alert(" Delete Unsuccessfull ");
+					
+					}
+				
+			}
+		});
+
+	}
+
+});
+
 
 
 </script>

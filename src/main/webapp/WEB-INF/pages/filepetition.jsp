@@ -49,7 +49,6 @@ response.setDateHeader("Expires", 0);
 
 function proceed(){
 
-
 	document.filepetition.method="POST";
 	document.filepetition.action="/scst/petition/land/petitiondetails.htm";
 	document.filepetition.submit();
@@ -231,7 +230,7 @@ margin-right: 10px;
 					</h5> 
 				<br> 
 
-				<form name="filepetition" action="petitiondfgils.htm" >
+				<form name="filepetition"  >
 
 					<div class="container-fluid">
 						<div class="row">
@@ -245,6 +244,15 @@ margin-right: 10px;
 										<option value="I">Individual</option>
 										<option value="G">Group</option>
 									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-7 col-md-offset-2 form-group">
+								<label class="col-md-6">Category of Petition<span
+									class="star">*</span></label>
+								<div class="col-md-6">
+									<b>Land</b>
 								</div>
 							</div>
 						</div>

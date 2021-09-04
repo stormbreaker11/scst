@@ -11,6 +11,7 @@ public class Petitition_Land {
 	private String petitionType;
 	private String petitionId;
 	private String petitionerId;
+	private String otherland;
 	private String landKind;
 	private String landType;
 	private String appeal;
