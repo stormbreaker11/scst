@@ -214,10 +214,10 @@ margin-right: 10px;
 				
 	<div class="container-fluid">
 			
-<h1 align="center" style="color: #2d3990;" >Petition - Respondent</h1>
+<h1 align="center" style="color: #2d3990;" >Petition - Upload Documents/Evidences</h1>
 		<div class="col-md-12">
 		
-		<form:form name="respondent" modelAttribute="respondent"  id="respondent">
+		<form name="upload" modelAttribute="upload"  id="upload">
 		<table style="font-size: 20px;"  width="100%" align="center">
 	<tr >
 	<td style="color: #2d3990;" >
@@ -235,223 +235,71 @@ margin-right: 10px;
             
                         
                         <div class="title1"  >
-													<b style="padding-left: 5px;">Respondent Details</b>
+													<b style="padding-left: 5px;">Upload documents/Evidences</b>
 													
 												</div>
 												<br>
 										
-                        <form:input type="hidden" path="petitionerId" id="petitionerId" value="${pid }"/>
+                        <input type="hidden" path="petitionerId" id="petitionerId" value="${pid }"/>
                         <div class="row">
                         <div class="col-sm-7 col-md-offset-2 form-group">
 													<label
-														class="col-md-6">Type of Respondent<span class="star">*</span></label>
+														class="col-md-6">Upload Document/Evidence<span class="star">*</span></label>
                                         <div class="col-md-6">
-														<form:select class="form-control SelectStyle" id="respondentdetails"  path="respType">
-															<form:option value="0"
-															>--Select--
-															</form:option>
-															<form:option value="P">Private/Individual</form:option>
-															<form:option value="O">Officials</form:option>
-														</form:select>
+														 <input type="file" name="document" id="document"/>
 													</div>
-													</div></div>
-													
-											<div class="row">
-												<div
-													class="col-sm-7 col-md-offset-2 form-group">
-													<label
-														class="col-md-6">Name
-														of the
-														respondent<span class="star">*</span></label>
-													<div
-														class="col-md-6">
-														<form:input type="text"
-															placeholder=" Full Name"
-															class="form-control" maxlength="100"  id="respName" path="respName"/>
 													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div
-													class="col-sm-7 col-md-offset-2 form-group" style="display: none;" id="caste">
-													<label
-														class="col-md-6">
-														Select Caste
-													<span class="star">*</span></label>
-													
-														<div class="col-md-6">
-														<form:select class="form-control SelectStyle" path="caste" id="castevalue">
-															<form:option value="0" >--Select--
-															</form:option>
-															<form:option value="1">OC
-															</form:option>
-															<form:option value="2">BC
-															</form:option>
-														
-														</form:select>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div
-													class="col-sm-7 col-md-offset-2 form-group">
-													<label
-														class="col-md-6">Designation/Profession
-													<span class="star">*</span></label>
-													<div
-														class="col-md-6">
-														<form:input type="text"
-															placeholder=" Designation" id="respProffesion"
-															class="form-control" path="respProffesion" />
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div
-													class="col-sm-7 col-md-offset-2 form-group">
-													<label
-														class="col-md-6">Select District
-													<span class="star">*</span></label>
-													<div
-														class="col-md-6">
-														<form:select class="form-control SelectStyle" path="district"
-															id="district">
-															<form:option value="0">--Select--
-															</form:option>
-															<form:option value="1" >Hyderabad
-															</form:option>
-															<form:option value="2" >Rangareddy
-															</form:option>
-															<form:option value="3">Nizamabad
-															</form:option>
-															<form:option value="4" >Mahabubnagar
-															</form:option>
-														</form:select>
-													</div>
-												</div>
-											</div>
-												<div class="row">
-						<div class="col-sm-7 col-md-offset-2 form-group">
-							<label class="col-md-6">Address </label>
-							<div class="col-md-6">
-								<form:textarea maxlength="200" cols="39" rows="4" id="address" path="address"></form:textarea>
-							</div>
-						</div>
-					</div>
-											<div class="row">
-												<div
-													class="col-sm-7 col-md-offset-2 form-group">
-													<label
-														class="col-md-6">Mobile
-														No
-													</label>
-													<div
-														class="col-md-6">
-														<form:input type="text"
-															placeholder=" Mobile No "
-															class="form-control"
-														 id="mobile" path="mobile" />
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div
-													class="col-sm-7 col-md-offset-2 form-group">
-													<label
-														class="col-md-6">E-Mail
-														ID</label>
-													<div
-														class="col-md-6">
-														<form:input type="text"
-															placeholder=" e-mail "
-															class="form-control"  id="email"   path="email" />
-													</div>
-												</div>
 												<div class="col-md-offset-2 form-group " style="color: red;">
 												<div
 													class="btn btn-md btn-primary" onclick="addRespondent()">
 													+ Add more 
 												</div>
-							</div>
-							</div>
-										
-										
-								
+							</div>		
+													</div>
+													
+											
+											
+											
 											
 												
-												
-											
 										
-								
-											
-                          <input type="hidden" name="pid" value="${pid }"/>
                         
-                           </form:form>
-                       <div id="respondentdiv">
+                           </form>
+                       <div id="uploaddiv">
 										<div align="center" style="background: #2d3990; color: white; height: 30px; ">
-													<h3>Respondent
-														Details
+													<h3>Uploaded Documents/Evidences
 													</h3>
 												</div>
                         <div>
-													<table id="respondentTable"
+													<table id="uploadTable"
 														class="table table-bordered" style="border: 1px solid black;	">
 
 														<thead>
-															<th style="display: none;"  >Respondent id</th>
+															<th style="display: none;"  >doc id</th>
 															<th style="text-align: center;"> S.No
 															</th>
-															<th > Type Respondent
+															<th > Document Description
 															</th>
-															<th >Respondent
-																Name
-															</th>
-															<th  style="text-align: center;" >Caste
-															</th>
-															<th>Designation/Profession
-															</th>
-															<th>District
-															</th>
-															<th  style="text-align: center;" >Mobile
-																No
-															</th>
-															<th >e-Mail
-															</th>
-															<th  style="text-align: center;" >Edit
+															<th >View
 															</th>
 															<th  style="text-align: center;" >Delete
 															</th>
+															
 														</thead>
 														
-														<c:forEach items="${respondents }" var="alt" varStatus="counter">
-														<tbody id="landtd">
-														<tr>
-														<td  style="display: none;" id="hiddencode" >${alt.respno }</td>
-														<td  style="text-align: center;" >${counter.count }</td>
-														<td>${alt.respType }</td>
-														<td>${alt.respName }</td>
-														<td  style="text-align: center;" >${alt.caste }</td>
-														<td>${alt.respProffesion }</td>
-														<td>${alt.district }</td>
-														<td style="text-align: center;" >${alt.mobile }</td>
-														<td>${alt.email }</td>
-														<td style="text-align: center;" ><img height="22px"  data-toggle="tooltip" title="Click to edit details"  src="${pageContext.request.contextPath}/static/images/edit.png"></img></td>
-														<td style="text-align: center;" id="btn-remove" ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td>
-														</tr>
-														</tbody>
-														</c:forEach>
+														
 														
 														
 									
 								</table>
 												</div>
-		<div align="center">
+		<%-- <div align="center">
 			<div class="col-md-5 col-md-offset-4">
-				<a href="${pageContext.request.contextPath}/petition/documents/uploaddocs.htm/${pid }">
+				<a href="${pageContext.request.contextPath}/petition/respondent/respondentdetails.htm/${petitionerId }">
 					<div class="btn btn-md btn-primary">Continue</div>
 				</a>
 			</div>
-		</div></div>    
+		</div> --%></div>    
                            
                            
                         </div>
@@ -606,6 +454,92 @@ margin-right: 10px;
 		});
 
 
+		$(function(){
+		    $('#addDoc').on('click', function(){ 
+
+				var user=$('#user').val().trim();
+				var pid=$('#pid').val().trim();
+				var ipsbatch=$('#ipsbatch').val().trim();
+				var doccode=$('#doccode').val().trim();
+				var doctext=$('#doccode option:selected').text();
+				var fileInput = document.getElementById('file');
+				var filePath = fileInput.value;
+				filePath=filePath.toLowerCase();
+			
+				var allowedExtensions = /(\.pdf)$/i;
+
+				
+				 var form = $('#documents')[0];
+				 var fdata = new FormData(form);
+				if(doccode=="00"){
+					$('#doccode').focus();
+					alert("Select Upload Document");
+					return false;
+					}
+
+				if (fileInput.value == "") {
+					alert("Pdf file is required");
+					document.getElementById('file').focus();
+					return false;
+				}
+				if (!allowedExtensions.exec(filePath)) {
+					alert('Invalid file type');
+					fileInput.value = '';
+					return false;
+				}
+				if (fileInput.files[0].size > 1024 * 1024) {
+					alert('1 mb pdf file allowed');
+					fileInput.value = '';
+					return false;
+				}
+				var myTab = document.getElementById('eduTable');
+				for (i = 1; i < myTab.rows.length; i++) {
+					var objCells = myTab.rows.item(i).cells;
+					var s1 = objCells.item(0).innerHTML;
+					if (doctext == s1) {
+						alert(doctext + " Document already Uploaded ");
+						$("#doccode").focus();
+						return false;
+					}
+				}
+				
+				$.ajax({
+					url : 'saveprobdoc.htm',
+					type : "POST",
+					data : fdata,
+				 processData: false,
+		         contentType: false,
+					success : function(response) {
+						
+						if(response!="0"){
+							 k=$('#eduTable tr:last-child td:nth-child(2)').html();
+							 if(isNaN(k)){
+
+								 k=0;
+
+								 }
+							var s = '<tr><td style="text-align: center; display: none;" id="hiddensubcode"  >'
+								+ response
+								+ '</td><td align="center">'
+								+ ++k
+								+ '</td><td>'
+								+ doctext
+								+ '</td><td style="text-align: center;"  ><a href="viewdoc?pid='+user+'&dsrno='+response+'"  data-toggle="tooltip" title="Click to view" target="_blank"> <img height="30px"  src="${pageContext.request.contextPath}/static/image/pdf-logo.png"></img></a></td><td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/image/delete-1-icon.png"></img></td></tr>'
+								$("#eduTable").append($(s));
+								$("#eduTable").show();
+							alert("Document added successfully")
+							}
+						else{
+								alert("Document upload failed, try again");
+								return false;
+							}
+					
+					}
+				});
+
+				
+		    });
+		});
 		
 	</script>
 	

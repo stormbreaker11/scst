@@ -4,530 +4,489 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<meta content="" name="keywords">
-<meta content="" name="description">
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<%
+	response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+response.setHeader("Cache-Control", "private");
+response.setHeader("Pragma", "no-cache");
+response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+response.setDateHeader("Expires", 0);
+%>
+<title>SC-ST Commission</title>
 
-<!-- Favicons -->
-<link href="static/images/deptlogo.png" rel="icon">
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link href="${pageContext.request.contextPath}/static/css/header.css"
+	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/css/app.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/static/images/Telengana_State.png"
+	rel="icon">
 
-<script type="text/javascript" src="static/vendor/js/jquery.min.js"></script>
-<link href="static/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-<link href="static/vendor/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
-<link href="static/vendor/css/font-awesome.min.css" rel="stylesheet">
-<link href="static/vendor/css/animate.css" rel="stylesheet">
-<link href="static/vendor/css/style.css" rel="stylesheet">
-<link href="static/lib/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet">
-<link href="static/lib/animate/animate.min.css" rel="stylesheet">
-<link href="static/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-<link href="static/lib/owlcarousel/assets/owl.carousel.min.css"
-	rel="stylesheet">
-<link href="static/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-<link href="static/css/style.css" rel="stylesheet">
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/bootstrap/css/style_smenu.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/panel.css">
+<link href="${pageContext.request.contextPath}/static/css/sb-admin-2.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/script.js"></script>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!------ Include the above in your HEAD tag ---------->
+
+<!------ Include the above in your HEAD tag ---------->
 <style>
-
-.groupbtn {
-	margin-left: 150px;
+.panel-primary>.panel-heading {
+	color: rgb(255, 255, 255);
+	background: #2d3990;
+	background-image: linear-gradient(to left, #6b59cabf, #05246b00 20%, #e91e1e00 82%,
+		#6858c8b8);
+	border-color: #2d3990;
 }
 
-h2 {
-	text-align: center;
-	font-size: 16px;
-	font-weight: 600;
-	text-transform: uppercase;
-	display: inline-block;
-	margin: 40px 8px 10px 8px;
-	color: #cccccc;
-}
+.panel-body
 
-/* STRUCTURE */
-.wrapper {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	justify-content: center;
-	width: 100%;
-	min-height: 100%;
-}
 
-#formContent {
-	-webkit-border-radius: 10px 10px 10px 10px;
-	border-radius: 10px 10px 10px 10px;
-	background: #fff;
-	padding: 30px;
-	width: 90%;
-	max-width: 450px;
-	padding: 0px;
-	-webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-	box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-	position: absolute;
-	left: 550px;
-}
+ 
 
-#formFooter {
-	background-color: #f6f6f6;
-	border-top: 1px solid #dce8f1;
-	padding: 25px;
-	text-align: center;
-	-webkit-border-radius: 0 0 10px 10px;
-	border-radius: 0 0 10px 10px;
-}
 
-/* TABS */
-h2.inactive {
-	color: #cccccc;
-}
+.btn
 
-h2.active {
-	color: #0d0d0d;
-	border-bottom: 2px solid #5fbae9;
-}
 
-/* FORM TYPOGRAPHY*/
-input[type=button], input[type=submit], input[type=reset] {
-	background-color: #56baed;
-	border: none;
-	color: white;
-	padding: 15px 80px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	text-transform: uppercase;
-	font-size: 13px;
-	-webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-	box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-	-webkit-border-radius: 5px 5px 5px 5px;
-	border-radius: 5px 5px 5px 5px;
-	margin: 5px 20px 40px 20px;
-	-webkit-transition: all 0.3s ease-in-out;
-	-moz-transition: all 0.3s ease-in-out;
-	-ms-transition: all 0.3s ease-in-out;
-	-o-transition: all 0.3s ease-in-out;
-	transition: all 0.3s ease-in-out;
-}
 
-input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover
-	{
-	background-color: #39ace7;
-}
 
-input[type=button]:active, input[type=submit]:active, input[type=reset]:active
-	{
-	-moz-transform: scale(0.95);
-	-webkit-transform: scale(0.95);
-	-o-transform: scale(0.95);
-	-ms-transform: scale(0.95);
-	transform: scale(0.95);
-}
+:not
 
-input[type=text], input[type=password] {
-	background-color: #f6f6f6;
-	border: none;
-	color: #0d0d0d;
-	padding: 15px 32px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	margin: 5px;
-	width: 85%;
-	border: 2px solid #f6f6f6;
-	-webkit-transition: all 0.5s ease-in-out;
-	-moz-transition: all 0.5s ease-in-out;
-	-ms-transition: all 0.5s ease-in-out;
-	-o-transition: all 0.5s ease-in-out;
-	transition: all 0.5s ease-in-out;
-	-webkit-border-radius: 5px 5px 5px 5px;
-	border-radius: 5px 5px 5px 5px;
-}
 
-input[type=text]:focus, input[type=password]:focus {
-	background-color: #fff;
-	border-bottom: 2px solid #5fbae9;
-}
+ 
 
-input[type=text]:placeholder, input[type=password]:placeholder {
-	color: #cccccc;
-}
 
-/* ANIMATIONS */
+(
+.btn-block
 
-/* Simple CSS3 Fade-in-down Animation */
-.fadeInDown {
-	-webkit-animation-name: fadeInDown;
-	animation-name: fadeInDown;
-	-webkit-animation-duration: 1s;
-	animation-duration: 1s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-}
 
-@
--webkit-keyframes fadeInDown { 0% {
-	opacity: 0;
-	-webkit-transform: translate3d(0, -100%, 0);
-	transform: translate3d(0, -100%, 0);
-}
+ 
 
-100%
+
+)
 {
-opacity
+font-size
+
+
+
+
 :
+
+
  
-1;
--webkit-transform
-:
- 
-none
+
+
+0
+px
+
+
+
+
 ;
+width
 
-    
-transform
+
+
+
 :
+
+
  
-none
+
+
+215
+px
+
+
+
+
 ;
+margin-bottom
 
-  
-}
-}
-@
-keyframes fadeInDown { 0% {
-	opacity: 0;
-	-webkit-transform: translate3d(0, -100%, 0);
-	transform: translate3d(0, -100%, 0);
-}
 
-100%
-{
-opacity
+
+
 :
+
+
  
-1;
--webkit-transform
-:
- 
-none
+
+
+18
+px
+
+
+
+
 ;
+padding-top
 
-    
-transform
+
+
+
 :
+
+
  
-none
+
+
+5
+px
+
+
+
+
 ;
+height
 
-  
-}
-}
 
-/* Simple CSS3 Fade-in Animation */
-@
--webkit-keyframes fadeIn {from { opacity:0;
-	
-}
 
-to {
-	opacity: 1;
-}
 
-}
-@
--moz-keyframes fadeIn {from { opacity:0;
-	
-}
+:
 
-to {
-	opacity: 1;
+
+ 
+
+
+100
+px
+
+
+
+
+;
 }
 
-}
-@
-keyframes fadeIn {from { opacity:0;
-	
-}
-
-to {
-	opacity: 1;
-}
-
-}
-.fadeIn {
-	opacity: 0;
-	-webkit-animation: fadeIn ease-in 1;
-	-moz-animation: fadeIn ease-in 1;
-	animation: fadeIn ease-in 1;
-	-webkit-animation-fill-mode: forwards;
-	-moz-animation-fill-mode: forwards;
-	animation-fill-mode: forwards;
-	-webkit-animation-duration: 1s;
-	-moz-animation-duration: 1s;
-	animation-duration: 1s;
+/* .container1 {
+            width: 900px;
+            border: 2px solid rgb(43, 55, 158);
+            margin: 33px auto;
+	    padding :left 30px;	
+	    padding-bottom: 2px;
+	    padding-top: 25px;
+	    border-radius: 30px;
+        } */
+.Button {
+	alighn: Center;
 }
 
-.fadeIn.first {
-	-webkit-animation-delay: 0.4s;
-	-moz-animation-delay: 0.4s;
-	animation-delay: 0.4s;
+.chosen-container-single .chosen-single {
+	background: white !important;
+	height: 33px !important;
+	padding: 5px;
 }
 
-.fadeIn.second {
-	-webkit-animation-delay: 0.6s;
-	-moz-animation-delay: 0.6s;
-	animation-delay: 0.6s;
-}
-
-.fadeIn.third {
-	-webkit-animation-delay: 0.8s;
-	-moz-animation-delay: 0.8s;
-	animation-delay: 0.8s;
-}
-
-.fadeIn.fourth {
-	-webkit-animation-delay: 1s;
-	-moz-animation-delay: 1s;
-	animation-delay: 1s;
-}
-
-/* Simple CSS3 Fade-in Animation */
-.underlineHover:after {
-	display: block;
-	left: 0;
-	bottom: -10px;
-	width: 0;
-	height: 2px;
-	background-color: #56baed;
-	content: "";
-	transition: width 0.2s;
-}
-
-.underlineHover:hover {
-	color: #0d0d0d;
-}
-
-.underlineHover:hover:after {
-	width: 100%;
-}
-
-h1 {
-	color: #60a0ff;
-}
-
-/* OTHERS */
-*:focus {
-	outline: none;
-}
-/* 
-input[type=text], input[type=password] {
-	background: #2a313abf;
-	border-radius: 15px;
-	color: white;
-	width: 100%;
-	padding: 6px 8px;
-	margin: 4px 0;
-	display: inline-block;
-	border: 1px solid #f1ccb7;
-	box-sizing: border-box;
-}
- */
-.btnstylenew {
-	width: 100% !important;
-}
-
-button:hover {
-	opacity: 0.8;
-}
-
-button a {
-	color: white;
-}
-
-button a:hover {
-	color: pink;
-}
-
-.cancelbtn {
-	width: auto;
-	padding: 5px 13px;
-	background-color: #f44336;
-}
-
-.imgcontainer {
-	text-align: center;
-	margin: 24px 0 12px 0;
-	position: relative;
-}
-
-img.avatar {
-	border: 3px solid #2196F3;
-	padding: 3px;
-	background-color: #292c37;
-	width: 18%;
-	border-radius: 50%;
-	margin-top: -99px;
-}
-
-.container {
-	padding: 16px;
-}
-
-span.psw {
-	float: right;
-	padding-top: 16px;
-}
-
-.modal1 {
-	z-index: 100;
-	display: none;
-	position: relative;
-	/*z-index: 1;  Sit on top */
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgb(0, 0, 0);
-	background-color: rgba(0, 0, 0, 0.4);
-	padding-top: 60px;
-}
-
-#id01 {
-	position: absolute;
-	/*z-index: 1;  Sit on top */
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-}
-
-.modal-content1 {
-	padding: 10px;
-	border-radius: 35px;
-	color: white;
-	background-color: #023443ab;
-	margin: 5% auto 15% auto;
-	border: 3px solid #2196F3;
-	width: 28%;
-}
-
-.close1 {
-	position: absolute;
-	right: 25px;
-	top: 0;
-	color: #1a2980;
-	font-size: 35px;
-	font-weight: bold;
-	opacity: 0.8;
-}
-
-.close1:hover, .close1:focus {
-	opacity: 1;
-	color: #FF9800;
-	cursor: pointer;
-}
-
-.animate {
-	-webkit-animation: animatezoom 0.6s;
-	animation: animatezoom 0.6s
-}
-
-@
--webkit-keyframes animatezoom {
-	from {-webkit-transform: scale(0)
-}
-
-to {
-	-webkit-transform: scale(1)
-}
-
-}
-@
-keyframes animatezoom {
-	from {transform: scale(0)
-}
-
-to {
-	transform: scale(1)
-}
-
-}
-
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-	span.psw {
-		display: block;
-		float: none;
-	}
-	.cancelbtn {
-		width: 100%;
-	}
-}
-label {
-  display: inline-block;
-  display: flex;
-}
 </style>
+<body  style="margin-left: 20px; margin-right: 20px;">
 
-</head>
-
-<body style="margin-right: 20px; margin-left: 20px;">
-	<div class="container-fluid">
-	<br>
-		<div class="col-md-12">
-			<div class="box form_content">
-			<br>
-	<h1 align="center" style="color:  #2d3990;" >Petition - Upload Documents</h1>		
 				
-								<div class="container" >
-									<div class="table-responsive" >
-										<table id="example"
-											class="table table-striped table-bordered"  >
-											<thead  style="background: #2d3990;
-    background-image: linear-gradient(to left, #6b59cabf, #05246b00 20%, #e91e1e00 82%, #6858c8b8); color: white;">
-												<th style="text-align:center;">S.No</th>
-												<th style="text-align:center;" >Petition ID</th>
-												<th>Type of Petition</th>
-												<th>Petition Category</th>
-												<th>Date Submitted</th>
-												<th style="text-align:center;" >Upload Documents</th>
+	<div class="container-fluid">
+			<table style="font-size: 20px;"  width="100%" align="center">
+	<tr >
+	<td style="color: #2d3990;" >
+
+	<c:if test="${ptype=='I'}">
+	Type of Petition: Individual
+	</c:if>
+	<c:if test="${ptype}=='G'">
+	Type of Petition : Group
+	</c:if>
+	</td>
+	<td style="color: #2d3990;" align="right">Category of Petition : Land</td>
+	</tr>
+	</table>
+<h1 align="center" style="color: #2d3990;" >Petition - Upload Documents/Evidence</h1>
+<form:form name="upload" modelAttribute="upload">
+		<div class="col-md-12">
+		<div align="left" style="background: #2d3990; color: white; height: 30px; vertical-align: middle; padding-top: 5px; padding-left: 20px; ">
+													<b>Upload Documents</b>
+													
+												</div>
+		<br>
+		
+    <div class="row">
+												<div
+													class="col-sm-7 col-md-offset-2 form-group">
+													<label
+														class="col-md-6">Petitioner Id : </label>
+													<div
+														class="col-md-6">
+														${petitionerID}<form:input type="hidden" id="petitionerId" path="petitionerId" value="${petitionerID}"/>
+													</div>
+												</div>
+											</div>
+    <div class="row">
+												<div
+													class="col-sm-7 col-md-offset-2 form-group">
+													<label
+														class="col-md-6">Petition Id : </label>
+													<div
+														class="col-md-6">
+															${petitionID}<form:input type="hidden" id="petitionId" path="petitionId" value="${petitionID}"/>
+													</div>
+												</div>
+											</div>
+												
+    <div class="row">
+												<div
+													class="col-sm-7 col-md-offset-2 form-group">
+													<label
+														class="col-md-6">Type of Petition: </label>
+													<div
+														class="col-md-6">
+														Individual
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div
+													class="col-sm-7 col-md-offset-2 form-group">
+													<label
+														class="col-md-6">Petition Category </label>
+													<div
+														class="col-md-6">
+														Land
+													</div>
+												</div>
+											</div>
+											<!-- <div class="row">
+												<div
+													class="col-sm-7 col-md-offset-2 form-group">
+													<label
+														class="col-md-6">Petition Submitted Date </label>
+													<div
+														class="col-md-6">
+														25/08/2021
+													</div>
+												</div>
+											</div> -->
+											<div class="row">
+												<div
+													class="col-sm-7 col-md-offset-2 form-group">
+													<label
+														class="col-md-6">Document description</label>
+													<div
+														class="col-md-4">
+														<form:input type="text" style="text-transform:capitalize;" name="docDesc" id="docDesc" maxlength="100" path="docDesc" class="form-control"/>
+														
+													
+													</div>
+												</div>
+													<div class="col-md-offset-2 form-group " style="color: red;">
+							</div>
+											</div>
+											<div class="row">
+												<div
+													class="col-sm-7 col-md-offset-2 form-group">
+													<label
+														class="col-md-6">Upload Document</label>
+													<div
+														class="col-md-4">
+														<input type="file" name="file" id="file">
+													</div>
+												</div>
+													<div class="col-md-offset-2 form-group " style="color: red;">allowed .pdf of size 1 mb
+							</div>
+											</div>
+													 <div align="center">
+											<a href="#">
+												<div class="btn btn-md btn-primary" id="addDoc">
+													+ Add more
+												</div>
+											</a>  
+
+											</div>
+											<br>
+	<div style="display: none; " id="docdiv">											
+<div align="center" style="background: #2d3990; color: white; height: 30px; ">
+													<h3>Uploaded documents/Evidence
+													</h3>
+												</div>
+									
+										<table id="uploadTable"
+											class="table table-striped table-bordered">
+											<thead>
+												<tr><th style="text-align: center;" >S.No</th>
+												<th> Document description </th>
+												<th style="text-align: center;" >View Document</th>
+												<th style="text-align: center;">  Delete</th></tr>
 											</thead>
 											<tbody>
+											<c:forEach items="${uploadedDocsByPid }" var="alt" varStatus="counter">
 											<tr>
-												<td style="text-align:center;" >1</td>
-												<td style="text-align:center;" >PI20210001</td>
-												<td>Individual
-												</td>
-												<td>Land
-												</td>
-												<td>25/08/2021
-												</td  ><td style="text-align:center;" title="Click here to Upload documents" ><a href="uploaddocsbyid" ><button class="btn btn-success">Upload</button></a>
-												</td></tr>
-												<tr>
-												<td style="text-align:center;" >2</td>
-												<td style="text-align:center;" >PI20210003</td>
-												<td>Individual
-												</td>
-												<td>Atrocity
-												</td>
-												<td>25/08/2021
-												</td><td style="text-align:center;" ><img alt="success" src="static/images/succes.ico">
-												</td></tr>
+											<td style="display: none; text-align: center;" id="hiddencode" >${alt.docNo}</td>
+											<td style=" text-align: center;" >${counter.count}</td>
+											<td>${alt.docDesc}</td>
+											<td style="text-align: center;" onclick="openRequestedPopup(${alt.docNo})"  ><a href="#"  data-toggle="tooltip" title="Click to view"> <img height="22px"  src="${pageContext.request.contextPath}/static/images/pdf-32.png"></img></a></td>
+											<td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td>
+											</tr>
+											</c:forEach>
 											</tbody>
 											
+											
 										</table>
-									</div></div>
-					<br>
-					<br>
-			</div>
-		</div>
-	</div>
-	</body>
-	</html>
+								
+            </div></div>
+            </form:form>
+        </div>
+	
+	
+<script>
+var k=0;
+
+
+$(document).on('click','#btn-remove', function() {
+
+	    var petitionID=$("#petitionId").val();
+	    var $row = $(this).closest("tr"); // Find the row
+		var scode = $row.find("#hiddencode").text();
+
+		alert(scode)
+		var con = confirm("Are you sure you want to delete this Document?");
+		if (con) {
+			$.ajax({
+				url : 'deleteDoc',
+				type : "GET",
+				data : {
+					"docid" : scode,
+					"pid": petitionID
+				},
+				success : function(response) {
+					alert("-----"+ response)
+					if(response=="Y"){
+						$("#uploadTable tr td").filter(function() {
+							return $(this).text() ===scode;
+						}).closest("tr").remove();
+						var rowCount = $('#uploadTable tbody tr').length;
+						if(rowCount==1){
+							document.getElementById("uploadTable").style.display="none";
+					}
+						alert(" Document deleted succesfully");
+						}
+					else{
+						alert(" Document delete failed");
+						}
+					
+				}
+			});
+
+		}
+
+	});
+
+
+$(function(){
+    $('#addDoc').on('click', function(){ 
+
+    	var petitionID=$("#petitionId").val();
+		var doctext=$('#docDesc').val();
+		var fileInput = document.getElementById('file');
+		var filePath = fileInput.value;
+		filePath=filePath.toLowerCase();
+		var allowedExtensions = /(\.pdf)$/i;
+		 var form = $('#upload')[0];
+		 var fdata = new FormData(form);
+		if(doctext==""){
+			$('#docDesc').focus();
+			alert("Document description is required");
+			return false;
+			}
+		if (fileInput.value == "") {
+			alert("Pdf file is required");
+			document.getElementById('file').focus();
+			return false;
+		}
+		if (!allowedExtensions.exec(filePath)) {
+			alert('Invalid file type');
+			fileInput.value = '';
+			return false;
+		}
+		if (fileInput.files[0].size > 1024 * 1024) {
+			alert('1 mb pdf file allowed');
+			fileInput.value = '';
+			return false;
+		}
+		
+		/* var myTab = document.getElementById('eduTable');
+		for (i = 1; i < myTab.rows.length; i++) {
+			var objCells = myTab.rows.item(i).cells;
+			var s1 = objCells.item(0).innerHTML;
+			if (doctext == s1) {
+				alert(doctext + " Document already Uploaded ");
+				$("#doccode").focus();
+				return false;
+			}
+		} */
+		
+		$.ajax({
+			url : '/scst/petition/documents/savedoc.htm',
+			type : "POST",
+			data : fdata,
+		 processData: false,
+         contentType: false,
+			success : function(response) {
+				
+				if(response!="N"){
+					 k=$('#uploadTable tr:last-child td:nth-child(2)').html();
+					 if(isNaN(k)){
+						 k=0;
+						 }
+					var s = '<tr><td style="text-align: center; display: none;" id="hiddencode"  >'
+						+ response
+						+ '</td><td align="center">'
+						+ ++k
+						+ '</td><td>'
+						+ doctext
+						+ '</td><td style="text-align: center;" onclick="openRequestedPopup('+response+')"  ><a href="#" data-toggle="tooltip" title="Click to view" > <img height="22px"  src="${pageContext.request.contextPath}/static/images/pdf-32.png"></img></a></td><td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td></tr>'
+						$("#uploadTable").append($(s));
+						$("#uploadTable").show();
+					alert("Document added successfully")
+					}
+				else{
+						alert("Document upload failed, try again");
+						return false;
+					}
+				 
+			}
+		});
+
+		
+    });
+});
+
+//popup window
+
+function openRequestedPopup(response) {
+	let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+		width=1000,height=600,left=250,top=150`;
+	var pid=$("#petitionId").val();
+window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'test', params);
+ 
+}
+
+
+</script>
+	
+	
+</body>
+
+</html>
