@@ -10,7 +10,7 @@ public class PetitionIdGenerator {
 		
 		//generating petittion based on the type of requests Individual and Group using format P+Type of petition+year+serial number 0001.
 		
-		if (queryObject != null) {
+		if (!queryObject.equals("")) {
 			String pid = queryObject.substring(2);
 			int addpid = Integer.parseInt(pid);
 			addpid++;

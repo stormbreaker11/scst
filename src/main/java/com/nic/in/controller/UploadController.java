@@ -34,12 +34,14 @@ public class UploadController {
 
 	@Autowired
 	private DocDao doc;
-	@RequestMapping("uploaddocs.htm/{pid}")
-	public String uploaddocs(HttpServletRequest request, Model model, @PathVariable String pid) {
+	@RequestMapping("uploaddocs.htm/{pid}/{type}/{category}")
+	public String uploaddocs(HttpServletRequest request, Model model, @PathVariable String pid, @PathVariable String type, @PathVariable String category) {
 		
 		String petitionID = (String) request.getSession().getAttribute("petitionID");
 		model.addAttribute("petitionID", petitionID);
 		model.addAttribute("petitionerID", pid);
+		model.addAttribute("type", type);
+		model.addAttribute("category", category);
 		model.addAttribute("upload", new Documents());
 		
 		List<Documents> uploadedDocsByPid = doc.getUploadedDocsByPid(petitionID);
@@ -68,11 +70,11 @@ public class UploadController {
 	
 	@ResponseBody
 	@RequestMapping(value = { "deletedoc.htm" }, method = RequestMethod.POST)
-	public String deleteDoc(HttpServletRequest request, @RequestParam String doccode, @RequestParam String pid) {
+	public String deleteDoc(HttpServletRequest request, @RequestParam String docid, @RequestParam String pid) {
 		
 		String delete="N";
 		
-		int deletePage=doc.deleteDocument(doccode, pid);
+		int deletePage=doc.deleteDocument(docid, pid);
 		if(deletePage==1) {
 			delete="Y";
 		}

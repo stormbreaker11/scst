@@ -47,10 +47,11 @@ response.setDateHeader("Expires", 0);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 
+
 function proceed(){
 
 	document.filepetition.method="POST";
-	document.filepetition.action="/scst/petition/land/petitiondetails.htm";
+	document.filepetition.action="/scst/petition/petitiondetails.htm";
 	document.filepetition.submit();
 }
 </script>
@@ -219,14 +220,14 @@ margin-right: 10px;
 </style>
 
 </head>
-<body style="margin-right: 20px; margin-left: 20px;">
+<body style="margin-right: 20px; margin-left: 20px;" onload="focus()">
 	<div class="container-fluid">
 	<br>
 		<div class="col-md-12">
 			<div class="box form_content">
 	
  <h5 class="subhead">
-					<h1 align="center" style="color:  #2d3990;">Petition - Land</h1>
+					<h1 align="center" style="color:  #2d3990;">Petition - ${typeOpt}</h1>
 					</h5> 
 				<br> 
 
@@ -237,7 +238,7 @@ margin-right: 10px;
 							<div class="col-sm-7 col-md-offset-2 form-group">
 								<label class="col-md-6">Type of Petition <span
 									class="star">*</span></label>
-								<div class="col-md-6">
+								<div class="col-md-4">
 									<select class="form-control SelectStyle" id="typeofpetition"
 										name="type" required="required">
 										<option value="0">--Select--</option>
@@ -251,15 +252,22 @@ margin-right: 10px;
 							<div class="col-sm-7 col-md-offset-2 form-group">
 								<label class="col-md-6">Category of Petition<span
 									class="star">*</span></label>
-								<div class="col-md-6">
-									<b>Land</b>
+								<div class="col-md-4">
+									<select class="form-control SelectStyle"  style="" name="category"
+										 required="required">
+										<option value="${typeVal}" selected="selected">${typeOpt}</option>
+									</select>
 								</div>
 							</div>
 						</div>
+						
 					</div>
 					<div align="center">
 						<input type="button" onclick="proceed()" class="btn btn-primary" value="Proceed">
 					</div>
+					<div align="center" style="color: red;">
+							<b>${error }</b>
+						</div>
 					<input type="hidden" name="pid" value="${pid }">
 				</form>
 				<br>
@@ -268,5 +276,12 @@ margin-right: 10px;
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+
+	function focus(){
+		document.getElementById("typeofpetition").focus();
+		}
+	</script>
+
 	</body>
 	</html>

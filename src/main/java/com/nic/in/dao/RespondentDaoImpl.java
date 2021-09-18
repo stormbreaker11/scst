@@ -5,13 +5,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.nic.in.model.Land;
 import com.nic.in.model.Login;
 import com.nic.in.model.Respondent;
 
@@ -25,7 +26,7 @@ public class RespondentDaoImpl implements RespondentDao {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public int addRepondent(Respondent respondent, Login login, String pid) {
+	public int addRepondent(Respondent respondent, Login login) {
 
 		int save = 0;
 
@@ -37,9 +38,10 @@ public class RespondentDaoImpl implements RespondentDao {
 
 		MapSqlParameterSource map = new MapSqlParameterSource();
 
+		
 		int generateRespSrNo = generateRespSrNo();
 		map.addValue("row_id", generateRowIdForRespondent());
-		map.addValue("petition_id", pid);
+		map.addValue("petition_id", respondent.getPetition());
 		map.addValue("petitioner_id", respondent.getPetitionerId());
 		map.addValue("userid", login.getCompid());
 		map.addValue("resp_srno", generateRespSrNo);
@@ -47,7 +49,12 @@ public class RespondentDaoImpl implements RespondentDao {
 		map.addValue("resp_type", respondent.getRespType());
 		map.addValue("resp_profession", respondent.getRespProffesion());
 		map.addValue("resp_name", respondent.getRespName());
-		map.addValue("resp_caste", respondent.getCaste());
+		if(respondent.getCaste()!=null) {
+			map.addValue("resp_caste", respondent.getCaste().trim());	
+		}
+		else{
+			map.addValue("resp_caste", "0");	
+		}
 		map.addValue("address", respondent.getAddress());
 		map.addValue("resp_mobile", respondent.getMobile());
 		map.addValue("resp_email", respondent.getEmail());
@@ -120,8 +127,7 @@ public class RespondentDaoImpl implements RespondentDao {
 				respondent.setMobile(rs.getString("resp_mobile"));
 				respondent.setEmail(rs.getString("resp_email"));
 				respondent.setDistrict(rs.getString("district"));
-				
-				
+			
 				return respondent;
 			}
 		});
@@ -141,6 +147,72 @@ public class RespondentDaoImpl implements RespondentDao {
 			e.printStackTrace();
 		}
 		return delete;
+	}
+
+	@Override
+	public Respondent getRespondentById(String respcode, String petitionId) {
+
+		String query = "select resp_srno, resp_type, address, resp_profession, resp_caste, "
+				+ "resp_name, resp_mobile, resp_email, district from petition_respondent where resp_srno=? and petition_id=?";
+		Respondent respondent = new Respondent();
+
+		return jdbcTemplate.query(query, new Object[] { Integer.parseInt(respcode), petitionId }, new ResultSetExtractor<Respondent>() {
+			public Respondent extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if (rs.next()) {
+				respondent.setRespName(rs.getString("resp_name"));
+				respondent.setRespType(rs.getString("resp_type"));
+				respondent.setRespProffesion(rs.getString("resp_profession"));
+				respondent.setRespno(rs.getString("resp_srno"));
+				respondent.setCaste(rs.getString("resp_caste"));
+				respondent.setMobile(rs.getString("resp_mobile"));
+				respondent.setEmail(rs.getString("resp_email"));
+				respondent.setDistrict(rs.getString("district"));
+				respondent.setAddress(rs.getString("address"));
+				}
+				return respondent;
+			}
+
+		});
+	}
+
+	@Override
+	public int updateRespondent(String respcode, Respondent respondent, Login login) {
+		
+		int update=0;
+		
+		try {
+		String sql= "UPDATE petition_respondent "
+				 + " SET  resp_type=:resp_type, resp_profession=:resp_profession, resp_name=:resp_name, resp_caste=:resp_caste, address=:address, " 
+				 + " resp_mobile=:resp_mobile, resp_email=:resp_email, district=:district, "       
+			     + " action_date=now(), action_userid=:action_userid where resp_srno=:resp_srno and petition_id=:petition_id"; 
+		
+		
+		MapSqlParameterSource map= new MapSqlParameterSource();
+		map.addValue("resp_type", respondent.getRespType());
+		map.addValue("resp_profession", respondent.getRespProffesion());
+		map.addValue("resp_name", respondent.getRespName());
+		map.addValue("resp_caste", respondent.getCaste());
+		map.addValue("address", respondent.getAddress());
+		map.addValue("resp_mobile", respondent.getMobile());
+		map.addValue("resp_email", respondent.getEmail());
+		map.addValue("district", Integer.parseInt(respondent.getDistrict()));
+		map.addValue("resp_srno", Integer.parseInt(respcode));
+		map.addValue("petition_id", respondent.getPetition());
+		map.addValue("action_userid", login.getCompid());
+					
+		
+			
+			update= namedParameterJdbcTemplate.update(sql, map);
+			if(update==1) {
+				update=1;
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			update = 0;
+		}
+
+		return update;
 	}
 
 }

@@ -9,7 +9,7 @@ public class Land {
 	private String landKind;
 	private String landType;
 	private String landDistrict;
-	private String landmandal;
+	private int landmandal;
 	private String landvillage;
 	private String passbookNo;
 	private String surveyNo;
@@ -39,12 +39,7 @@ public class Land {
 	public void setLandDistrict(String landDistrict) {
 		this.landDistrict = landDistrict;
 	}
-	public String getLandmandal() {
-		return landmandal;
-	}
-	public void setLandmandal(String landmandal) {
-		this.landmandal = landmandal;
-	}
+	
 	public String getLandvillage() {
 		return landvillage;
 	}
@@ -93,6 +88,12 @@ public class Land {
 	}
 	public void setUnits(String units) {
 		this.units = units;
+	}
+	public int getLandmandal() {
+		return landmandal;
+	}
+	public void setLandmandal(int landmandal) {
+		this.landmandal = landmandal;
 	}
 	
 	

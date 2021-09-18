@@ -45,7 +45,7 @@ body {
 				<ul>
 					<li  class='has-sub' ><a href="#" target="content">Land</a>
 					<ul>
-					<li><a  href="viewpetitionDetails.htm" target="content"><span>Petition Details</span></a></li>
+					<li><a  href="${pageContext.request.contextPath}/petition/land/viewpetitionDetails.htm" target="content"><span>Petition Details</span></a></li>
 					<li><a href="prevcred" target="content"><span>Land
 								Details</span></a></li>
 								<li><a href="prevcred" target="content"><span>Respondent
@@ -55,7 +55,25 @@ body {
 					</ul></li>
 					<li  class='has-sub' ><a href="#" target="content">Atrocity</a>
 					<ul>
-					<li><a  href="educred" target="content"><span>Petition Details</span></a></li>
+					<li><a  href="${pageContext.request.contextPath}/petition/atrocity/viewpetitionDetails.htm" target="content"><span>Petition Details</span></a></li>
+					
+								<li><a href="prevcred" target="content"><span>Respondent
+								Details</span></a></li>
+								<li><a href="prevcred" target="content"><span>Upload
+								Documents</span></a></li>
+					</ul></li>
+					<li  class='has-sub' ><a href="#" target="content">Service</a>
+					<ul>
+					<li><a  href="${pageContext.request.contextPath}/petition/service/viewpetitionDetails.htm" target="content"><span>Petition Details</span></a></li>
+					
+								<li><a href="prevcred" target="content"><span>Respondent
+								Details</span></a></li>
+								<li><a href="prevcred" target="content"><span>Upload
+								Documents</span></a></li>
+					</ul></li>
+					<li  class='has-sub' ><a href="#" target="content">General</a>
+					<ul>
+					<li><a  href="${pageContext.request.contextPath}/petition/general/viewpetitionDetails.htm" target="content"><span>Petition Details</span></a></li>
 					
 								<li><a href="prevcred" target="content"><span>Respondent
 								Details</span></a></li>
@@ -66,27 +84,10 @@ body {
 				</ul></li>
 				<li tabindex="-1" class='has-sub'> <a href="#" target="content">Modify<i class="caret"></i></a>
 				<ul>
-					<li  class='has-sub' ><a href="#" target="content">Land</a>
-					<ul>
-					<li><a  href="educred" target="content"><span>Petition Details</span></a></li>
-					<li><a href="prevcred" target="content"><span>Land
-								Details</span></a></li>
-								<li><a href="prevcred" target="content"><span>Respondent
-								Details</span></a></li>
-								<li><a href="prevcred" target="content"><span>Upload
-								Documents</span></a></li>
-					</ul></li>
-					<li  class='has-sub' ><a href="#" target="content">Atrocity</a>
-					<ul>
-					<li><a  href="educred" target="content"><span>Petition Details</span></a></li>
-					
-								<li><a href="prevcred" target="content"><span>Respondent
-								Details</span></a></li>
-								<li><a href="prevcred" target="content"><span>Upload
-								Documents</span></a></li>
-					</ul></li>
+					<li   ><a href="viewpetition.htm" target="content">Edit Petition</a>
 					
 				</ul></li>
+				<!-- <li><a href="viewpetition.htm" target="content">View Petitions</a></li> -->
 		</ul>
 		
 	</div>

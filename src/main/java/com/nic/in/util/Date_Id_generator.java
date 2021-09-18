@@ -1,8 +1,12 @@
 package com.nic.in.util;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 public class Date_Id_generator {
 
@@ -14,13 +18,17 @@ public class Date_Id_generator {
 		return replaceAll;
 	}
 	public static void time() {
-		
 		DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a");
         Date date = new Date();
         String time=dateFormat.format(date);
-        System.out.println(time);
 	}
 	
-
+    public static Date dateFormat() throws ParseException {
+		LocalDateTime ldt = LocalDateTime.now();
+		String format = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(ldt);
+		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(format);
+		return date1;
+    	
+    }
 	
 }

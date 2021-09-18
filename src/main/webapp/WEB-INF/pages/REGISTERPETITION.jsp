@@ -283,6 +283,7 @@ px
 													<b>Petitioner Details</b>
 													
 												</div>
+												<div align="center"><h3>${error}</h3></div>
 		<br>
 		<form:form modelAttribute="register" name="register"
 			enctype="multipart/form-data">

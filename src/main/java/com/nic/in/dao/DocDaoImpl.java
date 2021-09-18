@@ -133,7 +133,7 @@ public class DocDaoImpl implements DocDao {
 			int delete = 0;
 			String query = "delete from evidence where doc_srno=? and petition_id=?";
 			try {
-				delete = jdbcTemplate.update(query, new Object[] { doccode, pid });
+				delete = jdbcTemplate.update(query, new Object[] { Integer.parseInt(doccode), pid });
 			} catch (Exception e) {
 				e.printStackTrace();
 				delete = 0;

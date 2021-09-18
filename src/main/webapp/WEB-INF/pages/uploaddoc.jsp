@@ -50,6 +50,15 @@ response.setDateHeader("Expires", 0);
 
 <!------ Include the above in your HEAD tag ---------->
 <style>
+
+.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, 
+.table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td{
+border-color: black;
+
+}
+
+
+
 .panel-primary>.panel-heading {
 	color: rgb(255, 255, 255);
 	background: #2d3990;
@@ -200,30 +209,32 @@ px
 
 				
 	<div class="container-fluid">
-			<table style="font-size: 20px;"  width="100%" align="center">
-	<tr >
-	<td style="color: #2d3990;" >
-
-	<c:if test="${ptype=='I'}">
-	Type of Petition: Individual
-	</c:if>
-	<c:if test="${ptype}=='G'">
-	Type of Petition : Group
-	</c:if>
-	</td>
-	<td style="color: #2d3990;" align="right">Category of Petition : Land</td>
-	</tr>
-	</table>
+			
 <h1 align="center" style="color: #2d3990;" >Petition - Upload Documents/Evidence</h1>
 <form:form name="upload" modelAttribute="upload">
 		<div class="col-md-12">
+		<table style="font-size: 20px;"  width="100%" align="center">
+	<tr >
+	<td style="color: #2d3990;" >
+
+	<c:if test="${type=='I'}">
+	Type of Petition: Individual
+	</c:if>
+	<c:if test="${type}=='G'">
+	Type of Petition : Group
+	</c:if>
+	</td>
+	
+	<td style="color: #2d3990;" align="right">Category of Petition :  ${category}                                                                                     </td>
+	</tr>
+	</table>
 		<div align="left" style="background: #2d3990; color: white; height: 30px; vertical-align: middle; padding-top: 5px; padding-left: 20px; ">
 													<b>Upload Documents</b>
 													
 												</div>
 		<br>
 		
-    <div class="row">
+    <div class="row" style="display: none;">
 												<div
 													class="col-sm-7 col-md-offset-2 form-group">
 													<label
@@ -234,7 +245,7 @@ px
 													</div>
 												</div>
 											</div>
-    <div class="row">
+    <div class="row" style="display: none;">
 												<div
 													class="col-sm-7 col-md-offset-2 form-group">
 													<label
@@ -247,7 +258,7 @@ px
 											</div>
 												
     <div class="row">
-												<div
+												<!-- <div
 													class="col-sm-7 col-md-offset-2 form-group">
 													<label
 														class="col-md-6">Type of Petition: </label>
@@ -267,7 +278,7 @@ px
 														Land
 													</div>
 												</div>
-											</div>
+											</div> -->
 											<!-- <div class="row">
 												<div
 													class="col-sm-7 col-md-offset-2 form-group">
@@ -316,14 +327,14 @@ px
 
 											</div>
 											<br>
-	<div style="display: none; " id="docdiv">											
+	<div  id="docdiv">											
 <div align="center" style="background: #2d3990; color: white; height: 30px; ">
 													<h3>Uploaded documents/Evidence
 													</h3>
 												</div>
 									
 										<table id="uploadTable"
-											class="table table-striped table-bordered">
+											class="table table-bordered" style="border: 1px solid black;">
 											<thead>
 												<tr><th style="text-align: center;" >S.No</th>
 												<th> Document description </th>
@@ -344,48 +355,75 @@ px
 											
 											
 										</table>
-								
+				  <div align="center">
+            <input type="button" class="btn btn-primary" onclick="proceed()"  value="Save And Continue">
+            </div>				
             </div></div>
+            
+            <input type="hidden" name="pid" value="${petitionerID}">
+            <input type="hidden" name="type" value="${type}">
+            <input type="hidden" name="category" id="category" value="${category}">
             </form:form>
         </div>
 	
 	
 <script>
+
+function proceed(){
+	var category=$("#category").val();
+	
+	document.upload.method="POST";
+	document.upload.action="/scst/petition/"+category.toLowerCase()+"/submitpetition.htm";
+	document.upload.submit();
+}
+
+
+
+
 var k=0;
 
+
+/* $(document).ready(function(){
+	var rowCount = $('#uploadTable tr').length;
+	if(rowCount==1){
+		$("#docdiv").hide();
+		$("#proceed").show();
+		}
+	else{
+		$("#docdiv").show();
+		$("#proceed").hide();
+		}
+}); */
 
 $(document).on('click','#btn-remove', function() {
 
 	    var petitionID=$("#petitionId").val();
 	    var $row = $(this).closest("tr"); // Find the row
 		var scode = $row.find("#hiddencode").text();
-
-		alert(scode)
 		var con = confirm("Are you sure you want to delete this Document?");
 		if (con) {
 			$.ajax({
-				url : 'deleteDoc',
-				type : "GET",
+				url : '/scst/petition/documents/deletedoc.htm',
+				type : "POST",
 				data : {
 					"docid" : scode,
 					"pid": petitionID
 				},
 				success : function(response) {
-					alert("-----"+ response)
 					if(response=="Y"){
 						$("#uploadTable tr td").filter(function() {
 							return $(this).text() ===scode;
 						}).closest("tr").remove();
-						var rowCount = $('#uploadTable tbody tr').length;
+						var rowCount = $('#uploadTable tr').length;
+
 						if(rowCount==1){
-							document.getElementById("uploadTable").style.display="none";
+							document.getElementById("docdiv").style.display="none";
 					}
 						alert(" Document deleted succesfully");
 						}
 					else{
 						alert(" Document delete failed");
 						}
-					
 				}
 			});
 
@@ -459,6 +497,8 @@ $(function(){
 						+ '</td><td style="text-align: center;" onclick="openRequestedPopup('+response+')"  ><a href="#" data-toggle="tooltip" title="Click to view" > <img height="22px"  src="${pageContext.request.contextPath}/static/images/pdf-32.png"></img></a></td><td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td></tr>'
 						$("#uploadTable").append($(s));
 						$("#uploadTable").show();
+						$("#docdiv").show();
+						$("#proceed").show();
 					alert("Document added successfully")
 					}
 				else{
@@ -483,6 +523,9 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
  
 }
 
+function focus(){
+	document.getElementById("docDesc").focus();
+}
 
 </script>
 	

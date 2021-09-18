@@ -209,7 +209,7 @@ margin-right: 10px;
 	
 }
 </style>
-<body  style="margin-left: 20px; margin-right: 20px;">
+<body  style="margin-left: 20px; margin-right: 20px;" onload="focus()">
 
 				
 	<div class="container-fluid">
@@ -222,10 +222,10 @@ margin-right: 10px;
 	<tr >
 	<td style="color: #2d3990;" >
 
-	<c:if test="${ptype=='I'}">
+	<c:if test="${type=='I'}">
 	Type of Petition: Individual
 	</c:if>
-	<c:if test="${ptype}=='G'">
+	<c:if test="${type}=='G'">
 	Type of Petition : Group
 	</c:if>
 	</td>
@@ -236,9 +236,11 @@ margin-right: 10px;
                         <div class="row from group">
                         
                         <div class="title1"  >
-													<b style="padding-left: 5px;">Petition Details</b>
+													<b style="padding-left: 5px;">Petition - Land</b>
 													
 												</div>
+												
+												
 												<br>
 										
                         <form:input type="hidden" path="petitionerId" value="${pid }"/>
@@ -274,13 +276,13 @@ margin-right: 10px;
 										<div class="row">
 											<div
 												class="col-sm-7 col-md-offset-2 form-group" >
-												<label class="col-md-6">Has
+												<label class="col-md-6" >Has
 													the
 													Petitioner
 													Lodged Complaint
 													in any
 													court <span class="star">*</span></label>
-												<div class="col-md-6">
+												<div class="col-md-2">
 													<form:select class="form-control SelectStyle"
 														id="court" path="courtComp">
 														<form:option value="0" >--Select--
@@ -304,7 +306,7 @@ margin-right: 10px;
 														of the
 														Court</label>
 													<div
-														class="col-md-6">
+														class="col-md-4">
 														<form:input type="text" id="courtName" maxlength="50"
 															placeholder=" Court name " 
 															class="form-control" path="courtName"/>
@@ -318,7 +320,7 @@ margin-right: 10px;
 														class="col-md-6">
 														Select State</label>
 													<div
-														class="col-md-6">
+														class="col-md-4">
 														<form:select class="form-control SelectStyle"
 															id="courtState" path="courtState">
 															<form:option value="0">--Select--
@@ -346,7 +348,7 @@ margin-right: 10px;
 														class="col-md-6">Select District
 													</label>
 													<div
-														class="col-md-6">
+														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="courtDist"
 															id="courtDist">
 															<form:option value="0" >--Select--
@@ -373,19 +375,10 @@ margin-right: 10px;
 														class="col-md-6">
 														Select Mandal</label>
 													<div
-														class="col-md-6">
-														<form:select id="courtMandal" class="form-control SelectStyle"
-															path="courtMandal">
-															<form:option value="0">--Select--
-															</form:option>
-															<form:option value="1" >Mandal-1
-															</form:option>
-															<form:option value="2" >Mandal-2
-															</form:option>
-															<form:option value="3" >Mandal-3
-															</form:option>
-
-														</form:select>
+														class="col-md-4">
+														<input type="text" id="courtMandal" class="form-control SelectStyle"
+															path="courtMandal"/>
+															
 													</div>
 												</div>
 											</div>
@@ -397,7 +390,7 @@ margin-right: 10px;
 														
 														</label>
 													<div
-														class="col-md-6">
+														class="col-md-3">
 														<form:input type="text"
 															placeholder=" Type case number" path="caseNo"
 															class="form-control" maxlength="30"/>
@@ -410,7 +403,7 @@ margin-right: 10px;
 												<label class="col-md-6">
 													Status of Case
 													</label>
-												<div class="col-md-6">
+												<div class="col-md-2">
 													<form:select class="form-control SelectStyle"
 														id="casestatus" path="caseStatus">
 														<form:option value="0">--Select--
@@ -442,10 +435,12 @@ margin-right: 10px;
                         
                         <table width="100%">
                         <tr><td>&nbsp;</td>
-                        <td align="center"><button type="button" class="btn btn-success" onclick="submitDetails()" >Save as Draft</button></td>
+                        <td align="center"><button type="button" class="btn btn-primary" onclick="submitDetails()" >Save And Continue</button></td>
                         </tr>
                         </table>
                           <input type="hidden" name="pid" value="${pid }"/>
+                          <input type="hidden" name="type" value="${type }"/>
+                          <input type="hidden" name="category" value="${category }"/>
                         
                            </form:form>
                         </div>
@@ -747,6 +742,12 @@ margin-right: 10px;
 		});
 	</script>
 	<script>
+
+	function focus(){
+		document.getElementById("typeofpetition").focus();
+		}
+	</script>
+	<script>
 		$('#audact').on('change', function () {
 			if ($(this).val() === "yesAct") {
 				$(".ifyesCosmeticsAct").show();
@@ -803,7 +804,7 @@ margin-right: 10px;
 		function submitDetails(){
 
 			document.petition.method="POST";
-			document.petition.action="savepetitiondetails.htm";
+			document.petition.action="/scst/petition/land/savepetitiondetails.htm";
 			document.petition.submit();
 
 			}

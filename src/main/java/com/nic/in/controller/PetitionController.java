@@ -1,105 +1,121 @@
 package com.nic.in.controller;
 
-
-
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.nic.in.dao.PetitionDao;
+import com.nic.in.model.Atrocity;
+import com.nic.in.model.General;
 import com.nic.in.model.Login;
-import com.nic.in.model.Petitioner;
+import com.nic.in.model.Petition;
+import com.nic.in.model.Petitition_Land;
+import com.nic.in.model.Service;
 
 @Controller
+@RequestMapping("petition")
 public class PetitionController {
-	
+
 	@Autowired
-	private PetitionDao petitiondao; 
+	PetitionDao petitiondao;
 
-	// petition registration page request mapper
-	@RequestMapping(value = "/registrtation.htm")
-	public String registrtation( Model model) {
-		Petitioner petitioner=  new Petitioner();
-		model.addAttribute("register",petitioner);
-		return "REGISTERPETITION";
-	}
-
-	// petition details page request mapper
-	@RequestMapping(value = "/registrtationdetails.htm")
-	public String petitionDetails() {
-		return "landpetition";
-	}
-
-	@RequestMapping(value = "/savePetition.htm", method = RequestMethod.POST)
-	public String savePetition(@ModelAttribute("register") Petitioner petitioner, Model model,
-			@RequestParam("prdoc") MultipartFile prdocfile, @RequestParam("signature") MultipartFile signaturefile,
-			@RequestParam("photo") MultipartFile photofile, @RequestParam("bprpetitiondoc") MultipartFile bprpetitiondocfile, 
-			@RequestParam("bprpetitionsign") MultipartFile bprpetitionsignFile,  @RequestParam("bprpetitonphoto") MultipartFile bprpetitonphotofile, HttpServletRequest httpServletRequest) {
-		
-		
-		try {
-			//byte[] bytes = IOUtils.toByteArray(prdocfile.getInputStream());
-			byte[] bytes = IOUtils.toByteArray(prdocfile.getInputStream());
-			byte[] signaturebytes = IOUtils.toByteArray(signaturefile.getInputStream());
-			byte[] docbytes = IOUtils.toByteArray(photofile.getInputStream());
-
-			petitioner.setPrPhoto(bytes);
-			petitioner.setPrSign(signaturebytes);
-			petitioner.setPrProofDoc(docbytes);
-			
-			byte[] brpbytes = IOUtils.toByteArray(bprpetitiondocfile.getInputStream());
-			byte[] brsignaturebytes = IOUtils.toByteArray(bprpetitionsignFile.getInputStream());
-			byte[] brdocbytes = IOUtils.toByteArray(bprpetitonphotofile.getInputStream());
-			
-			petitioner.setBprprPhoto(brpbytes);
-			petitioner.setBprprSign(brsignaturebytes);
-			petitioner.setBprprProofDoc(brdocbytes);
-			
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
-		String compid = login.getCompid();
-		//String savePetiton = petitiondao.savePetiton(petitioner, compid);
-		String savePetiton="2";
-		if(!savePetiton.equals("")) {
-			model.addAttribute("savePetiton",savePetiton);
-			return "savepetition";
-		}
-		model.addAttribute("register",petitioner);
-		return "REGISTERPETITION";
-		
-	}
-
-	// petition view status page request mapper
-	@RequestMapping(value = "/viewpetitionDetails.htm")
-	public String viewPetitionstatus(HttpServletRequest httpServletRequest, Model mode) {
+	@RequestMapping(value = "/petitiondetails.htm")
+	public String petitionDetails(HttpServletRequest httpServletRequest, Model model, @RequestParam String type, @RequestParam String pid, @RequestParam String category ) {
 		
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
-		List<Petitioner> petitions = petitiondao.getPetitions(login.getCompid());
-		mode.addAttribute("petitions", petitions);
-		return "viewPetionDetails";
-	}
-	@RequestMapping(value = "/filepetion.htm/{id}")
-	public String filepetion(HttpServletRequest httpServletRequest, Model mode, @PathVariable String id) {
+		String petitionId=petitiondao.createPetitionId(pid, type);
+		model.addAttribute("type", type);
 		
-		mode.addAttribute("pid", id); //id is petitioner id 
-		return "filepetition";
+		
+		model.addAttribute("category", category);
+		model.addAttribute("pid", pid);
+		
+		Petition petition= new Petition();
+		petition.setPetitionCat(category);
+		petition.setPetitionType(type);
+		petition.setPetitionerId(pid);
+		petition.setPetitionId(petitionId);
+		
+		int insertPetition = petitiondao.insertPetition(petition, login);
+		if(insertPetition==1) {
+			HttpSession httpSession=httpServletRequest.getSession();
+			httpSession.setAttribute("petitionID", petitionId);
+			if(category.equals("L")) {  //L for land
+				model.addAttribute("petitionland", new Petitition_Land());
+				return "land_petition";
+			}
+			if(category.equals("A")) { //A for Atrocity
+				model.addAttribute("atrocity", new Atrocity());
+				return "atrocity_petition"; //
+			}
+			if(category.equals("S")) { //S for Service
+				model.addAttribute("service", new Service());
+				return "service_petition";
+			}
+			if(category.equals("G")) { //S for Service
+				model.addAttribute("general", new General());
+				return "general_petition";
+			}
+		}
+			model.addAttribute("error", "Error : Petition is already filed for this type of Petition, try filing another petition");
+			model.addAttribute("pid", pid); //pid is petitioner id 
+			if(type.equals("L")) {
+				model.addAttribute("typeVal", "L");
+				model.addAttribute("typeOpt", "Land");
+			}
+			if(category.equals("A")) {
+				model.addAttribute("typeVal", "A");
+				model.addAttribute("typeOpt", "Atrocity");
+			}
+			if(category.equals("S")) {
+				model.addAttribute("typeVal", "S");
+				model.addAttribute("typeOpt", "Service");
+			}
+			if(category.equals("G")) {
+				model.addAttribute("typeVal", "G");
+				model.addAttribute("typeOpt", "General");
+			}
+			return "filepetition";
 	}
 	
+	@RequestMapping(value = "finalsubmit.htm" , method = RequestMethod.POST)
+	public String finalSubmit(HttpServletRequest httpServletRequest, @RequestParam String petitionerId, @RequestParam String category, @RequestParam String type, Model model) {
+		String pid = (String) httpServletRequest.getSession().getAttribute("petitionID");
+		int submit=petitiondao.submitPetition(petitionerId,pid);
+		model.addAttribute("pid", pid);
+		model.addAttribute("type", type);
+		model.addAttribute("category", category);
+		if(submit==0) {
+			model.addAttribute("error", "Error: Occured while Submitting Petition. try again");
+			//Petition petition=petitiondao.getPetition(petitionerId, pid);
+			//model.addAttribute("petition", petition);
+			return "viewpetitionstatus";
+		}
+		else {
+			model.addAttribute("pid", pid.substring(0,2)+"/"+pid.substring(2,6)+"/"+pid.substring(6,10));
+			return "submittedpetition";
+		}
+	}
+	
+
+	/*
+	 * @RequestMapping(value = "submitpetition.htm" , method = RequestMethod.POST)
+	 * public String submitPetition(HttpServletRequest
+	 * httpServletRequest, @RequestParam String pid, @RequestParam String type,
+	 * Model model ) { String petid = (String)
+	 * httpServletRequest.getSession().getAttribute("petitionID"); Petition
+	 * petition=landdao.getPetition(pid, petid);
+	 * 
+	 * model.addAttribute("type", type); model.addAttribute("pid", petid);
+	 * model.addAttribute("petid",
+	 * petid.substring(0,2)+"/"+petid.substring(2,6)+"/"+petid.substring(6,10));
+	 * model.addAttribute("petition", petition); return "viewpetitionstatus"; }
+	 */
 	
 }

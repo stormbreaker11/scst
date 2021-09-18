@@ -11,24 +11,24 @@
 <meta content="" name="description">
 
 <!-- Favicons -->
-<link href="static/images/deptlogo.png" rel="icon">
+<link href="${pageContext.request.contextPath}/static/images/deptlogo.png" rel="icon">
 
 <script type="text/javascript" src="static/vendor/js/jquery.min.js"></script>
-<link href="static/vendor/bootstrap/css/bootstrap.min.css"
+<link href="${pageContext.request.contextPath}/static/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
-<link href="static/vendor/font-awesome/css/font-awesome.min.css"
+<link href="${pageContext.request.contextPath}/static/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-<link href="static/vendor/css/font-awesome.min.css" rel="stylesheet">
-<link href="static/vendor/css/animate.css" rel="stylesheet">
-<link href="static/vendor/css/style.css" rel="stylesheet">
-<link href="static/lib/font-awesome/css/font-awesome.min.css"
+<link href="${pageContext.request.contextPath}/static/vendor/css/font-awesome.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/vendor/css/animate.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/vendor/css/style.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/lib/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
-<link href="static/lib/animate/animate.min.css" rel="stylesheet">
-<link href="static/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-<link href="static/lib/owlcarousel/assets/owl.carousel.min.css"
+<link href="${pageContext.request.contextPath}/static/lib/animate/animate.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/lib/owlcarousel/assets/owl.carousel.min.css"
 	rel="stylesheet">
-<link href="static/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-<link href="static/css/style.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/css/style.css" rel="stylesheet">
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <style>
@@ -518,9 +518,9 @@ label {
 		</c:choose>
 		<td>${alt.petionerName }</td>
 		<td>${alt.age }</td>
-		
+			
 		<td  align="center"  >${alt.entry }</td>
-			<td align="center" ><a href="${pageContext.request.contextPath}/filepetion.htm/${alt.petionerId }" target="content"> <button class="btn btn-success btn-sm"  >Proceed to file Petition</button></a></td>
+			<td align="center" ><a href="${pageContext.request.contextPath}/filepetion.htm/${alt.petionerId }/${type}" target="content"> <button class="btn btn-success btn-sm"  >Proceed to file Petition</button></a></td>
 		</tr>
 		</c:forEach>
 		</tbody>

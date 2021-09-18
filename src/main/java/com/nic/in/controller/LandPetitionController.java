@@ -1,10 +1,12 @@
 package com.nic.in.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.nic.in.dao.LandDao;
 import com.nic.in.dao.PetitionDao;
+import com.nic.in.dao.PetitionerDao;
 import com.nic.in.model.Land;
 import com.nic.in.model.Login;
+import com.nic.in.model.Petition;
+import com.nic.in.model.Petitioner;
 import com.nic.in.model.Petitition_Land;
 
 @Controller
@@ -31,42 +38,49 @@ public class LandPetitionController {
 	@Autowired
 	LandDao landdao;
 	
-	@RequestMapping(value = "petitiondetails.htm")
-	public String petitionDetails(HttpServletRequest httpServletRequest, Model model, @RequestParam String type, @RequestParam String pid) {
-		model.addAttribute("ptype", type); 
-		String petitionId=petitiondao.createPetitionId(type);
-		HttpSession httpSession=httpServletRequest.getSession();
-		httpSession.setAttribute("petitionID", petitionId);
-		model.addAttribute("petitionland", new Petitition_Land());
-		model.addAttribute("pid", pid);
-		return "land_petition";
-	}
+	@Autowired
+	PetitionerDao prDao;
+	
 	@RequestMapping(value = "savepetitiondetails.htm")
-	public String savePetitionDetails(HttpServletRequest httpServletRequest, Model model,@ModelAttribute("petitionland") Petitition_Land land) {
+	public String savePetitionDetails(HttpServletRequest httpServletRequest, Model model,@ModelAttribute("petitionland") Petitition_Land land, @RequestParam String type, @RequestParam String category) {
 		
 		
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		String petitionId = (String) httpServletRequest.getSession().getAttribute("petitionID");
+		model.addAttribute("type", type);
+		
 		int saveLandPetition = landdao.saveLandPetition(land, login, petitionId);
 		if(saveLandPetition==1) {
-			model.addAttribute("pid", petitionId);
+			/*
+			 * model.addAttribute("pid",
+			 * petitionId.substring(0,2)+"/"+petitionId.substring(2,6)+"/"+petitionId.
+			 * substring(6,10));
+			 */
+		
+			model.addAttribute("landdetails", new Land());
 			model.addAttribute("petitionerId", land.getPetitionerId());
-			return "saveDetails";
+			model.addAttribute("type", type);
+			List<Land> lands=landdao.getLanddetailssByPetition(petitionId);
+			model.addAttribute("lands", lands);
+			model.addAttribute("petId", petitionId);
+			return "land_details";
 		}
-		model.addAttribute("error", "Error: Saving Petition Details Failed");
-		model.addAttribute("petitionland", new Petitition_Land());
-		return "land_petition";
+		model.addAttribute("error", "Error : Filing Petition failed, try again");
+		return "filepetition";
+		
 	}
 
-	@RequestMapping(value = "petitionlanddetails.htm/{pid}") //pid petitioner id
-	public String landDetails(HttpServletRequest httpServletRequest, Model model, @PathVariable("pid") String petitionerId ) {
+	@RequestMapping(value = "petitionlanddetails.htm/{pid}/{type}") //pid petitioner id
+	public String landDetails(HttpServletRequest httpServletRequest, Model model, @PathVariable("pid") String petitionerId, @PathVariable("type") String type ) {
 		model.addAttribute("landdetails", new Land());
 		model.addAttribute("petitionerId", petitionerId);
+		model.addAttribute("type", type);
 		
 		HttpSession httpSession = httpServletRequest.getSession();
 		String petId = (String) httpSession.getAttribute("petitionID");
 		List<Land> lands=landdao.getLanddetailssByPetition(petId);
 		model.addAttribute("lands", lands);
+		model.addAttribute("petId", petId);
 		return "land_details";
 	}
 	
@@ -100,5 +114,85 @@ public class LandPetitionController {
 		return delete;
 	}
 	
+	@RequestMapping(value = "submitpetition.htm" , method = RequestMethod.POST)
+	public String submitPetition(HttpServletRequest httpServletRequest, @RequestParam String pid, @RequestParam String type, 
+			@RequestParam String category, Model model ) {
+		String petid = (String) httpServletRequest.getSession().getAttribute("petitionID");
+		Petition petition=landdao.getPetition(pid, petid);
+		List<Petition> petitionEvidence=petitiondao.getEvedince(pid, petid);
+		model.addAttribute("category", category);
+		model.addAttribute("type", type);
+		model.addAttribute("pid", petid);
+		model.addAttribute("petitionEvidence", petitionEvidence);
+		model.addAttribute("petid", petid.substring(0,2)+"/"+petid.substring(2,6)+"/"+petid.substring(6,10));
+		model.addAttribute("petition", petition);
+		return "viewpetitionstatus";
+	}
 	
-}
+	@ResponseBody
+	@RequestMapping(value = "getLanddetails.htm" , method = RequestMethod.GET)
+	public String landDetails(HttpServletRequest httpServletRequest, @RequestParam String landcode, @RequestParam String petitionerId ) {
+		
+		Land land=landdao.landdetails(landcode, petitionerId);
+		Gson gson=new Gson();
+		return gson.toJson(land);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "updatelanddetails.htm/{landcode}" , method = RequestMethod.POST)
+	public String updateLanddetails(HttpServletRequest httpServletRequest, @ModelAttribute("editland") Land land ,@PathVariable String landcode) {
+		String response="N";
+		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		land.setLandId(Integer.parseInt(landcode));
+	
+		int update=landdao.updateLand(land, login);
+		if(update==1) {
+			response="Y";
+		}
+		return response;
+
+		
+		
+	}
+	@ResponseBody
+	@RequestMapping(value = "getLandDetailsAjax.htm" , method = RequestMethod.GET)
+	public String updateLanddetails(HttpServletRequest httpServletRequest, @RequestParam String petid) {
+		List<Land> lands=landdao.getLanddetailssByPetition(petid);
+		Gson gson=new Gson();
+		return gson.toJson(lands);
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "updateLandAppeal.htm" , method = RequestMethod.POST)
+	public String updateLanddetails(@ModelAttribute("petition") Petitition_Land land,  HttpServletRequest httpServletRequest, @RequestParam("filecourt") MultipartFile courtOrder) throws IOException {
+		
+		
+		byte[] brdocbytes = IOUtils.toByteArray(courtOrder.getInputStream());
+		String update="N";
+		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		land.setCourtOrder(brdocbytes);
+		int saveOrUpd=landdao.updateLandAppeal(land, login);
+		if(saveOrUpd==1) {
+			update="Y";
+		}
+		return update;
+		
+		
+	}
+	
+
+	@RequestMapping(value = "/viewpetitionDetails.htm")
+	public String viewPetitionstatus(HttpServletRequest httpServletRequest, Model mode) {
+		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		List<Petitioner> petitions = prDao.getPetitions(login.getCompid());
+		mode.addAttribute("petitions", petitions);
+		mode.addAttribute("type", "L");
+		return "viewPetionDetails";
+	}
+
+	
+	
+	}
+	

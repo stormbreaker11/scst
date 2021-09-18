@@ -14,8 +14,16 @@ public class Respondent {
 	private String email;
 	private String district;
 	private String petitionerId;
+	private String petition;
 	
 	
+	
+	public String getPetition() {
+		return petition;
+	}
+	public void setPetition(String petition) {
+		this.petition = petition;
+	}
 	public String getRespProffesion() {
 		return respProffesion;
 	}
