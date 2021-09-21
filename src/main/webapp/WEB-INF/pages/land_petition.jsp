@@ -1,4 +1,4 @@
-
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -225,7 +225,7 @@ margin-right: 10px;
 	<c:if test="${type=='I'}">
 	Type of Petition: Individual
 	</c:if>
-	<c:if test="${type}=='G'">
+	<c:if test="${type=='G'}">
 	Type of Petition : Group
 	</c:if>
 	</td>
@@ -325,16 +325,9 @@ margin-right: 10px;
 															id="courtState" path="courtState">
 															<form:option value="0">--Select--
 															</form:option>
-															<form:option value="1">Telangana
-															</form:option>
-															<form:option value="1" >Andhra Pradesh
-															</form:option>
-															<form:option value="1">Karnataka
-															</form:option>
-															<form:option value="1">State-4
-															</form:option>
-															<form:option value="1">State-5
-															</form:option>
+															<c:forEach items="${states}" var="alt">
+															<form:option value="${alt.scode}">${alt.sname}</form:option>
+															</c:forEach>
 
 														</form:select>
 													</div>
@@ -808,6 +801,49 @@ margin-right: 10px;
 			document.petition.submit();
 
 			}
+
+		//fetching districts onchange state select option 
+		$(document)
+		.ready(
+				function() {
+
+					$('#courtState')
+							.on(
+									'change',
+									function() {
+								
+										var stateid = $('#courtState').val();
+
+								
+										//var dist = $('#dist').val();
+										$
+												.ajax({
+													type : 'GET',
+													url : '/scst/loaddistricts/'
+															+ stateid,
+													success : function(
+															result) {
+
+														
+														$('#courtDist').html('');
+														$("#courtDist").append(new Option("--Select--", "0"));
+														var result = JSON
+																.parse(result);
+														var s = '';
+														for (var i = 0; i < result.length; i++) {
+															s += '<option value="'+result[i].distCode+'">'
+																	+ result[i].distName
+																	+ '</option>';
+														}
+														$('#courtDist')
+																.append(s);
+													}
+												});
+									});
+
+				});
+
+		
 	</script>
 	
 

@@ -9,15 +9,18 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.nic.in.model.Login;
+import com.nic.in.model.NodalOfficer;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Petitioner;
 import com.nic.in.util.Date_Id_generator;
@@ -30,6 +33,10 @@ public class PetitonDaoImpl implements PetitionDao {
 
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	@Autowired
+	public PlatformTransactionManager transactionManager;
+
 
 	//petitioner registration
 	@Override
@@ -73,8 +80,8 @@ public class PetitonDaoImpl implements PetitionDao {
 			map.addValue("district", Integer.parseInt(petitioner.getDistrict()));
 			map.addValue("mandal", petitioner.getMandal());
 			map.addValue("village", petitioner.getVillage());
-			map.addValue("pr_id_type", "2");
-			map.addValue("pr_id_no", "1");
+			map.addValue("pr_id_type", petitioner.getPrProofType());
+			map.addValue("pr_id_no", petitioner.getBprProofNo());
 			map.addValue("pr_photo", petitioner.getPrPhoto());
 			map.addValue("pr_signature", petitioner.getPrSign());
 		
@@ -191,9 +198,12 @@ public class PetitonDaoImpl implements PetitionDao {
 	
 	
 	@Override
-	public int insertPetition(Petition petition, Login login) {
-		int status = 0;
+	public int insertPetition(Petition petition, NodalOfficer no, Login login) {
+		int flag = 0;
+		int nodal = 0;
 
+		TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(transactionDefinition);
 		try {
 			String sql = "select count(*) from petition_master where petition_type=? and petition_category=? and petitioner_id=?";
 			int count = jdbcTemplate.queryForObject(sql,
@@ -218,16 +228,49 @@ public class PetitonDaoImpl implements PetitionDao {
 				map.addValue("submit_date", new Date());
 
 				int update = namedParameterJdbcTemplate.update(queryInsert, map);
+				
+				//inserting  nodal officer details
+				if(petition.getPetitionType().equals("G")) {
+					
+					String nodalQuery="INSERT INTO joint_nodal("
+					           +" petition_id, petitioner_id, userid, group_name, nodal_name, nodal_desig, "
+					           +" nodal_mobile, nodal_email,nodal_sign,entry_date) "
+					           +"  VALUES (:petition_id, :petitioner_id, :userid, :group_name, :nodal_name, :nodal_desig, "
+					           + " :nodal_mobile, :nodal_email,:nodal_sign, now())";
+					            
+						 map = new MapSqlParameterSource();
 
+						map.addValue("petition_id", petition.getPetitionId());
+						map.addValue("petitioner_id", petition.getPetitionerId());
+						map.addValue("userid", login.getCompid());
+						map.addValue("group_name", no.getGroupName());
+						map.addValue("nodal_name", no.getNodalName());
+						map.addValue("nodal_desig", no.getNodalDesign());
+						map.addValue("nodal_mobile", no.getNodalMobile());
+						map.addValue("nodal_email", no.getNodalEmail());
+						map.addValue("nodal_sign", no.getNodalSign());
+				        nodal = namedParameterJdbcTemplate.update(nodalQuery, map);
+				        
+				    	if (update == 1 & nodal==1) {
+				    		transactionManager.commit(status);
+				    		flag = 1;
+						}
+				    	else {
+				    		flag =0;
+				    		transactionManager.commit(status);
+				    	}
+				}
+			 		
 				if (update == 1) {
-					status = 1;
+					flag = 1;
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			status = 0;
+			flag = 0;
 		}
-		return status;
+		
+		return flag;
 	}
 
 	//fetching petitions details by userid 

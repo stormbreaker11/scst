@@ -1,4 +1,4 @@
-
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -549,13 +549,18 @@ px
 							<div class="col-md-6">
 								<form:select class="form-control SelectStyle" id="Identitype"
 									path="prProofType">
+									<%-- 
 									<form:option value="0">--Select--</form:option>
 									<form:option value="1">Aadhaar ID</form:option>
 									<form:option value="2">Voter ID</form:option>
 									<form:option value="3">Driving Licence</form:option>
 									<form:option value="4">Passport</form:option>
 									<form:option value="5">Ration card</form:option>
-									<form:option value="6">Other Identity</form:option>
+									<form:option value="6">Other Identity</form:option> --%>
+									<form:option value="0">--Select1--</form:option>
+									<c:forEach items="${identities}" var="alt" >
+									<form:option value="${alt.idcode}">${alt.idname}</form:option>
+									</c:forEach>
 								</form:select>
 							</div>
 						</div>
@@ -714,12 +719,9 @@ px
 					<form:select class="form-control SelectStyle" id="Identitypeno"
 						path="bprProofId">
 						<form:option value="0">--Select--</form:option>
-						<form:option value="1">Aadhaar ID</form:option>
-						<form:option value="2">Voter ID</form:option>
-						<form:option value="3">Driving Licence</form:option>
-						<form:option value="4">Passort</form:option>
-						<form:option value="5">Ration card</form:option>
-						<form:option value="6">Others Identity</form:option>
+									<c:forEach items="${identities}" var="alt" >
+									<form:option value="${alt.idcode}">${alt.idname}</form:option>
+									</c:forEach>
 					</form:select>
 				</div>
 			</div>
@@ -1012,12 +1014,9 @@ px
 					<form:select class="form-control SelectStyle" id="brIdentitype"
 						path="bprprProofType">
 						<form:option value="0">--Select--</form:option>
-						<form:option value="1">Aadhaar ID</form:option>
-						<form:option value="2">Voter ID</form:option>
-						<form:option value="3">Driving Licence</form:option>
-						<form:option value="4">Passport</form:option>
-						<form:option value="5">Ration card</form:option>
-						<form:option value="6">Other Identity</form:option>
+									<c:forEach items="${identities}" var="alt" >
+									<form:option value="${alt.idcode}">${alt.idname}</form:option>
+									</c:forEach>
 					</form:select>
 				</div>
 			</div>

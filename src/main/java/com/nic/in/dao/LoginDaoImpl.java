@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.nic.in.model.Login;
-import com.nic.in.util.Date_Id_generator;
 
 @Repository
 public class LoginDaoImpl implements LoginDao

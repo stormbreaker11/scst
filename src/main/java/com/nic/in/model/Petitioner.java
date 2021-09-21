@@ -13,8 +13,8 @@ public class Petitioner {
 	private String relationName;
 	private String address;
 	private String village;
-	private String mandal;
 	private String pincode;
+	private String mandal;
 	private String district;
 	private String prMobile;
 	private String prMail;

@@ -8,6 +8,7 @@ public class Atrocity
 	private String petitioner_id;
 	private String userid;
 	   
+	private String atrocity_name;  
 	private String atrocity_type;  
 	private String offence_date;    
 	private String offence_place;  
@@ -152,6 +153,14 @@ public class Atrocity
 	}
 	public void setAction_userid(String action_userid) {
 		this.action_userid = action_userid;
+	}
+
+	public String getAtrocity_name() {
+		return atrocity_name;
+	}
+
+	public void setAtrocity_name(String atrocity_name) {
+		this.atrocity_name = atrocity_name;
 	}
 	
 	

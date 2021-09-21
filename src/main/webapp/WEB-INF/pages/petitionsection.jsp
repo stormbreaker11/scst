@@ -1,3 +1,4 @@
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -46,6 +47,15 @@ response.setDateHeader("Expires", 0);
 		history.go(1);
 
 	}
+
+	$(document).ready(function(){
+
+
+		window.addEventListener("contextmenu", e => e.preventDefault());
+		
+	}); 
+
+		
 </script>
 
 <script>
@@ -81,7 +91,8 @@ html, body {
 }
 </style>
 </head>
-<frameset rows="120,*" frameborder="0" border="0">
+
+<frameset rows="120,*" frameborder="0" border="0"   >
 	<frame name="topNav" src="headers.htm" scrolling="no">
 	<frameset rows="8%,*" noresize border="0" frameborder="no"
 		framespacing="0">

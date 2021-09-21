@@ -65,7 +65,22 @@ public class GeneralController {
 	        }
 	        model.addAttribute("error", "Error: Saving Petition Details Failed");
 			model.addAttribute("general", new General());
-	        
+			if(category.equals("L")) {
+				model.addAttribute("typeVal", "L");
+				model.addAttribute("typeOpt", "Land");
+			}
+			if(category.equals("A")) {
+				model.addAttribute("typeVal", "A");
+				model.addAttribute("typeOpt", "Atrocity");
+			}
+			if(category.equals("S")) {
+				model.addAttribute("typeVal", "S");
+				model.addAttribute("typeOpt", "Service");
+			}
+			if(category.equals("G")) {
+				model.addAttribute("typeVal", "G");
+				model.addAttribute("typeOpt", "General");
+			}
 	        return "filepetition";   
 	 } 
 

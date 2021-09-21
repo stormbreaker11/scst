@@ -1,14 +1,11 @@
 package com.nic.in.dao;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.nic.in.model.Login;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Service;
-import com.nic.in.util.PetitionIdGenerator;
 
 @Repository
 public class ServiceDaoImpl implements ServiceDao
@@ -63,20 +59,7 @@ public class ServiceDaoImpl implements ServiceDao
 
 	}
 	
-	@Override
-	public String createServicePetitionId(String type) {
-		String sql = "select max(right(petition_id, 8)) as pid from petition_service";
-		String idGenerate = "";
-		try {
-			String queryForObject = jdbcTemplate.queryForObject(sql, String.class);
-		 idGenerate = PetitionIdGenerator.idGenerate(queryForObject, type);
-		} catch (Exception e) {
-			e.printStackTrace();
-			idGenerate = "";
-		}
-		return idGenerate;
-	}
-
+	
 	@Override
 	public Petition getPetition(String petitionerId, String petid) {
 		

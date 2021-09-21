@@ -1,8 +1,41 @@
-
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 
  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	
+}); 
+
+
+
+document.onkeydown = function() {
+	switch (event.keyCode) {
+	case 116: //F5 button
+		event.returnValue = false;
+		event.keyCode = 0;
+		return false;
+	case 82: //R button
+		if (event.ctrlKey) {
+			event.returnValue = false;
+			event.keyCode = 0;
+			return false;
+		}
+	}
+}
+
+function my_onkeydown_handler(event) {
+	switch (event.keyCode) {
+	case 116: // 'F5'
+		event.preventDefault();
+		event.keyCode = 0;
+		window.status = "F5 disabled";
+		break;
+	}
+}
+document.addEventListener("keydown", my_onkeydown_handler);
+</script>
 <style>
 
 

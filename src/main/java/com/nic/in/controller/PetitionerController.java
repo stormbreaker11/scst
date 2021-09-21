@@ -3,6 +3,7 @@ package com.nic.in.controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nic.in.commons.ScstCommons;
 import com.nic.in.dao.PetitionDao;
 import com.nic.in.dao.PetitionerDao;
+import com.nic.in.model.Identity;
 import com.nic.in.model.Login;
+import com.nic.in.model.NodalOfficer;
 import com.nic.in.model.Petitioner;
 
 @Controller
@@ -31,11 +35,17 @@ public class PetitionerController {
 	
 	@Autowired
 	private PetitionerDao petitionerdao;
+	
+	
+	@Autowired
+	private ScstCommons scstcommons; 
 
 	// petition registration page request mapper
 	@RequestMapping(value = "/registrtation.htm")
 	public String registrtation(Model model) {
 		Petitioner petitioner = new Petitioner();
+		List<Identity> identities = scstcommons.getIdentities();
+		model.addAttribute("identities", identities);
 		model.addAttribute("register", petitioner);
 		return "REGISTERPETITION";
 	}
@@ -109,6 +119,7 @@ public class PetitionerController {
 			model.addAttribute("typeVal", "G");
 			model.addAttribute("typeOpt", "General");
 		}
+		model.addAttribute("nodal", new NodalOfficer());
 		return "filepetition";
 	}
 

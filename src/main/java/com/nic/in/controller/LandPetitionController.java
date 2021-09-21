@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.nic.in.commons.ScstCommons;
 import com.nic.in.dao.LandDao;
 import com.nic.in.dao.PetitionDao;
 import com.nic.in.dao.PetitionerDao;
+import com.nic.in.model.District;
 import com.nic.in.model.Land;
 import com.nic.in.model.Login;
 import com.nic.in.model.Petition;
@@ -41,6 +43,9 @@ public class LandPetitionController {
 	@Autowired
 	PetitionerDao prDao;
 	
+	@Autowired
+	private ScstCommons commons;
+	
 	@RequestMapping(value = "savepetitiondetails.htm")
 	public String savePetitionDetails(HttpServletRequest httpServletRequest, Model model,@ModelAttribute("petitionland") Petitition_Land land, @RequestParam String type, @RequestParam String category) {
 		
@@ -48,7 +53,8 @@ public class LandPetitionController {
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		String petitionId = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		model.addAttribute("type", type);
-		
+		List<District> district = commons.getDistrict("36");
+		model.addAttribute("district", district);
 		int saveLandPetition = landdao.saveLandPetition(land, login, petitionId);
 		if(saveLandPetition==1) {
 			/*
@@ -66,6 +72,22 @@ public class LandPetitionController {
 			return "land_details";
 		}
 		model.addAttribute("error", "Error : Filing Petition failed, try again");
+		if(type.equals("L")) {
+			model.addAttribute("typeVal", "L");
+			model.addAttribute("typeOpt", "Land");
+		}
+		if(category.equals("A")) {
+			model.addAttribute("typeVal", "A");
+			model.addAttribute("typeOpt", "Atrocity");
+		}
+		if(category.equals("S")) {
+			model.addAttribute("typeVal", "S");
+			model.addAttribute("typeOpt", "Service");
+		}
+		if(category.equals("G")) {
+			model.addAttribute("typeVal", "G");
+			model.addAttribute("typeOpt", "General");
+		}
 		return "filepetition";
 		
 	}
@@ -79,6 +101,8 @@ public class LandPetitionController {
 		HttpSession httpSession = httpServletRequest.getSession();
 		String petId = (String) httpSession.getAttribute("petitionID");
 		List<Land> lands=landdao.getLanddetailssByPetition(petId);
+		List<District> district = commons.getDistrict("36");
+		model.addAttribute("district", district);
 		model.addAttribute("lands", lands);
 		model.addAttribute("petId", petId);
 		return "land_details";

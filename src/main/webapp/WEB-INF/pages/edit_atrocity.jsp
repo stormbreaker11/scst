@@ -1,4 +1,4 @@
-
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -279,19 +279,10 @@ margin-right: 10px;
 														id="Typeofatrocity" value="${updateatrocity.atrocity_type}" >
 														<form:option value="0">--Select--
 														</form:option>
-														<form:option value="1">Caste
-															based
+														<c:forEach items="${atrocities}" var="alt">
+														<form:option value="${alt.atrocity_type }">${alt.atrocity_name}
 														</form:option>
-														<form:option value="2">Insult
-															in
-															public
-														</form:option>
-														<form:option value="3">Murder
-														</form:option>
-														<form:option value="4">Rape
-														</form:option>
-														<form:option value="5">Others
-														</form:option>
+														</c:forEach>
 													</form:select>
 												</div>
 											</div>
@@ -332,46 +323,12 @@ margin-right: 10px;
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="off_district"
 															id="off_district">
-															<form:option value="6">--Select--
+															<form:option value="0">--Select--
 															</form:option>
-															<form:option value="7">Hyderabad
-															</form:option>
-															<form:option value="8">Rangareddy
-															</form:option>
-															<form:option value="9">Nizamabad
-															</form:option>
-															<form:option value="10">Mahabubnagar
-															</form:option>
-															<form:option value="11">Medak
-															</form:option>
-															<form:option value="12">Nalgonda
-															</form:option>
-															<form:option value="13">Warangal
-															</form:option>
-															<form:option value="14">Karimnagar
-															</form:option>
-															<form:option value="15">Adilabad
-															</form:option>
-															<form:option value="16">Khammam
-															</form:option>
-															<form:option value="17">Khammam
-															</form:option>
-															<form:option value="18">Medchal
-															</form:option>
-															<form:option value="19">Vikarabad
-															</form:option>
-															<form:option value="20">Sangareddy
-															</form:option>
-															<form:option value="21">Siddipet
-															</form:option>
-															<form:option value="22">Hanmakonda
-															</form:option>
-															<form:option value="23">Nagakarnool
-															</form:option>
-															<form:option value="24">Yadadri
-															</form:option>
-															<form:option value="25">Komaram-bheem
-															</form:option>
+															<c:forEach items="${district}" var="alt">
+														<form:option value="${alt.distCode }">${alt.distName}
+														</form:option>
+														</c:forEach>
 														</form:select>
 													</div>
 												</div>
@@ -456,44 +413,12 @@ margin-right: 10px;
 														class="col-md-6">
 														<form:select class="form-control SelectStyle" path="ps_district"
 															id="ps_district">
-															<form:option value="33">--Select--
+															<form:option value="0">--Select--
 															</form:option>
-															<form:option value="34">Hyderabad
-															</form:option>
-															<form:option value="35">Rangareddy
-															</form:option>
-															<form:option value="36">Nizamabad
-															</form:option>
-															<form:option value="37">Mahabubnagar
-															</form:option>
-															<form:option value="38">Medak
-															</form:option>
-															<form:option value="39">Nalgonda
-															</form:option>
-															<form:option value="40">Warangal
-															</form:option>
-															<form:option value="41">Karimnagar
-															</form:option>
-															<form:option value="42">Adilabad
-															</form:option>
-															<form:option value="43">Khammam
-															</form:option>
-															<form:option value="44">Medchal
-															</form:option>
-															<form:option value="45">Vikarabad
-															</form:option>
-															<form:option value="46">Sangareddy
-															</form:option>
-															<form:option value="47">Siddipet
-															</form:option>
-															<form:option value="48">Hanmakonda
-															</form:option>
-															<form:option value="49">Nagakarnool
-															</form:option>
-															<form:option value="50">Yadadri
-															</form:option>
-															<form:option value="51">Komaram-bheem
-															</form:option>
+															<c:forEach items="${district}" var="alt">
+														<form:option value="${alt.distCode }">${alt.distName}
+														</form:option>
+														</c:forEach>
 														
 															
 														</form:select>
@@ -705,14 +630,10 @@ margin-right: 10px;
 															id="district">
 															<form:option value="0">--Select--
 															</form:option>
-															<form:option value="1" >Hyderabad
-															</form:option>
-															<form:option value="2" >Rangareddy
-															</form:option>
-															<form:option value="3">Nizamabad
-															</form:option>
-															<form:option value="4" >Mahabubnagar
-															</form:option>
+															<c:forEach items="${district}" var="alt">
+														<form:option value="${alt.distCode }">${alt.distName}
+														</form:option>
+														</c:forEach>
 														</form:select>
 													</div>
 												</div>
@@ -808,10 +729,11 @@ margin-right: 10px;
 														<c:if test="${alt.respType =='P'}"><td>Private/Individual</td> </c:if>
 														<c:if test="${alt.respType =='O'}"><td>Official</td></c:if>
 														<td>${alt.respName }</td>
-													 <c:if test="${alt.caste == '1 '}"><td  style="text-align: center;" >OC</td> </c:if>
+												<%-- 	 <c:if test="${alt.caste == '1 '}"><td  style="text-align: center;" >OC</td> </c:if>
 														<c:if test="${alt.caste == '2 ' }"><td  style="text-align: center;" >BC</td></c:if>
-														<%-- <c:if test="${(alt.caste=='1 ')  || (guess > 20)}"><td  style="text-align: center;" >BC</td></c:if> --%>
-														
+														<c:if test="${(alt.caste=='1 ')  || (guess > 20)}"><td  style="text-align: center;" >BC</td></c:if>
+														 --%>
+														 <td>${alt.caste }</td>
 														<td >${alt.respProffesion }</td>
 														<td>${alt.district }</td>
 														<td style="text-align: center;" >${alt.mobile }</td>
@@ -937,7 +859,7 @@ margin-right: 10px;
 												</div>
 											</a>  
 
-											</div></form:form>
+											</div>
 											<br>
 	<div  id="docdiv">											
 <div align="center" style="background: #2d3990; color: white; height: 30px; ">
@@ -967,8 +889,15 @@ margin-right: 10px;
 											
 											
 										</table>
-										
-											</div>
+										<br>
+										<div align="center" > <input type="button" class="btn btn-primary" value="Continue" onclick="proceed()"></div>
+											
+											<input type="hidden" value="${petId}"  >
+												<input type="hidden" value="${pid}"  name="pid"  >
+												<input type="hidden" value="${type}"  name="type">
+												<input type="hidden" value="${category}"  name="category">
+											
+											</div></form:form>
 											
 </div>
                         </div>
@@ -1364,10 +1293,9 @@ $(document).on('click','#update', function() {
 		<script>
 
 function proceed(){
-	var category=$("#category").val();
 	
 	document.upload.method="POST";
-	document.upload.action="/scst/petition/"+category.toLowerCase()+"/submitpetition.htm";
+	document.upload.action="/scst/petition/atrocity/submitpetition.htm";
 	document.upload.submit();
 }
 

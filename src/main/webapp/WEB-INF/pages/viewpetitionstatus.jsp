@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
-
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 <head>

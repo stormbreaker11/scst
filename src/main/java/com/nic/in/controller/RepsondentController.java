@@ -1,6 +1,7 @@
 package com.nic.in.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.nic.in.commons.ScstCommons;
 import com.nic.in.dao.RespondentDao;
+import com.nic.in.model.District;
 import com.nic.in.model.Login;
 import com.nic.in.model.Respondent;
 
@@ -26,7 +29,9 @@ public class RepsondentController {
 
 	@Autowired
 	private RespondentDao respondentDao;
-	 
+
+	@Autowired
+	private ScstCommons scstcommons;
 
 	@RequestMapping(value = "respondentdetails.htm/{id}/{type}/{category}")
 	public String respondentDetails(HttpServletRequest httpServletRequest, Model model, @PathVariable String id, @PathVariable String type, @PathVariable String category  ) {
@@ -36,10 +41,16 @@ public class RepsondentController {
 		HttpSession httpSession = httpServletRequest.getSession();
 		String petId = (String) httpSession.getAttribute("petitionID");
 		List<Respondent> respondents=  respondentDao.getRespondents(petId);
+		List<District> districts=scstcommons.getDistrict("36"); //36 for telanagana
+		
 		model.addAttribute("respondents", respondents);
+		
+		model.addAttribute("districts", districts);
 		model.addAttribute("type", type);
 		model.addAttribute("petId", petId);
 		model.addAttribute("typeOpt", category);
+		
+		
 		return "respondentdetails";
 	}
 	

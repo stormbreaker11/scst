@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nic.in.commons.ScstCommons;
 import com.nic.in.dao.AtrocityDao;
 import com.nic.in.dao.PetitionDao;
 import com.nic.in.dao.PetitionerDao;
 import com.nic.in.model.Atrocity;
+import com.nic.in.model.District;
 import com.nic.in.model.Login;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Petitioner;
@@ -37,6 +39,8 @@ public class AtrocityPetitionController {
 	private PetitionDao petitiondao;
 
 
+	@Autowired
+	private ScstCommons commission;
 
 	@RequestMapping(value = "/saveAtrocity", method = RequestMethod.POST)
 	public String saveAtrocityPetition(@ModelAttribute("atrocity") Atrocity atrocity, Model model,
@@ -51,6 +55,8 @@ public class AtrocityPetitionController {
 			model.addAttribute("type", type);
 			model.addAttribute("typeVal", "A");
 			model.addAttribute("typeOpt", "Atrocity");
+			List<District> district = commission.getDistrict("36");
+			model.addAttribute("district", district);
 		int saveAtrocityPetition = dao.saveAtrocityPetition(atrocity, login, petitionID);
 		if (saveAtrocityPetition == 1) {
 			model.addAttribute("pid", atrocity.getPetitioner_id());
@@ -60,8 +66,22 @@ public class AtrocityPetitionController {
 			return "respondentdetails";
 		}
 		model.addAttribute("error", "Error: Saving Petition Details Failed");
-		model.addAttribute("typeVal", "A");
-		model.addAttribute("typeOpt", "Atrocity");
+		if(category.equals("L")) {
+			model.addAttribute("typeVal", "L");
+			model.addAttribute("typeOpt", "Land");
+		}
+		if(category.equals("A")) {
+			model.addAttribute("typeVal", "A");
+			model.addAttribute("typeOpt", "Atrocity");
+		}
+		if(category.equals("S")) {
+			model.addAttribute("typeVal", "S");
+			model.addAttribute("typeOpt", "Service");
+		}
+		if(category.equals("G")) {
+			model.addAttribute("typeVal", "G");
+			model.addAttribute("typeOpt", "General");
+		}
 		
 		return "filepetition";
 	}

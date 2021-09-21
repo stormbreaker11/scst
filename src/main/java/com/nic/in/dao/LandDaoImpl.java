@@ -13,16 +13,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
-
 import com.nic.in.model.Land;
 import com.nic.in.model.Login;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Petitition_Land;
-import com.nic.in.util.Date_Id_generator;
 
 @Repository
 public class LandDaoImpl implements LandDao {
@@ -375,12 +369,13 @@ public class LandDaoImpl implements LandDao {
 		int update = 0;
 		try {
 
-			String updateQuery = "UPDATE land_appeal " + "SET appeal=:appeal, pet_detail=:pet_detail, "
+			String updateQuery = "UPDATE land_appeal SET appeal=:appeal, pet_detail=:pet_detail, "
 					+ " comp_in_court=:comp_in_court, court_name=:court_name, court_state=:court_state, "
-					+ "court_dist=:court_dist, court_mandal=:court_mandal, case_order, "
-					+ " case_no=:case_no, case_status=:case_status, action_date=now(), action_userid=:action_userid ";
+					+ "court_dist=:court_dist, court_mandal=:court_mandal, case_order=:case_order, "
+					+ " case_no=:case_no, case_status=:case_status, action_date=now(), action_userid=:action_userid where petition_id=:petition_id ";
 
 			MapSqlParameterSource map = new MapSqlParameterSource();
+			map.addValue("petition_id", land.getPetitionId());
 			map.addValue("appeal", land.getAppeal());
 			map.addValue("pet_detail", land.getPet_detail());
 			map.addValue("comp_in_court", land.getCourtComp());

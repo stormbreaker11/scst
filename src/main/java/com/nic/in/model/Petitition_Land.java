@@ -1,11 +1,5 @@
 package com.nic.in.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.collections.FactoryUtils;
-import org.apache.commons.collections.list.LazyList;
-
 public class Petitition_Land {
 
 	private String petitionType;

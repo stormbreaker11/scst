@@ -1,4 +1,4 @@
-
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -48,6 +48,8 @@ response.setDateHeader("Expires", 0);
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -63,6 +65,12 @@ response.setDateHeader("Expires", 0);
 	background-image: linear-gradient(to left, #6b59cabf, #05246b00 20%, #e91e1e00 82%,
 		#6858c8b8);
 	border-color: #2d3990;
+}
+
+.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, 
+.table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td{
+border-color: black;
+
 }
 .modal-content {
     position: absolute;
@@ -410,14 +418,9 @@ margin-right: 10px;
 															id="district">
 															<form:option value="0">--Select--
 															</form:option>
-															<form:option value="1" >Hyderabad
-															</form:option>
-															<form:option value="2" >Rangareddy
-															</form:option>
-															<form:option value="3">Nizamabad
-															</form:option>
-															<form:option value="4" >Mahabubnagar
-															</form:option>
+															<c:forEach items="${district}" var="alt">
+												<form:option value="${alt.distCode }" >${alt.distName }</form:option>
+												</c:forEach>
 														</form:select>
 													</div>
 												</div>
@@ -642,7 +645,11 @@ margin-right: 10px;
 												</div>
 											</a>  
 
-											</div></form:form>
+											</div>
+											
+											
+											
+											
 											<br>
 	<div  id="docdiv">											
 <div align="center" style="background: #2d3990; color: white; height: 30px; ">
@@ -673,6 +680,13 @@ margin-right: 10px;
 											
 										</table>
 										
+										<input type="hidden" value="${petId}"  >
+												<input type="hidden" value="${pid}"  name="pid"  >
+												<input type="hidden" value="${type}"  name="type">
+												<input type="hidden" value="${category}"  name="category">
+											</div>
+											<div align="center"><input type="button" class="btn btn-md btn-primary" value="Continue" onclick="proceed()"></div></form:form>				
+											
 											</div>
 											
 </div>
@@ -690,183 +704,7 @@ margin-right: 10px;
 
 
 <!-- Land details modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div align="center"><h3 class="modal-title" id="exampleModalLabel">Edit - Land Details</h3></div>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    <div class="modal-body">
 
-								
-							<form name="editland" id="editland">
-							
-							<input type="hidden" name="petitionId" value="${petId }">
-							<input type="hidden" name="petitionerId" value="${pid }">
-							<div class="row">
-								<div class="col-sm-7 col-md-offset-2 form-group">
-									<label class="col-md-6">Kind of Land <span class="star">*</span></label>
-									<div class="col-md-6">
-										<select class="form-control SelectStyle" id="landKind" name="landKind">
-											<option value="0">--Select--</option>
-											<option value="1">Agricultural land</option>
-											<option value="2">Housing Land</option>
-											<option value="3">Forest Land</option>
-										</select>
-									</div>
-								</div>
-							</div>
-
-							<div class="row from group">
-								<div class="col-sm-7 col-md-offset-2 form-group">
-									<label class="col-md-6">Type of Land <span class="star">*</span></label>
-									<div class="col-md-6">
-										<select class="form-control SelectStyle" id="pitition1" name="landType"
-											>
-											<option value="0">--Select--</option>
-											<option value="1">Patta land</option>
-											<option value="2">Govt. Assigned land</option>
-											<option value="3">Other Land</option>
-										</select>
-									</div>
-								</div>
-							</div>
-
-							<div class="otherland" id="3" style="display: none;">
-								<div class="row">
-									<div class="col-sm-7 col-md-offset-2 form-group">
-										<label class="col-md-6">Others Land <span class="star">*</span></label>
-										<div class="col-md-6">
-											<input type="text" placeholder=" Type of land"
-												class="form-control" id="olandtext" maxlength="30"
-												name="otherland" />
-										</div>
-									</div>
-								</div>
-
-								<br>
-							</div>
-							<br>
-							<div class="Petition170s1" id="land"></div>
-							<div class="ppetioner" id="pland">
-
-								<div class="row">
-									<div class="col-sm-7 col-md-offset-2 form-group">
-										<label class="col-md-6">Select District <span
-											class="star">*</span>
-										</label>
-										<div class="col-md-6">
-											<select class="form-control SelectStyle"
-												id="landDistrict" name="landDistrict">
-												<option value="0">--Select--</option>
-												<option value="1">Hyderabad</option>
-												<option value="2">Rangareddy</option>
-												<option value="3">Nizamabad</option>
-												<option value="4">Mahabubnagar</option>
-
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-7 col-md-offset-2 form-group">
-										<label class="col-md-6">Select Mandal <span
-											class="star">*</span>
-										</label>
-										<div class="col-md-6">
-											<select class="form-control SelectStyle" 
-												id="landmandal" name="landmandal">
-												<option value="0">--Select--</option>
-												<option value="1">Mandal-1</option>
-
-
-
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-7 col-md-offset-2 form-group">
-										<label class="col-md-6">Revenue Village </label>
-										<div class="col-md-6">
-											<input type="text" class="form-control SelectStyle" 
-												name="landvillage" id="landvillage">
-											
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-7 col-sm-offset-2 form-group">
-										<label class="col-md-6">Patta Passbook number</label>
-										<div class="col-md-6">
-											<input type="text" path="passbookNo" id="passbookNo"
-												name="passbookNo" placeholder=" Patta number"
-												class="form-control" maxlength="10" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-7 col-md-offset-2 form-group">
-										<label class="col-md-6">Survey number <span
-											class="star">*</span></label>
-										<div class="col-md-6">
-											<input type="text" placeholder=" Survey number"
-												maxlength="15" path="surveyNo" id="surveyNo" name="surveyNo"
-												class="form-control" />
-										</div>
-									</div>
-								</div>
-							<div class="row">
-					<div class="col-sm-7 col-md-offset-2 form-group">
-						<label class="col-md-6">Extent of land </label>
-						<div class="col-md-3">
-							<input type="text" placeholder="" maxlength="6"
-								path="extentOfLand" id="extentOfLand" name="extentOfLand"
-								class="form-control" />
-						</div>
-						<div class="col-md-0">
-
-							<select class="form-control SelectStyle" name="units"
-								style="width: 125px;" id="units">
-								<option value="0">--Select--</option>
-								<option value="1">Acre</option>
-								<option value="2">Gunta</option>
-								<option value="3">Square yards</option>
-							</select>
-						</div>
-
-
-					</div>
-					<div class="col-md-2">
-						<div style="text-align: left;"
-							>&nbsp;</div>
-					</div>
-
-				</div>
-								<div class="modal-footer">
-									<center>
-										<div role="group" aria-label="group button">
-
-											<input type="button" class="btn btn-primary" id="updateLand"
-												data-dismiss="modal" value="Update" role="button"  /> <input
-												type="button" class="btn btn-danger" data-dismiss="modal"
-												value="Close" role="button" />
-
-										</div>
-								</div>
-							</div>
-							
-							<input type="hidden" id="petId" name="petId" value="${petId }">
-							</form>
-						</div>
-     
-    </div>
-  </div>
-</div>   <!-- land detail modal end -->
 
 
 	<!-- Respondent modal starts-->
@@ -946,10 +784,9 @@ margin-right: 10px;
 											<select class="form-control SelectStyle" name="district"
 												id="district">
 												<option value="0">--Select--</option>
-												<option value="1">Hyderabad</option>
-												<option value="2">Rangareddy</option>
-												<option value="3">Nizamabad</option>
-												<option value="4">Mahabubnagar</option>
+												<c:forEach items="${district}" var="alt">
+												<option value="${alt.distCode }" >${alt.distName }</option>
+												</c:forEach>
 											</select>
 										</div>
 									</div>
@@ -1065,10 +902,9 @@ $(document).on('click','#update', function() {
 		<script>
 
 function proceed(){
-	var category=$("#category").val();
 	
 	document.upload.method="POST";
-	document.upload.action="/scst/petition/"+category.toLowerCase()+"/submitpetition.htm";
+	document.upload.action="/scst/petition/general/submitpetition.htm";
 	document.upload.submit();
 }
 
@@ -1228,7 +1064,10 @@ $(function(){
 						$("#uploadTable").show();
 						$("#docdiv").show();
 						$("#proceed").show();
-					alert("Document added successfully")
+						
+						fileInput.value = '';
+						$('#docDesc').val('');
+					
 					}
 				else{
 						alert("Document upload failed, try again");

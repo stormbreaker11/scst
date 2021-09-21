@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nic.in.commons.ScstCommons;
 import com.nic.in.dao.AtrocityDao;
 import com.nic.in.dao.DocDao;
 import com.nic.in.dao.GeneralDao;
@@ -18,6 +19,7 @@ import com.nic.in.dao.LandDao;
 import com.nic.in.dao.RespondentDao;
 import com.nic.in.dao.ServiceDao;
 import com.nic.in.model.Atrocity;
+import com.nic.in.model.District;
 import com.nic.in.model.Documents;
 import com.nic.in.model.General;
 import com.nic.in.model.Land;
@@ -47,7 +49,9 @@ public class ModifyPetition {
 	
 	@Autowired
 	private DocDao doc;
-
+	
+	@Autowired
+	private ScstCommons commons;
 	@RequestMapping(value = "modifypetition.htm/{petitioner}/{petition}/{type}/{cat}")
 	public String petitionDetails(HttpServletRequest httpServletRequest, Model model, @PathVariable String petition,
 			@PathVariable String type, @PathVariable String cat, @PathVariable String petitioner  ) {
@@ -65,6 +69,10 @@ public class ModifyPetition {
 		model.addAttribute("upload", new Documents());
 		model.addAttribute("landdetails", new Land());
 		List<Documents> uploadedDocsByPid = doc.getUploadedDocsByPid(petition);
+		//List<District> districtResp = commons.getDistrict("36");
+		List<District> district = commons.getDistrict("36");
+		
+		model.addAttribute("district", district);
 		model.addAttribute("uploadedDocsByPid", uploadedDocsByPid);
 		model.addAttribute("pid", petitioner);
 		HttpSession httpSession=httpServletRequest.getSession();
@@ -79,13 +87,17 @@ public class ModifyPetition {
 		
 		if(cat.equals("S")) {	//Service
 			Service service= servicedao.getSerivePetiton(petition);
-			//System.out.println(landAppeal.getCourtComp()+ " "+landAppeal.getCourtComp().length() );
+			//`
+		//	System.out.println(landAppeal.getCourtComp()+ " "+landAppeal.getCourtComp().length() );
 			model.addAttribute("service", service);
 			model.addAttribute("category", "Service");
 			view="edit_service";
 		}
 		if(cat.equals("A")) {	//Atrocity
 			Atrocity updateatrocity = atrocitydao.getAtrocityPetition(petition);
+			List<Atrocity> atrocities=commons.getAtrocities();
+			
+			model.addAttribute("atrocities", atrocities);
 			//System.out.println(landAppeal.getCourtComp()+ " "+landAppeal.getCourtComp().length() );
 			model.addAttribute("updateatrocity", updateatrocity);
 			model.addAttribute("category", "Atrocity");

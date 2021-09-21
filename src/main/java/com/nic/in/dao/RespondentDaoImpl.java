@@ -128,6 +128,22 @@ public class RespondentDaoImpl implements RespondentDao {
 				respondent.setEmail(rs.getString("resp_email"));
 				respondent.setDistrict(rs.getString("district"));
 			
+				if(rs.getString("resp_caste")!=null) {
+					String caste = rs.getString("resp_caste");
+					if(caste.equals("1")) {
+						
+						respondent.setCaste("OC");
+					}
+					if(caste.equals("2")) {
+						
+						respondent.setCaste("BC");
+					}
+					if(caste.equals("0")) {
+						
+						respondent.setCaste("-");
+					}
+				}
+				
 				return respondent;
 			}
 		});

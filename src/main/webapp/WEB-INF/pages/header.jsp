@@ -1,4 +1,4 @@
-
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 <!DOCTYPE html>
 <html lang="en">
 <head>

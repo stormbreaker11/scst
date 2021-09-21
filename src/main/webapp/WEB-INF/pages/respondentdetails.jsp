@@ -1,4 +1,4 @@
-
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -251,14 +251,9 @@ response.setDateHeader("Expires", 0);
 								id="district">
 								<form:option value="0">--Select--
 															</form:option>
-								<form:option value="1">Hyderabad
-															</form:option>
-								<form:option value="2">Rangareddy
-															</form:option>
-								<form:option value="3">Nizamabad
-															</form:option>
-								<form:option value="4">Mahabubnagar
-															</form:option>
+								<c:forEach items="${districts}" var="alt">
+								<form:option value="${alt.distCode}">${alt.distName}</form:option>
+								</c:forEach>
 							</form:select>
 						</div>
 					</div>
@@ -392,10 +387,9 @@ response.setDateHeader("Expires", 0);
 											<select class="form-control SelectStyle" name="district"
 												id="district">
 												<option value="0">--Select--</option>
-												<option value="1">Hyderabad</option>
-												<option value="2">Rangareddy</option>
-												<option value="3">Nizamabad</option>
-												<option value="4">Mahabubnagar</option>
+												<c:forEach items="${districts}" var="alt">
+												<option value="${alt.distCode }" >${alt.distName }</option>
+												</c:forEach>
 											</select>
 										</div>
 									</div>

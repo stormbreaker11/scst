@@ -1,4 +1,4 @@
-
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +41,7 @@ body {
 					Details</a></li> -->
 			<!-- <li><a href="uploaddocs" target="content">Upload Documents</a> -->
 			<!-- <li><a href="#">View Petition Status</a></li> -->
-			<li tabindex="-1" class='has-sub'> <a href="#" target="content">Fresh Registration<i class="caret"></i></a>
+			<li tabindex="-1" class='has-sub'> <a href="#" target="content">Fresh Entry<i class="caret"></i></a>
 				<ul>
 					<li  class='has-sub' ><a href="#" target="content">Land</a>
 					<ul>
@@ -84,7 +84,7 @@ body {
 				</ul></li>
 				<li tabindex="-1" class='has-sub'> <a href="#" target="content">Modify<i class="caret"></i></a>
 				<ul>
-					<li   ><a href="viewpetition.htm" target="content">Edit Petition</a>
+					<li   ><a href="viewpetition.htm" target="content">Petition</a>
 					
 				</ul></li>
 				<!-- <li><a href="viewpetition.htm" target="content">View Petitions</a></li> -->

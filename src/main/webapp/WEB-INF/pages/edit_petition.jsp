@@ -1,4 +1,4 @@
-
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -48,6 +48,8 @@ response.setDateHeader("Expires", 0);
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -592,10 +594,7 @@ margin-right: 10px;
                     <div class="col-md-offset-2 form-group " style="color: red;">allowed .pdf of 1 mb size
 							</div>
                     </div>
-                    <div align="center">
-                    <b><font id="message" color="green"></font></b>
-                    
-                    </div>
+                
                   
                     
                    
@@ -611,11 +610,9 @@ margin-right: 10px;
                     <input type="button" value="Update" id="update" class="btn btn-primary">
                     
                     </div>
-                         <div align="center">
-                          <b><font id="message" color="green"></font></b>
-                   
-                    
-                    </div>
+                         
+                    <table align="center"><tr><td align="center"> <b><font id="message" color="green"></font></b></td></tr></table>
+                    <table align="center"><tr><td align="center"> <b><font id="warning" color="green"></font></b></td></tr></table>
                         </div>
                         <div class="tab-pane fade" id="tab2primary">
                         
@@ -936,14 +933,9 @@ margin-right: 10px;
 															id="district">
 															<form:option value="0">--Select--
 															</form:option>
-															<form:option value="1" >Hyderabad
-															</form:option>
-															<form:option value="2" >Rangareddy
-															</form:option>
-															<form:option value="3">Nizamabad
-															</form:option>
-															<form:option value="4" >Mahabubnagar
-															</form:option>
+															<c:forEach items="${district}" var="alt">
+												<form:option value="${district.distCode }" >${district.distName }</form:option>
+												</c:forEach>
 														</form:select>
 													</div>
 												</div>
@@ -1173,7 +1165,7 @@ margin-right: 10px;
 												</div>
 											</a>  
 
-											</div></form:form>
+											</div>
 											<br>
 	<div  id="docdiv">											
 <div align="center" style="background: #2d3990; color: white; height: 30px; ">
@@ -1205,7 +1197,12 @@ margin-right: 10px;
 										</table>
 										
 											</div>
-							<div align="center"><input type="button" class="btn btn-md btn-primary" value="Continue" onclick="proceed()"></div>				
+											
+											<input type="hidden" value="${petId}"  >
+												<input type="hidden" value="${pid}"  name="pid"  >
+												<input type="hidden" value="${type}"  name="type">
+												<input type="hidden" value="${category}"  name="category">
+							<div align="center"><input type="button" class="btn btn-md btn-primary" value="Continue" onclick="proceed()"></div></form:form>				
 </div>
                         </div>
                     </div>
@@ -1477,10 +1474,9 @@ margin-right: 10px;
 											<select class="form-control SelectStyle" name="district"
 												id="district">
 												<option value="0">--Select--</option>
-												<option value="1">Hyderabad</option>
-												<option value="2">Rangareddy</option>
-												<option value="3">Nizamabad</option>
-												<option value="4">Mahabubnagar</option>
+												<c:forEach items="${district}" var="alt">
+												<option value="${district.distCode }" >${district.distName }</option>
+												</c:forEach>
 											</select>
 										</div>
 									</div>

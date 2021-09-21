@@ -10,7 +10,6 @@ public interface ServiceDao {
 
 	public int saveServicePetition(Service s, Login login, String pid);
 	
-	public String createServicePetitionId(String type);
 
 	public Petition getPetition(String pid, String petid);
 

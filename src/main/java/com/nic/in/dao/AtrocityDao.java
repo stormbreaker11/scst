@@ -1,6 +1,5 @@
 package com.nic.in.dao;
 
-import java.util.List;
 
 import com.nic.in.model.Atrocity;
 import com.nic.in.model.Login;
@@ -10,7 +9,6 @@ public interface AtrocityDao
 {
 	public int saveAtrocityPetition(Atrocity a, Login login, String pid);
 	
-	public String createAtrocityPetitionId(String type);
 	
 	public Atrocity getAtrocityForm(String petition_id);
 

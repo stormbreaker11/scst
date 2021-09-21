@@ -1,4 +1,4 @@
-
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -50,9 +50,9 @@ response.setDateHeader("Expires", 0);
 
 function proceed(){
 
-	document.filepetition.method="POST";
-	document.filepetition.action="/scst/petition/petitiondetails.htm";
-	document.filepetition.submit();
+	document.nodal.method="POST";
+	document.nodal.action="/scst/petition/petitiondetails.htm";
+	document.nodal.submit();
 }
 </script>
 <!------ Include the above in your HEAD tag ---------->
@@ -231,7 +231,7 @@ margin-right: 10px;
 					</h5> 
 				<br> 
 
-				<form name="filepetition"  >
+				<form:form modelAttribute="nodal" name="nodal"  enctype="multipart/form-data">
 
 					<div class="container-fluid">
 						<div class="row">
@@ -240,7 +240,7 @@ margin-right: 10px;
 									class="star">*</span></label>
 								<div class="col-md-4">
 									<select class="form-control SelectStyle" id="typeofpetition"
-										name="type" required="required">
+										name="type" >
 										<option value="0">--Select--</option>
 										<option value="I">Individual</option>
 										<option value="G">Group</option>
@@ -248,12 +248,94 @@ margin-right: 10px;
 								</div>
 							</div>
 						</div>
+						<div class="nodal" style="display: none;">
+						<div class="row">
+							<div class="col-sm-7 col-md-offset-2 form-group">
+								<label class="col-md-6">Name of the Organization/Group<span
+									class="star">*</span></label>
+								<div class="col-md-4">
+									<form:input  type="text" class="form-control SelectStyle" id="groupName" path="groupName"
+										name="groupName" />
+										
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-7 col-md-offset-2 form-group">
+								<label class="col-md-6">Name of the nodal person<span
+									class="star">*</span></label>
+								<div class="col-md-4">
+									<form:input  type="text" class="form-control SelectStyle" id="nodalName" path="nodalName"
+										name="nodalName" />
+										
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-7 col-md-offset-2 form-group">
+								<label class="col-md-6">Designation/Profession<span
+									class="star">*</span></label>
+								<div class="col-md-4">
+									<form:input type="text" class="form-control SelectStyle" id="nodalDesign" path="nodalDesign"
+										name="nodalDesign" />
+										
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-7 col-md-offset-2 form-group">
+								<label class="col-md-6">Name of the Nodal person representing the Group/Organization<span
+									class="star">*</span></label>
+								<div class="col-md-4">
+									<form:input  type="text" class="form-control SelectStyle" id="nodalRepresent" path="nodalRepresent"
+										name="nodalRepresent" />
+										
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-7 col-md-offset-2 form-group">
+								<label class="col-md-6">Upload Signature of the nodal person<span
+									class="star">*</span></label>
+								<div class="col-md-4">
+									<input type=file class="form-control SelectStyle" id="file" 
+										name="file">
+								</div>
+							</div><div class="col-md-offset-2 form-group " style="color: red;">allowed .jpg/jpeg of 1 mb size
+							</div>
+						</div>  
+						
+						<div class="row">
+							<div class="col-sm-7 col-md-offset-2 form-group">
+								<label class="col-md-6">Mobile Number<span
+									class="star">*</span></label>
+								<div class="col-md-4">
+									<form:input type="text" class="form-control SelectStyle" id="nodalMobile" path="nodalMobile"
+										name="nodalMobile" />
+										
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-7 col-md-offset-2 form-group">
+								<label class="col-md-6">Email ID<span
+									class="star">*</span></label>
+								<div class="col-md-4">
+									<form:input type="text" class="form-control SelectStyle" id="nodalEmail" path="nodalEmail"
+										name="nodalEmail" />
+										
+								</div>
+							</div>
+						</div>
+						
+						</div>
+						
 						<div class="row">
 							<div class="col-sm-7 col-md-offset-2 form-group">
 								<label class="col-md-6">Category of Petition<span
 									class="star">*</span></label>
 								<div class="col-md-4">
-									<select class="form-control SelectStyle"  style="" name="category"
+									<select class="form-control SelectStyle"  name="category"
 										 required="required">
 										<option value="${typeVal}" selected="selected">${typeOpt}</option>
 									</select>
@@ -269,7 +351,7 @@ margin-right: 10px;
 							<b>${error }</b>
 						</div>
 					<input type="hidden" name="pid" value="${pid }">
-				</form>
+				</form:form>
 				<br>
 				
 					<br>
@@ -281,6 +363,17 @@ margin-right: 10px;
 	function focus(){
 		document.getElementById("typeofpetition").focus();
 		}
+
+
+	$('#typeofpetition').on('change',function(){
+	    if( $(this).val()==="G"){
+	    $(".nodal").show();
+	    }
+	    else{
+	    $(".nodal").hide();
+	    }
+	});
+		
 	</script>
 
 	</body>

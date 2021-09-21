@@ -1,4 +1,4 @@
-
+<jsp:include page="/WEB-INF/pages/validate.jsp"></jsp:include>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -257,10 +257,9 @@ border-color: black;
 							<form:select class="form-control SelectStyle" path="landDistrict"
 								id="landDistrict" name="landDistrict">
 								<form:option value="0">--Select--</form:option>
-								<form:option value="1">Hyderabad</form:option>
-								<form:option value="2">Rangareddy</form:option>
-								<form:option value="3">Nizamabad</form:option>
-								<form:option value="4">Mahabubnagar</form:option>
+								<c:forEach items="${district}" var="alt">
+												<form:option value="${alt.distCode }" >${alt.distName }</form:option>
+												</c:forEach>
 
 							</form:select>
 						</div>
@@ -482,11 +481,9 @@ border-color: black;
 											<select class="form-control SelectStyle"
 												id="landDistrict" name="landDistrict">
 												<option value="0">--Select--</option>
-												<option value="1">Hyderabad</option>
-												<option value="2">Rangareddy</option>
-												<option value="3">Nizamabad</option>
-												<option value="4">Mahabubnagar</option>
-
+												<c:forEach items="${district}" var="alt">
+												<option value="${alt.distCode }" >${alt.distName }</option>
+												</c:forEach>
 											</select>
 										</div>
 									</div>
@@ -838,7 +835,6 @@ function addLand(){
 						$("#landTable").append($(s)); 
 						$('#landdiv').show();
 						
-					alert("Land details added successfully");
 
 
 					$('#landKind').prop('selectedIndex',0);
@@ -887,7 +883,7 @@ $(document).on('click','#btn-remove', function() {
 					} else {
 						$('#landdiv').show();
 					}
-					alert("Deleted succesfully");
+				
 					}
 				else{
 					alert(" Delete Unsuccessfull ");
@@ -955,8 +951,6 @@ $(document).on('click','#updateLand', function() {
 		success : function(response) {
 		if(response=="Y"){
 			getLandList();
-
-			alert("Updated land details successfully")
 			}
 		else{
 			alert("Land details updation failed try again")
