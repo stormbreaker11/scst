@@ -54,7 +54,6 @@ response.setDateHeader("Expires", 0);
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
-
 <!------ Include the above in your HEAD tag ---------->
 
 <!------ Include the above in your HEAD tag ---------->
@@ -248,7 +247,7 @@ margin-right: 10px;
 	<c:if test="${type=='I'}">
 	Type of Petition : Individual
 	</c:if>
-	<c:if test="${type}=='G'">
+	<c:if test="${type=='G'}">
 	Type of Petition : Group
 	</c:if>
 	</td>
@@ -594,10 +593,7 @@ margin-right: 10px;
 														<c:if test="${alt.respType =='P'}"><td>Private/Individual</td> </c:if>
 														<c:if test="${alt.respType =='O'}"><td>Official</td></c:if>
 														<td>${alt.respName }</td>
-													 <c:if test="${alt.caste == '1 '}"><td  style="text-align: center;" >OC</td> </c:if>
-														<c:if test="${alt.caste == '2 ' }"><td  style="text-align: center;" >BC</td></c:if>
-														<%-- <c:if test="${(alt.caste=='1 ')  || (guess > 20)}"><td  style="text-align: center;" >BC</td></c:if> --%>
-														
+														<td>${alt.caste }</td>
 														<td >${alt.respProffesion }</td>
 														<td>${alt.district }</td>
 														<td style="text-align: center;" >${alt.mobile }</td>
@@ -948,7 +944,6 @@ $(document).on('click','#update', function() {
 	 $("#message").empty();
 	 $("#warning").empty();
 	var form = $('#service').serialize();
-	alert(form)
 		$.ajax({
 			url : '/scst/petition/service/serviceAppeal.htm',
 			type : "POST",
@@ -1348,7 +1343,7 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 											$("#exampleModal1 #respName")
 													.val(obj.respName);
 											$("#exampleModal1 #castevalue")
-													.val(obj.caste);
+													.val(obj.caste.trim());
 											$("#exampleModal1 #address")
 													.val(obj.address);
 											$("#exampleModal1 #mobile").val(
@@ -1405,7 +1400,7 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 						},
 						success : function(response) {
 
-							alert(response)
+						
 							if (response == "Y") {
 								getRespondentList();
 							} else {

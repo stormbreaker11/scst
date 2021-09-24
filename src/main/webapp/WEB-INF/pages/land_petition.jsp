@@ -282,7 +282,7 @@ margin-right: 10px;
 													Lodged Complaint
 													in any
 													court <span class="star">*</span></label>
-												<div class="col-md-2">
+												<div class="col-md-3">
 													<form:select class="form-control SelectStyle"
 														id="court" path="courtComp">
 														<form:option value="0" >--Select--
@@ -346,16 +346,7 @@ margin-right: 10px;
 															id="courtDist">
 															<form:option value="0" >--Select--
 															</form:option>
-															<form:option value="1" >Hyderabad
-															</form:option>
-															<form:option value="2">Rangareddy
-															</form:option>
-															<form:option value="1">Nizamabad
-															</form:option>
-															<form:option value="3" >Mahabubnagar
-															</form:option>
-															<form:option value="4" >Medak
-															</form:option>
+															
 															
 														</form:select>
 													</div>

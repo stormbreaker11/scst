@@ -13,8 +13,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.nic.in.model.Atrocity;
+import com.nic.in.model.Caste;
 import com.nic.in.model.District;
 import com.nic.in.model.Identity;
+import com.nic.in.model.Relation;
 import com.nic.in.model.State;
 
 @Repository
@@ -85,4 +87,35 @@ public class ScstCommonsImpl implements ScstCommons {
 		});
 		return alist;
 }
+
+	@Override
+	public List<Relation> getRelations() {
+		String query = "select type_code, type_name from atrocity_type WHERE active='Y' order by type_name  ";
+
+		List<Relation> rlist = jdbcTemplate.query(query, new RowMapper<Relation>() {
+			public Relation mapRow(ResultSet rs, int rownumber) throws SQLException {
+				Relation r = new Relation();
+				r.setRcode(rs.getString(""));
+				r.setRname(rs.getString(""));
+				return r;
+			}
+		});
+		return rlist;
+}
+
+	@Override
+	public List<Caste> getCastes(String id) {
+		
+		String sql="select sub_code, sub_name from sub_caste where caste_code=?";
+		
+		List<Caste> clist = jdbcTemplate.query(sql, new Object[] {id} ,new RowMapper<Caste>() {
+			public Caste mapRow(ResultSet rs, int rownumber) throws SQLException {
+				Caste c = new Caste();
+				c.setCcode(rs.getString("sub_code"));
+				c.setCname(rs.getString("sub_name"));
+				return c;
+			}
+		});
+		return clist;
+	}
 }

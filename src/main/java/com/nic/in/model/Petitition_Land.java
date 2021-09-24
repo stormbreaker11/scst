@@ -13,13 +13,13 @@ public class Petitition_Land {
 	private String courtComp;
 	private String courtName;
 	private String courtState;
+	private String courtStateCode;
 	private String courtDist;
+	private String courtDistCode;
 	private String courtMandal;
 	private String caseNo;
 	private String caseStatus;
 	private byte[] courtOrder;
-	
-	
 	public String getPetitionType() {
 		return petitionType;
 	}
@@ -86,11 +86,23 @@ public class Petitition_Land {
 	public void setCourtState(String courtState) {
 		this.courtState = courtState;
 	}
+	public String getCourtStateCode() {
+		return courtStateCode;
+	}
+	public void setCourtStateCode(String courtStateCode) {
+		this.courtStateCode = courtStateCode;
+	}
 	public String getCourtDist() {
 		return courtDist;
 	}
 	public void setCourtDist(String courtDist) {
 		this.courtDist = courtDist;
+	}
+	public String getCourtDistCode() {
+		return courtDistCode;
+	}
+	public void setCourtDistCode(String courtDistCode) {
+		this.courtDistCode = courtDistCode;
 	}
 	public String getCourtMandal() {
 		return courtMandal;

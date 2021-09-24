@@ -4,6 +4,7 @@ public class NodalOfficer {
 
 	private String petitionId;
 	private String petitonerOd;
+	
 	private String groupName;
 	private String nodalName;
 	private String nodalDesign;
@@ -11,6 +12,7 @@ public class NodalOfficer {
 	private String nodalRepresent;
 	private String nodalEmail;
 	private byte[] nodalSign;
+	
 	public String getPetitionId() {
 		return petitionId;
 	}

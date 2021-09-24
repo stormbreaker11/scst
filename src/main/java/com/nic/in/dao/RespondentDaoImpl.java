@@ -112,8 +112,8 @@ public class RespondentDaoImpl implements RespondentDao {
 	public List<Respondent> getRespondents(String petId) {
 
 		
-		String query = "select resp_srno, resp_type, resp_profession, resp_caste, "
-				+ "resp_name, resp_mobile, resp_email, district from petition_respondent where petition_id =? ";
+		String query = "select resp_srno, d.dname, resp_type, resp_profession, resp_caste, "
+				+ "resp_name, resp_mobile, resp_email from petition_respondent, district d where petition_id =? and d.dcode=district ";
 
 		
 		List<Respondent> respondents = jdbcTemplate.query(query, new Object[] {petId}, new RowMapper<Respondent>() {
@@ -123,25 +123,25 @@ public class RespondentDaoImpl implements RespondentDao {
 				respondent.setRespType(rs.getString("resp_type"));
 				respondent.setRespProffesion(rs.getString("resp_profession"));
 				respondent.setRespno(rs.getString("resp_srno"));
-				respondent.setCaste(rs.getString("resp_caste"));
+				respondent.setCaste(rs.getString("resp_caste").trim());
 				respondent.setMobile(rs.getString("resp_mobile"));
 				respondent.setEmail(rs.getString("resp_email"));
-				respondent.setDistrict(rs.getString("district"));
-			
-				if(rs.getString("resp_caste")!=null) {
-					String caste = rs.getString("resp_caste");
-					if(caste.equals("1")) {
+				respondent.setDistrict(rs.getString("dname"));
+				boolean equals = respondent.getCaste().equals("0");
+				if(equals) {
+					respondent.setCaste("-");
+				}
+				else {
+					
+					if(respondent.getCaste().equals("1")) {
 						
 						respondent.setCaste("OC");
 					}
-					if(caste.equals("2")) {
+					if(respondent.getCaste().equals("2")) {
 						
 						respondent.setCaste("BC");
 					}
-					if(caste.equals("0")) {
-						
-						respondent.setCaste("-");
-					}
+					
 				}
 				
 				return respondent;

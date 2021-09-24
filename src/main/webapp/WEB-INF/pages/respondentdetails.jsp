@@ -168,7 +168,7 @@ response.setDateHeader("Expires", 0);
 					<tr>
 						<td style="color: #2d3990;"><c:if test="${type=='I'}">
 	Type of Petition: Individual
-	</c:if> <c:if test="${type}=='G'">
+	</c:if> <c:if test="${type=='G'}">
 	Type of Petition : Group
 	</c:if></td>
 						<td style="color: #2d3990;" align="right">Category of
@@ -643,7 +643,6 @@ response.setDateHeader("Expires", 0);
 								$("#respondentTable").append($(s));
 								$('#respondentdiv').show();
 
-								alert("Respondent details added successfully");
 
 								$('#respondentdetails')
 										.prop('selectedIndex', 0);
@@ -653,6 +652,7 @@ response.setDateHeader("Expires", 0);
 								 $("#email").val('');
 									$("#mobile").val('');
 									$("#address").val('');
+									$("#respProffesion").val('');
 							}
 
 						}
@@ -728,7 +728,7 @@ response.setDateHeader("Expires", 0);
 											$("#squarespaceModal #respName")
 													.val(obj.respName);
 											$("#squarespaceModal #castevalue")
-													.val(obj.caste);
+													.val(obj.caste.trim());
 											$("#squarespaceModal #address")
 													.val(obj.address);
 											$("#squarespaceModal #mobile").val(
@@ -785,7 +785,7 @@ response.setDateHeader("Expires", 0);
 						},
 						success : function(response) {
 							if (response == "Y") {
-								alert("Respondent details updated");
+							
 								getRespondentList();
 							} else {
 								alert("Respondent details updation failed");

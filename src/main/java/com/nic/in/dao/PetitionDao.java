@@ -13,12 +13,16 @@ public interface PetitionDao {
 
 	public String createPetitionId(String pid, String type);
 
-	public int insertPetition(Petition petition, NodalOfficer no, Login login);
+	public int insertPetition(Petition petition,  Login login);
 
 	public List<Petition> getSubmittedPetition(String compid);
 
 	public int submitPetition(String petitionerId, String pid);
 
 	public List<Petition> getEvedince(String pid, String petid);
+
+	public Petition getPetitionDetails(String petition);
+	
+	public int updateNodal(Petition petition, String pid);
 
 }

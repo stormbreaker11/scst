@@ -55,8 +55,8 @@ public class AtrocityPetitionController {
 			model.addAttribute("type", type);
 			model.addAttribute("typeVal", "A");
 			model.addAttribute("typeOpt", "Atrocity");
-			List<District> district = commission.getDistrict("36");
-			model.addAttribute("district", district);
+			List<District> districts = commission.getDistrict("36");
+			model.addAttribute("districts", districts);
 		int saveAtrocityPetition = dao.saveAtrocityPetition(atrocity, login, petitionID);
 		if (saveAtrocityPetition == 1) {
 			model.addAttribute("pid", atrocity.getPetitioner_id());

@@ -483,7 +483,7 @@ label {
   Header
   ============================-->
 		<div class="container-fluid">
-		 <h1 align="center" style="color:  #2d3990;">Petition Details</h1>
+		 <h1 align="center" style="color:  #2d3990;">Petitioner Details</h1>
 		
 		<c:if test="${empty petitions }">
 		<br>

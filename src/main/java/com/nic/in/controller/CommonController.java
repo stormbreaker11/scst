@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.nic.in.commons.ScstCommons;
+import com.nic.in.model.Caste;
 import com.nic.in.model.District;
 
 @Controller
@@ -27,4 +28,17 @@ public class CommonController {
 		return new Gson().toJson(dist);
 		
 	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping( value = "loadcaste/{id}", method = RequestMethod.GET)
+	public String getCastes(@PathVariable String id) {
+		
+		List<Caste> castes = commons.getCastes(id);
+		return new Gson().toJson(castes);
+		
+	}
+	
+	
 }

@@ -50,9 +50,9 @@ response.setDateHeader("Expires", 0);
 
 function proceed(){
 
-	document.nodal.method="POST";
-	document.nodal.action="/scst/petition/petitiondetails.htm";
-	document.nodal.submit();
+	document.petition.method="POST";
+	document.petition.action="/scst/petition/petitiondetails.htm";
+	document.petition.submit();
 }
 </script>
 <!------ Include the above in your HEAD tag ---------->
@@ -231,7 +231,7 @@ margin-right: 10px;
 					</h5> 
 				<br> 
 
-				<form:form modelAttribute="nodal" name="nodal"  enctype="multipart/form-data">
+				<form:form modelAttribute="petition" name="petition"  enctype="multipart/form-data">
 
 					<div class="container-fluid">
 						<div class="row">
@@ -264,7 +264,7 @@ margin-right: 10px;
 							<div class="col-sm-7 col-md-offset-2 form-group">
 								<label class="col-md-6">Name of the nodal person<span
 									class="star">*</span></label>
-								<div class="col-md-4">
+								<div class="col-md-6">
 									<form:input  type="text" class="form-control SelectStyle" id="nodalName" path="nodalName"
 										name="nodalName" />
 										
@@ -282,17 +282,7 @@ margin-right: 10px;
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-sm-7 col-md-offset-2 form-group">
-								<label class="col-md-6">Name of the Nodal person representing the Group/Organization<span
-									class="star">*</span></label>
-								<div class="col-md-4">
-									<form:input  type="text" class="form-control SelectStyle" id="nodalRepresent" path="nodalRepresent"
-										name="nodalRepresent" />
-										
-								</div>
-							</div>
-						</div>
+					
 						<div class="row">
 							<div class="col-sm-7 col-md-offset-2 form-group">
 								<label class="col-md-6">Upload Signature of the nodal person<span

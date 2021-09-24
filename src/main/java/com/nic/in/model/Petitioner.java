@@ -9,6 +9,7 @@ public class Petitioner {
 	private String age;
 	private String gender;
 	private String caste;
+	private String subcaste;
 	private String relationType;
 	private String relationName;
 	private String address;
@@ -44,6 +45,7 @@ public class Petitioner {
 	private String bprage;
 	private String bprgender;
 	private String bprcaste;
+	private String bprsubcaste;
 	private String bprrelationType;
 	private String bprrelationName;
 	private String bpraddress;
@@ -376,6 +378,18 @@ public class Petitioner {
 	}
 	public void setEntry(String entry) {
 		this.entry = entry;
+	}
+	public String getSubcaste() {
+		return subcaste;
+	}
+	public void setSubcaste(String subcaste) {
+		this.subcaste = subcaste;
+	}
+	public String getBprsubcaste() {
+		return bprsubcaste;
+	}
+	public void setBprsubcaste(String bprsubcaste) {
+		this.bprsubcaste = bprsubcaste;
 	}
 
 	

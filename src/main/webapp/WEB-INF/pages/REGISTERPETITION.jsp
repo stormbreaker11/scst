@@ -4,8 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
+<!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,10 +20,9 @@ response.addHeader("Cache-Control", "post-check=0, pre-check=0");
 response.setDateHeader("Expires", 0);
 %>
 <title>SC-ST Commission</title>
-<link rel="icon"
-	href="${pageContext.request.contextPath}/static/images/deptlogo.png"
-	type="image/gif" sizes="16x16">
-<title>SC ST COMMISSION</title>
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <link href="${pageContext.request.contextPath}/static/css/header.css"
 	rel="stylesheet">
 <link href="${pageContext.request.contextPath}/static/css/app.css"
@@ -32,21 +31,20 @@ response.setDateHeader("Expires", 0);
 	href="${pageContext.request.contextPath}/static/images/Telengana_State.png"
 	rel="icon">
 
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/static/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/static/bootstrap/css/style_smenu.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/static/bootstrap/css/all_colors.css">
-<link
-	href="${pageContext.request.contextPath}/static/css/sb-admin-2.css"
-	rel="stylesheet">
-<script
-	src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/bootstrap/css/style_smenu.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/panel.css">
+<link href="${pageContext.request.contextPath}/static/css/sb-admin-2.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/script.js"></script>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <style>
 .panel-body
@@ -336,38 +334,10 @@ px
 									placeholder=" Full Name" path="petionerName" />
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-7 col-md-offset-2 form-group">
-							<label class="col-md-6">Age of the Petitioner ( in years)<span
-								class="star">*</span>
-							</label>
-							<div class="col-md-6">
-								<form:input type="text" id="form-control" placeholder=" Age " maxlength="3"
-									path="age" />
-							</div>
-						</div>
-					</div>
-
-
-					<div class="row">
-						<div class="col-sm-7 col-md-offset-2 form-group">
-							<label class="col-md-6">Gender <span class="star">*</span></label>
-							<div class="col-md-6">
-								<form:select class="form-control SelectStyle" id="gender"
-									path="gender">
-									<form:option value="0">--Select--</form:option>
-									<form:option value="M">Male</form:option>
-									<form:option value="F">Female</form:option>
-									<form:option value="O">Others</form:option>
-								</form:select>
-							</div>
-						</div>
-					</div>
-					<div class="row">
+					</div><div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Relation Type <span class="star">*</span></label>
-							<div class="col-md-6">
+							<div class="col-md-3">
 								<form:select class="form-control SelectStyle" id="relation"
 									path="relationType">
 									<form:option value="0">--Select--</form:option>
@@ -390,6 +360,34 @@ px
 					</div>
 					<div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
+							<label class="col-md-6">Age of the Petitioner ( in years)<span
+								class="star">*</span>
+							</label>
+							<div class="col-md-2">
+								<form:input type="text" class="form-control" id="age" placeholder="Age"  maxlength="3"
+									path="age" />
+							</div>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-sm-7 col-md-offset-2 form-group">
+							<label class="col-md-6">Gender <span class="star">*</span></label>
+							<div class="col-md-2">
+								<form:select class="form-control SelectStyle" id="gender"
+									path="gender">
+									<form:option value="0">--Select--</form:option>
+									<form:option value="M">Male</form:option>
+									<form:option value="F">Female</form:option>
+									<form:option value="O">Others</form:option>
+								</form:select>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Address </label>
 							<div class="col-md-6">
 								<form:textarea cols="40" rows="7" path="address"></form:textarea>
@@ -401,7 +399,7 @@ px
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Select District <span class="star">*</span>
 							</label>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<form:select class="form-control SelectStyle" id="district"
 									path="district">
 									<form:option value="0">--Select--</form:option>
@@ -431,28 +429,25 @@ px
 					<div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Select Caste <span class="star">*</span></label>
-							<div class="col-md-6">
-								<form:select class="form-control SelectStyle" id="subcaste"
+							<div class="col-md-3">
+								<form:select class="form-control SelectStyle" id="prcaste"
 									path="caste">
 									<form:option value="0">--Select--</form:option>
-									<form:option value="1">ST</form:option>
-									<form:option value="2">SC</form:option>
+									<form:option value="1">SC</form:option>
+									<form:option value="2">ST</form:option>
 								</form:select>
 							</div>
 						</div>
 					</div>
 					<div class="castesub1" id="stsub">
 
-						<div class="row" style="display: none;">
+						<div class="row" >
 							<div class="col-sm-7 col-md-offset-2 form-group">
 								<label class="col-md-6">Select Sub Caste</label>
-								<div class="col-md-6">
-									<select class="form-control SelectStyle" id="st">
-										<option value="0">--Select--</option>
-										<option value="0">ST sub caste1</option>
-										<option value="0">ST sub caste1</option>
-										<option value="0">ST sub caste1</option>
-									</select>
+								<div class="col-md-3">
+									<form:select class="form-control SelectStyle" id="prsubcaste" path="subcaste">
+										<form:option value="0">--Select--</form:option>
+									</form:select>
 
 								</div>
 							</div>
@@ -503,7 +498,7 @@ px
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Mandal <span class="star">*</span>
 							</label>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<form:input class="form-control" path="mandal" namxmlns="mandal"/>
 							</div>
 						</div>
@@ -512,7 +507,7 @@ px
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Village <span class="star">*</span>
 							</label>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<form:input class="form-control" path="village" namxmlns="village"/>
 							</div>
 						</div>
@@ -521,7 +516,7 @@ px
 					<div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Pincode <span class="star">*</span></label>
-							<div class="col-md-6">
+							<div class="col-md-2">
 								<form:input type="text" class="form-control" path="pincode" maxlength="6"/>
 							</div>
 						</div>
@@ -529,8 +524,8 @@ px
 					<div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Alternate Mobile Number </label>
-							<div class="col-md-6">
-								<form:input type="text" path="prMobile" class="form-control" />
+							<div class="col-md-3">
+								<form:input type="text" path="prMobile" class="form-control" maxlength="12" />
 							</div>
 						</div>
 					</div>
@@ -538,15 +533,15 @@ px
 					<div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">E-Mail ID </label>
-							<div class="col-md-6">
-								<form:input type="text" class="form-control" path="prMail" />
+							<div class="col-md-4">
+								<form:input type="text" class="form-control" path="prMail" maxlength="50"  />
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Identity Type <span class="star">*</span></label>
-							<div class="col-md-6">
+							<div class="col-md-3">
 								<form:select class="form-control SelectStyle" id="Identitype"
 									path="prProofType">
 									<%-- 
@@ -565,7 +560,7 @@ px
 							</div>
 						</div>
 					</div>
-					<div class="identitytype22" id="otherid">
+					<div class="identitytype22" id="otherid" style="display: none;">
 						<div class="row">
 							<div class="col-sm-7 col-md-offset-2 form-group">
 								<label class="col-md-6">Other Identity type : </label>
@@ -583,7 +578,7 @@ px
 								<label class="col-md-6">Identity Number<span
 									class="star">*</span>
 								</label>
-								<div class="col-md-6">
+								<div class="col-md-3">
 									<form:input type="text" class="form-control"
 										placeholder=" Identity no. " path="prProofId" />
 								</div>
@@ -679,7 +674,7 @@ px
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6"> Designation/Profession <span
 					class="star">*</span></label>
-				<div class="col-md-6">
+				<div class="col-md-3">
 					<form:input type="text" class="form-control"
 						placeholder="Profession" path="bprProfession" />
 				</div>
@@ -696,9 +691,9 @@ px
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6"> Mobile Number</label>
-				<div class="col-md-6">
+				<div class="col-md-3">
 					<form:input type="text" class="form-control"
-						placeholder="mobile no" path="bprAddress" />
+						placeholder="mobile no" path="bprAddress" maxlength="12" />
 				</div>
 			</div>
 		</div>
@@ -706,16 +701,16 @@ px
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">E-mail ID</label>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<form:input type="text" class="form-control"
-						placeholder="e-Mail ID" path="bprMail" />
+						placeholder="e-Mail ID" path="bprMail" maxlength="50" />
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Identity Type <span class="star">*</span></label>
-				<div class="col-md-6">
+				<div class="col-md-3">
 					<form:select class="form-control SelectStyle" id="Identitypeno"
 						path="bprProofId">
 						<form:option value="0">--Select--</form:option>
@@ -744,7 +739,7 @@ px
 				<div class="col-sm-7 col-md-offset-2 form-group">
 					<label class="col-md-6">Identity Number<span class="star">*</span>
 					</label>
-					<div class="col-md-6">
+					<div class="col-md-3">
 						<form:input type="text" class="form-control"
 							placeholder=" Identity no. " path="bprProofNo" />
 					</div>
@@ -800,36 +795,10 @@ px
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-7 col-md-offset-2 form-group">
-				<label class="col-md-6">Age of the Petitioner ( in years)<span
-					class="star">*</span>
-				</label>
-				<div class="col-md-6">
-					<form:input type="text" id="form-control" size="3"
-						placeholder=" Age " path="bprage" />
-				</div>
-			</div>
-		</div>
-
-
-		<div class="row">
-			<div class="col-sm-7 col-md-offset-2 form-group">
-				<label class="col-md-6">Gender <span class="star">*</span></label>
-				<div class="col-md-6">
-					<form:select class="form-control SelectStyle" id="" path="bprgender">
-						<form:option value="0">--Select--</form:option>
-						<form:option value="M">Male</form:option>
-						<form:option value="F">Female</form:option>
-						<form:option value="O">Others</form:option>
-					</form:select>
-				</div>
-			</div>
-		</div>
-		<div class="row">
+			<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Relation Type <span class="star">*</span></label>
-				<div class="col-md-6">
+				<div class="col-md-2">
 					<form:select class="form-control SelectStyle" id="bprrelation"
 						path="bprrelationType">
 						<form:option value="0">--Select--</form:option>
@@ -844,12 +813,39 @@ px
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Relation Name<span class="star">*</span>
 				</label>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<form:input type="text" class="form-control" value=""
 						placeholder=" Relation name " path="bprrelationName" />
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-sm-7 col-md-offset-2 form-group">
+				<label class="col-md-6">Age of the Petitioner ( in years)<span
+					class="star">*</span>
+				</label>
+				<div class="col-md-2">
+					<form:input type="text" class="form-control" maxlength="3"
+						placeholder=" Age " path="bprage" />
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-sm-7 col-md-offset-2 form-group">
+				<label class="col-md-6">Gender <span class="star">*</span></label>
+				<div class="col-md-2">
+					<form:select class="form-control SelectStyle" id="" path="bprgender">
+						<form:option value="0">--Select--</form:option>
+						<form:option value="M">Male</form:option>
+						<form:option value="F">Female</form:option>
+						<form:option value="O">Others</form:option>
+					</form:select>
+				</div>
+			</div>
+		</div>
+	
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Address </label>
@@ -863,22 +859,33 @@ px
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Select Caste <span class="star">*</span></label>
-				<div class="col-md-6">
-					<form:select class="form-control SelectStyle" id="bprsubcaste"
+				<div class="col-md-3">
+					<form:select class="form-control SelectStyle" id="bprcaste"
 						path="bprcaste">
 						<form:option value="0">--Select--</form:option>
-						<form:option value="1">ST</form:option>
-						<form:option value="2">SC</form:option>
+						<form:option value="1">SC</form:option>
+						<form:option value="2">ST</form:option>
 					</form:select>
 				</div>
 			</div>
 		</div>
 		
+						<div class="row" >
+							<div class="col-sm-7 col-md-offset-2 form-group">
+								<label class="col-md-6">Select Sub Caste</label>
+								<div class="col-md-3">
+									<form:select class="form-control SelectStyle" id="bprsubcaste" path="bprsubcaste">
+										<form:option value="0">--Select--</form:option>
+									</form:select>
+
+								</div>
+							</div>
+						</div>
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Select District <span class="star">*</span>
 				</label>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<form:select class="form-control SelectStyle" id="" path="bprdistrict">
 						<form:option value="0">--Select--</form:option>
 						<form:option value="1">Hyderabad</form:option>
@@ -967,7 +974,7 @@ px
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Mandal <span class="star">*</span>
 							</label>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<form:input class="form-control" path="bprmandal" namxmlns="mandal"/>
 							</div>
 						</div>
@@ -976,7 +983,7 @@ px
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Village <span class="star">*</span>
 							</label>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<form:input class="form-control" path="bprvillage" namxmlns="village"/>
 							</div>
 						</div>
@@ -985,7 +992,7 @@ px
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Pincode <span class="star">*</span></label>
-				<div class="col-md-6">
+				<div class="col-md-3">
 					<form:input type="text" class="form-control" path="bprpincode" size="6" maxlength="6" />
 				</div>
 			</div>
@@ -993,7 +1000,7 @@ px
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Alternate Mobile Number </label>
-				<div class="col-md-6">
+				<div class="col-md-3">
 					<form:input type="text" path="bprprMobile" class="form-control" size="10" maxlength="10" />
 				</div>
 			</div>
@@ -1002,7 +1009,7 @@ px
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">E-Mail ID </label>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<form:input type="text" class="form-control" value="" path="bprprMail" />
 				</div>
 			</div>
@@ -1010,7 +1017,7 @@ px
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Identity Type <span class="star">*</span></label>
-				<div class="col-md-6">
+				<div class="col-md-3">
 					<form:select class="form-control SelectStyle" id="brIdentitype"
 						path="bprprProofType">
 						<form:option value="0">--Select--</form:option>
@@ -1038,7 +1045,7 @@ px
 				<div class="col-sm-7 col-md-offset-2 form-group">
 					<label class="col-md-6">Identity Number<span class="star">*</span>
 					</label>
-					<div class="col-md-6">
+					<div class="col-md-3">
 						<form:input type="text" class="form-control" value="" placeholder=" Identity no. " path="bprprProofId" />
 					</div>
 				</div>
@@ -1362,6 +1369,90 @@ px
 		document.register.action="savePetition.htm";
 		document.register.submit();
 		}
+
+
+
+	//fetching subcaste onchange caste select option 
+	$(document)
+	.ready(
+			function() {
+
+				$('#prcaste')
+						.on(
+								'change',
+								function() {
+									
+									var caste = $('#prcaste').val();
+
+							
+									//var dist = $('#dist').val();
+									$
+											.ajax({
+												type : 'GET',
+												url : '/scst/loadcaste/'
+														+ caste,
+												success : function(
+														result) {
+
+													
+													$('#prsubcaste').html('');
+													$("#prsubcaste").append(new Option("--Select--", "0"));
+													var result = JSON
+															.parse(result);
+													var s = '';
+													for (var i = 0; i < result.length; i++) {
+														s += '<option value="'+result[i].ccode+'">'
+																+ result[i].cname
+																+ '</option>';
+													}
+													$('#prsubcaste')
+															.append(s);
+												}
+											});
+								});
+
+			});
+
+	//fetching subcaste onchange caste select option 
+	$(document)
+	.ready(
+			function() {
+
+				$('#bprcaste')
+						.on(
+								'change',
+								function() {
+							
+									var caste = $('#bprcaste').val();
+
+							
+									//var dist = $('#dist').val();
+									$
+											.ajax({
+												type : 'GET',
+												url : '/scst/loadcaste/'
+														+ caste,
+												success : function(
+														result) {
+
+													
+													$('#bprsubcaste').html('');
+													$("#bprsubcaste").append(new Option("--Select--", "0"));
+													var result = JSON
+															.parse(result);
+													var s = '';
+													for (var i = 0; i < result.length; i++) {
+														s += '<option value="'+result[i].ccode+'">'
+																+ result[i].cname
+																+ '</option>';
+													}
+													$('#bprsubcaste')
+															.append(s);
+												}
+											});
+								});
+
+			});
 	</script>
 
 

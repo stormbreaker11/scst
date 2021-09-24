@@ -254,7 +254,7 @@ margin-right: 10px;
 	<c:if test="${type=='I'}">
 	Type of Petition : Individual
 	</c:if>
-	<c:if test="${type}=='G'">
+	<c:if test="${type=='G'}">
 	Type of Petition : Group
 	</c:if>
 	</td>

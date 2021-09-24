@@ -34,7 +34,7 @@ public class LandDaoImpl implements LandDao {
 		
 		int save=0;
 		
-		
+		try {
 		String sql="INSERT INTO land_appeal(petition_id, petitioner_id, userid, appeal,pet_detail, comp_in_court,"
 				+ " court_name, court_state, court_dist, court_mandal,"
 				+ " case_no, case_status, entry_date)"
@@ -68,7 +68,7 @@ public class LandDaoImpl implements LandDao {
 			map.addValue("case_no", null);
 			map.addValue("case_status", null);
 		}
-		try {
+		
 			
 			save= namedParameterJdbcTemplate.update(sql, map);
 			if(save==1) {
@@ -213,8 +213,8 @@ public class LandDaoImpl implements LandDao {
 		
 		
 		
-		String query="select appeal, pet_detail, comp_in_court, court_name,court_state,court_dist, court_mandal, "+
-				" case_no, case_status from land_appeal where petition_id=?";
+		String query="select appeal, pet_detail, comp_in_court, court_name,court_state, s.sname, court_dist, d.dname, court_mandal, case_no, case_status from "
+				+ " land_appeal, state s, district d where court_state=s.scode and court_dist=d.dcode and petition_id=?";
 		Petitition_Land land= new Petitition_Land();
 		
 		return jdbcTemplate.query(query, new Object[] {petition}, new ResultSetExtractor<Petitition_Land>() {
@@ -225,11 +225,13 @@ public class LandDaoImpl implements LandDao {
 					land.setPet_detail(rs.getString("pet_detail"));
 					land.setCourtComp(rs.getString("comp_in_court"));
 					land.setCourtName(rs.getString("court_name"));
-					land.setCourtState(rs.getString("court_state"));
-					land.setCourtDist(rs.getString("court_state"));
+					land.setCourtState(rs.getString("sname"));
+					land.setCourtDist(rs.getString("dname"));
 					land.setCourtMandal(rs.getString("court_mandal"));
 					land.setCaseNo(rs.getString("case_no"));
 					land.setCaseStatus(rs.getString("case_status"));
+					land.setCourtStateCode(rs.getString("court_state"));
+					land.setCourtDistCode(rs.getString("court_dist"));
 					/*
 					 * String pid=pl.getPetitionId().substring(0,
 					 * 2)+"/"+pl.getPetitionerId().substring(2,
@@ -283,7 +285,7 @@ public class LandDaoImpl implements LandDao {
 				   + " SET  land_kind=:land_kind, "
 					   + "    land_type=:land_type,  district=:district, mandal=:mandal, village=:village, passbook_no=:passbook_no, "
 					   + "    survey_no=:survey_no, extent_land=:extent_land, land_units=:land_units, action_date=now(), "
-					   + "  action_userid=:action_userid where land_srno=:land_srno and petitioner_id=:petitioner_id";
+					   + "  action_userid=:action_userid where land_srno=:land_srno and petition_id=:petition_id";
 		
 		
 		MapSqlParameterSource map = new MapSqlParameterSource();
@@ -301,7 +303,7 @@ public class LandDaoImpl implements LandDao {
 			map.addValue("land_units", land.getUnits());
 			map.addValue("action_userid", login.getCompid());
 			map.addValue("land_srno", land.getLandId());
-			map.addValue("petitioner_id", land.getPetitionerId());
+			map.addValue("petition_id", land.getPetitionId());
 			
 			
 			update = namedParameterJdbcTemplate.update(sql, map);
@@ -368,42 +370,94 @@ public class LandDaoImpl implements LandDao {
 		
 		int update = 0;
 		try {
-
-			String updateQuery = "UPDATE land_appeal SET appeal=:appeal, pet_detail=:pet_detail, "
-					+ " comp_in_court=:comp_in_court, court_name=:court_name, court_state=:court_state, "
-					+ "court_dist=:court_dist, court_mandal=:court_mandal, case_order=:case_order, "
-					+ " case_no=:case_no, case_status=:case_status, action_date=now(), action_userid=:action_userid where petition_id=:petition_id ";
-
-			MapSqlParameterSource map = new MapSqlParameterSource();
-			map.addValue("petition_id", land.getPetitionId());
-			map.addValue("appeal", land.getAppeal());
-			map.addValue("pet_detail", land.getPet_detail());
-			map.addValue("comp_in_court", land.getCourtComp());
-			map.addValue("action_userid", login.getCompid());
-
-			if (land.getCourtComp().equals("Y")) // Court complaint --- Yes
-			{
-				map.addValue("court_name", land.getCourtName());
-				map.addValue("court_state", Integer.parseInt(land.getCourtState()));
-				map.addValue("court_dist", Integer.parseInt(land.getCourtDist()));
-				map.addValue("court_mandal", land.getCourtMandal());
-				map.addValue("case_no", land.getCaseNo());
-				map.addValue("case_status", land.getCaseStatus());
-				map.addValue("case_order", land.getCourtOrder());
-
-			} else {
-
-				map.addValue("court_name", null);
-				map.addValue("court_state", null);
-				map.addValue("court_dist", null);
-				map.addValue("court_mandal", null);
-				map.addValue("case_no", null);
-				map.addValue("case_status", null);
-				map.addValue("case_order", null);
-
+			
+			
+			String countQuery="select count(*) from land_appeal where petition_id=?";
+			
+			int count=jdbcTemplate.queryForObject(countQuery, new Object[] {land.getPetitionId()}, Integer.class);
+			
+			if(count==0) {
+				
+				
+				String sql="INSERT INTO land_appeal(petition_id, petitioner_id, userid, appeal,pet_detail, comp_in_court,"
+						+ " court_name, court_state, court_dist, court_mandal,"
+						+ " case_no, case_status, entry_date)"
+						+ "VALUES (:petition_id,:petitioner_id,:userid, :appeal,:pet_detail, :comp_in_court,"
+						+ ":court_name,:court_state,:court_dist,:court_mandal,:case_no,:case_status, now() )";
+			
+				MapSqlParameterSource map= new MapSqlParameterSource();
+				
+				map.addValue("petition_id", land.getPetitionId());
+				map.addValue("petitioner_id", land.getPetitionerId());
+				map.addValue("userid", login.getCompid());
+				map.addValue("appeal", land.getAppeal());
+				map.addValue("pet_detail", land.getPet_detail());
+				map.addValue("comp_in_court", land.getCourtComp());
+			
+				
+				if(land.getCourtComp().equals("Y")) {
+					map.addValue("court_name", land.getCourtName());
+					map.addValue("court_state", Integer.parseInt(land.getCourtState()));
+					map.addValue("court_dist", Integer.parseInt(land.getCourtDist()));
+					map.addValue("court_mandal", land.getCourtMandal());
+					map.addValue("case_no", land.getCaseNo());
+					map.addValue("case_status", land.getCaseStatus());
+					
+				}else {
+					
+					map.addValue("court_name", null);
+					map.addValue("court_state", null);
+					map.addValue("court_dist", null);
+					map.addValue("court_mandal", null);
+					map.addValue("case_no", null);
+					map.addValue("case_status", null);
+				}
+				
+					
+				update= namedParameterJdbcTemplate.update(sql, map);
+				
+				
+				
 			}
+			else {
+				
+				String updateQuery = "UPDATE land_appeal SET appeal=:appeal, pet_detail=:pet_detail, "
+						+ " comp_in_court=:comp_in_court, court_name=:court_name, court_state=:court_state, "
+						+ "court_dist=:court_dist, court_mandal=:court_mandal, case_order=:case_order, "
+						+ " case_no=:case_no, case_status=:case_status, action_date=now(), action_userid=:action_userid where petition_id=:petition_id ";
 
-			update = namedParameterJdbcTemplate.update(updateQuery, map);
+				MapSqlParameterSource map = new MapSqlParameterSource();
+				map.addValue("petition_id", land.getPetitionId());
+				map.addValue("appeal", land.getAppeal());
+				map.addValue("pet_detail", land.getPet_detail());
+				map.addValue("comp_in_court", land.getCourtComp());
+				map.addValue("action_userid", login.getCompid());
+
+				if (land.getCourtComp().equals("Y")) // Court complaint --- Yes
+				{
+					map.addValue("court_name", land.getCourtName());
+					map.addValue("court_state", Integer.parseInt(land.getCourtState()));
+					map.addValue("court_dist", Integer.parseInt(land.getCourtDist()));
+					map.addValue("court_mandal", land.getCourtMandal());
+					map.addValue("case_no", land.getCaseNo());
+					map.addValue("case_status", land.getCaseStatus());
+					map.addValue("case_order", land.getCourtOrder());
+
+				} else {
+
+					map.addValue("court_name", null);
+					map.addValue("court_state", null);
+					map.addValue("court_dist", null);
+					map.addValue("court_mandal", null);
+					map.addValue("case_no", null);
+					map.addValue("case_status", null);
+					map.addValue("case_order", null);
+
+				}
+
+				update = namedParameterJdbcTemplate.update(updateQuery, map);	
+				
+			}
 		}
 
 		catch (Exception e) {

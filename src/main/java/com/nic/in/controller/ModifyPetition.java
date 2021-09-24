@@ -15,7 +15,9 @@ import com.nic.in.commons.ScstCommons;
 import com.nic.in.dao.AtrocityDao;
 import com.nic.in.dao.DocDao;
 import com.nic.in.dao.GeneralDao;
+import com.nic.in.dao.JointPetitionerDao;
 import com.nic.in.dao.LandDao;
+import com.nic.in.dao.PetitionDao;
 import com.nic.in.dao.RespondentDao;
 import com.nic.in.dao.ServiceDao;
 import com.nic.in.model.Atrocity;
@@ -23,9 +25,12 @@ import com.nic.in.model.District;
 import com.nic.in.model.Documents;
 import com.nic.in.model.General;
 import com.nic.in.model.Land;
+import com.nic.in.model.Petition;
+import com.nic.in.model.Petitioner;
 import com.nic.in.model.Petitition_Land;
 import com.nic.in.model.Respondent;
 import com.nic.in.model.Service;
+import com.nic.in.model.State;
 
 
 @Controller
@@ -50,6 +55,11 @@ public class ModifyPetition {
 	@Autowired
 	private DocDao doc;
 	
+	@Autowired
+	private PetitionDao petitiondao; 
+	
+	@Autowired
+	private JointPetitionerDao jpDao;
 	@Autowired
 	private ScstCommons commons;
 	@RequestMapping(value = "modifypetition.htm/{petitioner}/{petition}/{type}/{cat}")
@@ -77,12 +87,24 @@ public class ModifyPetition {
 		model.addAttribute("pid", petitioner);
 		HttpSession httpSession=httpServletRequest.getSession();
 		httpSession.setAttribute("petitionID", petition);
-		if(cat.equals("L")) {	//Land
+		List<State> states = commons.getStates();
+		List<Petitioner> jplist= jpDao.getJointPetioners(petition); //fetching joint petioners for group petition
+		model.addAttribute("jplist", jplist);
+		Petition grppetition= petitiondao.getPetitionDetails(petition); //group petition details
+		model.addAttribute("petition", grppetition );
+		if(cat.equals("L")) {//Land
 			Petitition_Land landAppeal = landdao.getLandAppeal(petition);
 			//System.out.println(landAppeal.getCourtComp()+ " "+landAppeal.getCourtComp().length() );
 			model.addAttribute("petitionland", landAppeal);
+			model.addAttribute("states", states);
 			model.addAttribute("category", "Land");
-			view="edit_petition";
+			if(type.equals("G")) {
+				model.addAttribute("jointpetitioner", new Petitioner() );
+				view="edit_petition_group";
+			}
+			else {
+				view="edit_petition";
+			}
 		}
 		
 		if(cat.equals("S")) {	//Service
@@ -91,7 +113,15 @@ public class ModifyPetition {
 		//	System.out.println(landAppeal.getCourtComp()+ " "+landAppeal.getCourtComp().length() );
 			model.addAttribute("service", service);
 			model.addAttribute("category", "Service");
-			view="edit_service";
+			
+			if(type.equals("G")) {
+				//model.addAttribute("jointpetitioner", new Petitioner() );
+				model.addAttribute("jointpetitioner", new Petitioner() );
+				view="edit_service_group";
+			}else {
+				
+				view="edit_service";
+			}
 		}
 		if(cat.equals("A")) {	//Atrocity
 			Atrocity updateatrocity = atrocitydao.getAtrocityPetition(petition);
@@ -101,14 +131,29 @@ public class ModifyPetition {
 			//System.out.println(landAppeal.getCourtComp()+ " "+landAppeal.getCourtComp().length() );
 			model.addAttribute("updateatrocity", updateatrocity);
 			model.addAttribute("category", "Atrocity");
-			view="edit_atrocity";
+			
+			if(type.equals("G")) {
+				model.addAttribute("jointpetitioner", new Petitioner() );
+				
+				view="edit_atrocity_group";
+			}else {
+				view="edit_atrocity";
+			}
 		}
 		if(cat.equals("G")) {	//General
 			General updategeneral = generaldao.getGeneralPetition(petition);
 			//System.out.println(landAppeal.getCourtComp()+ " "+landAppeal.getCourtComp().length() );
 			model.addAttribute("updategeneral", updategeneral);
 			model.addAttribute("category", "General");
-			view="edit_general";
+			
+			if(type.equals("G")) {
+				//model.addAttribute("jointpetitioner", new Petitioner() );
+				model.addAttribute("jointpetitioner", new Petitioner() );
+				view="edit_general_group";
+			}else 
+			{
+				view="edit_general";
+			}
 		}
 		
 		return view;

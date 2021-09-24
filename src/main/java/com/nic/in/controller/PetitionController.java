@@ -24,6 +24,7 @@ import com.nic.in.model.General;
 import com.nic.in.model.Login;
 import com.nic.in.model.NodalOfficer;
 import com.nic.in.model.Petition;
+import com.nic.in.model.Petitioner;
 import com.nic.in.model.Petitition_Land;
 import com.nic.in.model.Service;
 import com.nic.in.model.State;
@@ -39,7 +40,7 @@ public class PetitionController {
 	private ScstCommons scstdao;
 
 	@RequestMapping(value = "/petitiondetails.htm", method = RequestMethod.POST)
-	public String petitionDetails(HttpServletRequest httpServletRequest, @ModelAttribute("nodal") NodalOfficer no, @RequestParam("file") MultipartFile nodalSign, Model model, @RequestParam String type, @RequestParam String pid, @RequestParam String category ) throws IOException {
+	public String petitionDetails(HttpServletRequest httpServletRequest, @ModelAttribute("petition") Petition petition, @RequestParam("file") MultipartFile nodalSign, Model model, @RequestParam String type, @RequestParam String pid, @RequestParam String category ) throws IOException {
 		
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		String petitionId=petitiondao.createPetitionId(pid, type);
@@ -49,7 +50,6 @@ public class PetitionController {
 			model.addAttribute("category", category);
 			model.addAttribute("pid", pid);
 			
-			Petition petition= new Petition();
 			petition.setPetitionCat(category);
 			petition.setPetitionType(type);
 			petition.setPetitionerId(pid);
@@ -75,13 +75,18 @@ public class PetitionController {
 			List<District> district = scstdao.getDistrict("36");
 			model.addAttribute("district", district);
 			byte[] bytes = IOUtils.toByteArray(nodalSign.getInputStream());
-			no.setNodalSign(bytes); /// setting nodal sign
+			petition.setNodalSign(bytes); /// setting nodal sign
 
 		    //inserting petition 
-			int insertPetition = petitiondao.insertPetition(petition, no, login);
+			int insertPetition = petitiondao.insertPetition(petition, login);
 			if(insertPetition==1) {
 				HttpSession httpSession=httpServletRequest.getSession();
 				httpSession.setAttribute("petitionID", petitionId);
+				
+				if(type.equals("G")) {
+					model.addAttribute("jointpetitioner", new Petitioner());
+					return "jointpetitioner";
+				}
 				if(category.equals("L")) {  //L for land
 					model.addAttribute("petitionland", new Petitition_Land());
 					model.addAttribute("states", states);
@@ -113,7 +118,6 @@ public class PetitionController {
 					"Error : Filing Petition, try again ");
 			return "filepetition";
 	}
-	
 	@RequestMapping(value = "finalsubmit.htm" , method = RequestMethod.POST)
 	public String finalSubmit(HttpServletRequest httpServletRequest, @RequestParam String petitionerId, @RequestParam String category, @RequestParam String type, Model model) {
 		String pid = (String) httpServletRequest.getSession().getAttribute("petitionID");

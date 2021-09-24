@@ -248,7 +248,7 @@ margin-right: 10px;
 	<c:if test="${type=='I'}">
 	Type of Petition : Individual
 	</c:if>
-	<c:if test="${type}=='G'">
+	<c:if test="${type=='G'}">
 	Type of Petition : Group
 	</c:if>
 	</td>
@@ -394,72 +394,14 @@ margin-right: 10px;
 														Select State</label>
 													<div
 														class="col-md-4">
-														<form:select class="form-control SelectStyle"
-															id="courtState" path="courtState">
-															<%-- <form:option value="0">--Select--
-															</form:option> --%>
-															<%-- <form:option value="2">Telangana
-															</form:option>
-															<form:option value="3" >Andhra Pradesh
-															</form:option>
-															<form:option value="4">Karnataka
-															</form:option>
-															<form:option value="5">State-4
-															</form:option>
-															<form:option value="6">State-5
-															</form:option> --%>
-<c:if test="${landAppeal.courtState=='1'}">
-<form:option selected="selected" value="1">Telangana
-															</form:option>
-															<form:option value="2" >Andhra Pradesh
-															</form:option>
-															<form:option value="3">Karnataka
-															</form:option>
-															<form:option value="5">State-4
-															</form:option>
-															<form:option value="6">State-5
-															</form:option>
-</c:if>
-															
-<c:if test="${landAppeal.courtState=='2'}">
-<form:option value="1">Telangana
-															</form:option>
-															<form:option selected="selected"  value="2" >Andhra Pradesh
-															</form:option>
-															<form:option value="3">Karnataka
-															</form:option>
-															<form:option value="5">State-4
-															</form:option>
-															<form:option value="6">State-5
-															</form:option>
-</c:if>
-<c:if test="${landAppeal.courtState=='3'}">
-<form:option value="1">Telangana
-															</form:option>
-															<form:option   value="2" >Andhra Pradesh
-															</form:option>
-															<form:option selected="selected" value="3">Karnataka
-															</form:option>
-															<form:option value="5">State-4
-															</form:option>
-															<form:option value="6">State-5
-															</form:option>
-</c:if><c:if test="${empty landAppeal.courtState}">
-<form:option value="0">--Select--
-															</form:option>
-<form:option value="1">Telangana
-															</form:option>
-															<form:option   value="2" >Andhra Pradesh
-															</form:option>
-															<form:option selected="selected" value="3">Karnataka
-															</form:option>
-															<form:option value="5">State-4
-															</form:option>
-															<form:option value="6">State-5
-															</form:option>
-</c:if>
-														</form:select>
-													</div>
+												<form:select class="form-control SelectStyle"
+													id="courtState" path="courtState">
+													<form:option value="${petitionland.courtStateCode}">${petitionland.courtState}</form:option>
+													<c:forEach items="${states}" var="alt">
+														<form:option value="${alt.scode}">${alt.sname}</form:option>
+													</c:forEach>
+												</form:select>
+											</div>
 											</div>
 											</div>
 
@@ -473,44 +415,9 @@ margin-right: 10px;
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="courtDist"
 															id="courtDist">
-															<form:option value="0" >--Select--
+															<form:option value="${petitionland.courtDistCode}" >${petitionland.courtDist}
 															</form:option>
-															
-															<c:if test="${landAppeal.courtDist=='1'}">
-															
-															<form:option selected="selected" value="1" >Hyderabad
-															</form:option>
-															<form:option value="2">Rangareddy
-															</form:option>
-															<form:option value="1">Nizamabad
-															</form:option>
-															<form:option value="3" >Mahabubnagar
-															</form:option>
-															<form:option value="4" >Medak
-															</form:option></c:if>
-															
-															<c:if test="${landAppeal.courtDist=='2'}">
-															
-															<form:option  value="1" >Hyderabad
-															</form:option>
-															<form:option selected="selected" value="2">Rangareddy
-															</form:option>
-															<form:option value="5">Nizamabad
-															</form:option>
-															<form:option value="3" >Mahabubnagar
-															</form:option>
-															<form:option value="4" >Medak
-															</form:option></c:if>
-															<c:if test="${empty landAppeal.courtDist}">
-															
-															<form:option  value="0" >Hyderabad
-															</form:option>
-															<form:option  value="1" >Mahabubnagar
-															</form:option>
-															<form:option  value="2">Rangareddy
-															</form:option>
-															</c:if>
-															
+														
 														</form:select>
 													</div>
 												</div>
@@ -525,7 +432,7 @@ margin-right: 10px;
 														class="col-md-4">
 														<form:input id="courtMandal" class="form-control SelectStyle"
 															path="courtMandal" value="${landAppeal.courtMandal}" />
-															
+														
 													</div>
 												</div>
 											</div>
@@ -606,13 +513,13 @@ margin-right: 10px;
                         </div>
                         
                          <div align="center">
-                         
+                           <table align="center"><tr><td align="center"> <b><font id="message" color="green"></font></b></td></tr></table>
+                    <table align="center"><tr><td align="center"> <b><font id="warning" color="green"></font></b></td></tr></table>
                     <input type="button" value="Update" id="update" class="btn btn-primary">
                     
                     </div>
                          
-                    <table align="center"><tr><td align="center"> <b><font id="message" color="green"></font></b></td></tr></table>
-                    <table align="center"><tr><td align="center"> <b><font id="warning" color="green"></font></b></td></tr></table>
+                  
                         </div>
                         <div class="tab-pane fade" id="tab2primary">
                         
@@ -704,10 +611,9 @@ margin-right: 10px;
 							<form:select class="form-control SelectStyle" path="landDistrict"
 								id="landDistrict" name="landDistrict">
 								<form:option value="0">--Select--</form:option>
-								<form:option value="1">Hyderabad</form:option>
-								<form:option value="2">Rangareddy</form:option>
-								<form:option value="3">Nizamabad</form:option>
-								<form:option value="4">Mahabubnagar</form:option>
+								<c:forEach items="${district}" var="alt">
+												<form:option value="${alt.distCode}" >${alt.distName}</form:option>
+												</c:forEach>
 
 							</form:select>
 						</div>
@@ -720,8 +626,8 @@ margin-right: 10px;
 						<div class="col-md-4">
 							<form:select class="form-control SelectStyle" path="landmandal"
 								id="landmandal">
-								<form:option value="0">--Select--</form:option>
-								<form:option value="0">Mandal-1</form:option>
+								<form:option value="0" selected="true">--Select--</form:option>
+								<form:option value="1">Mandal-1</form:option>
 
 
 
@@ -934,7 +840,7 @@ margin-right: 10px;
 															<form:option value="0">--Select--
 															</form:option>
 															<c:forEach items="${district}" var="alt">
-												<form:option value="${district.distCode }" >${district.distName }</form:option>
+												<form:option value="${alt.distCode }" >${alt.distName }</form:option>
 												</c:forEach>
 														</form:select>
 													</div>
@@ -1031,10 +937,7 @@ margin-right: 10px;
 														<c:if test="${alt.respType =='P'}"><td>Private/Individual</td> </c:if>
 														<c:if test="${alt.respType =='O'}"><td>Official</td></c:if>
 														<td>${alt.respName }</td>
-													 <c:if test="${alt.caste == '1 '}"><td  style="text-align: center;" >OC</td> </c:if>
-														<c:if test="${alt.caste == '2 ' }"><td  style="text-align: center;" >BC</td></c:if>
-														<%-- <c:if test="${(alt.caste=='1 ')  || (guess > 20)}"><td  style="text-align: center;" >BC</td></c:if> --%>
-														
+														<td>${alt.caste}</td>
 														<td >${alt.respProffesion }</td>
 														<td>${alt.district }</td>
 														<td style="text-align: center;" >${alt.mobile }</td>
@@ -1187,7 +1090,7 @@ margin-right: 10px;
 											<td style="display: none; text-align: center;" id="hiddencode" >${alt.docNo}</td>
 											<td style=" text-align: center;" >${counter.count}</td>
 											<td>${alt.docDesc}</td>
-											<td style="text-align: center;" onclick="openRequestedPopup(${alt.docNo})"  ><a href="#"  data-toggle="tooltip" title="Click to view"> <img height="22px"  src="${pageContext.request.contextPath}/static/images/pdf-32.png"></img></a></td>
+											<td style="text-align: center;" onclick="openEvidence(${alt.docNo})"  ><a href="#"  data-toggle="tooltip" title="Click to view"> <img height="22px"  src="${pageContext.request.contextPath}/static/images/pdf-32.png"></img></a></td>
 											<td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td>
 											</tr>
 											</c:forEach>
@@ -1290,10 +1193,9 @@ margin-right: 10px;
 											<select class="form-control SelectStyle"
 												id="landDistrict" name="landDistrict">
 												<option value="0">--Select--</option>
-												<option value="1">Hyderabad</option>
-												<option value="2">Rangareddy</option>
-												<option value="3">Nizamabad</option>
-												<option value="4">Mahabubnagar</option>
+												<c:forEach items="${district}" var="alt">
+												<option value="${alt.distCode }" >${alt.distName }</option>
+												</c:forEach>
 
 											</select>
 										</div>
@@ -1475,7 +1377,7 @@ margin-right: 10px;
 												id="district">
 												<option value="0">--Select--</option>
 												<c:forEach items="${district}" var="alt">
-												<option value="${district.distCode }" >${district.distName }</option>
+												<option value="${alt.distCode }" >${alt.distName }</option>
 												</c:forEach>
 											</select>
 										</div>
@@ -1737,6 +1639,7 @@ $(document).on('click','#landTable  #edit', function() {
 				$('#exampleModal #landKind').val(obj.landKind).change();
 				$('#exampleModal #pitition1').val(obj.landType).change();
 				$('#exampleModal #landDistrict').val(obj.landDistrict).change();
+				//$('#exampleModal #castevalue').val(obj.landDistrict).change();
 
 				$('#exampleModal #landmandal').val(obj.landmandal).change();
 				$('#exampleModal #units').val(obj.units).change();
@@ -1987,7 +1890,7 @@ $(function(){
 						+ ++k
 						+ '</td><td>'
 						+ doctext
-						+ '</td><td style="text-align: center;" onclick="openRequestedPopup('+response+')"  ><a href="#" data-toggle="tooltip" title="Click to view" > <img height="22px"  src="${pageContext.request.contextPath}/static/images/pdf-32.png"></img></a></td><td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td></tr>'
+						+ '</td><td style="text-align: center;" onclick="openEvidence('+response+')"  ><a href="#" data-toggle="tooltip" title="Click to view" > <img height="22px"  src="${pageContext.request.contextPath}/static/images/pdf-32.png"></img></a></td><td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td></tr>'
 						$("#uploadTable").append($(s));
 						$("#uploadTable").show();
 						$("#docdiv").show();
@@ -2008,7 +1911,7 @@ $(function(){
 
 //popup window
 
-function openRequestedPopup(response) {
+function openEvidence(response) {
 	let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
 		width=1000,height=600,left=250,top=150`;
 	var pid=$("#petitionId").val();
@@ -2241,11 +2144,11 @@ $(document).on('click','#edit', function() {
 										},
 										success : function(response) {
 											var obj = JSON.parse(response);
-
+                                           
 											$("#exampleModal1 #respName")
 													.val(obj.respName);
 											$("#exampleModal1 #castevalue")
-													.val(obj.caste);
+													.val(obj.caste.trim()).change();
 											$("#exampleModal1 #address")
 													.val(obj.address);
 											$("#exampleModal1 #mobile").val(
@@ -2302,7 +2205,6 @@ $(document).on('click','#edit', function() {
 						},
 						success : function(response) {
 
-							alert(response)
 							if (response == "Y") {
 								getRespondentList();
 							} else {
@@ -2383,6 +2285,48 @@ $(document).on('click','#edit', function() {
 		function focus() {
 			document.getElementById("appeal").focus();
 		}
+
+		//fetching districts onchange state select option 
+		$(document)
+		.ready(
+				function() {
+
+					$('#courtState')
+							.on(
+									'change',
+									function() {
+								
+										var stateid = $('#courtState').val();
+										///alert(stateid)
+								
+										//var dist = $('#dist').val();
+										$
+												.ajax({
+													type : 'GET',
+													url : '/scst/loaddistricts/'
+															+ stateid,
+													success : function(
+															result) {
+
+														
+														$('#courtDist').html('');
+														$("#courtDist").append(new Option("--Select--", "0"));
+														var result = JSON
+																.parse(result);
+														var s = '';
+														for (var i = 0; i < result.length; i++) {
+															s += '<option value="'+result[i].distCode+'">'
+																	+ result[i].distName
+																	+ '</option>';
+														}
+														$('#courtDist')
+																.append(s);
+													}
+												});
+									});
+
+				});
+		
 </script>
 
 

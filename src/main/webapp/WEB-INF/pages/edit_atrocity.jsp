@@ -48,6 +48,8 @@ response.setDateHeader("Expires", 0);
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -246,7 +248,7 @@ margin-right: 10px;
 	<c:if test="${type=='I'}">
 	Type of Petition : Individual
 	</c:if>
-	<c:if test="${type}=='G'">
+	<c:if test="${type=='G'}">
 	Type of Petition : Group
 	</c:if>
 	</td>
@@ -729,11 +731,7 @@ margin-right: 10px;
 														<c:if test="${alt.respType =='P'}"><td>Private/Individual</td> </c:if>
 														<c:if test="${alt.respType =='O'}"><td>Official</td></c:if>
 														<td>${alt.respName }</td>
-												<%-- 	 <c:if test="${alt.caste == '1 '}"><td  style="text-align: center;" >OC</td> </c:if>
-														<c:if test="${alt.caste == '2 ' }"><td  style="text-align: center;" >BC</td></c:if>
-														<c:if test="${(alt.caste=='1 ')  || (guess > 20)}"><td  style="text-align: center;" >BC</td></c:if>
-														 --%>
-														 <td>${alt.caste }</td>
+														<td>${alt.caste}</td>
 														<td >${alt.respProffesion }</td>
 														<td>${alt.district }</td>
 														<td style="text-align: center;" >${alt.mobile }</td>
@@ -1170,10 +1168,9 @@ margin-right: 10px;
 											<select class="form-control SelectStyle" name="district"
 												id="district">
 												<option value="0">--Select--</option>
-												<option value="1">Hyderabad</option>
-												<option value="2">Rangareddy</option>
-												<option value="3">Nizamabad</option>
-												<option value="4">Mahabubnagar</option>
+												<c:forEach items="${district}" var="alt">
+												<option value="${alt.distCode }" >${alt.distName }</option>
+												</c:forEach>
 											</select>
 										</div>
 									</div>
@@ -1276,11 +1273,10 @@ $(document).on('click','#update', function() {
 			success : function(response) {
 
 				if(response=="Y"){
-					alert(response)
                     $("#message").html("Details Updated Successfully");
 					}
 				else{
-					alert(response)
+					
                     $("#warning").html("Updation failed, try again");
 					}
 			}
@@ -1374,7 +1370,7 @@ $(document).on('click','#docdiv #btn-remove', function() {
 						if(rowCount==1){
 							document.getElementById("docdiv").style.display="none";
 					}
-						alert(" Document deleted succesfully");
+						
 						}
 					else{
 						alert(" Document delete failed");
@@ -1455,7 +1451,6 @@ $(function(){
 						$("#uploadTable").show();
 						$("#docdiv").show();
 						$("#proceed").show();
-					alert("Document added successfully")
 					}
 				else{
 						alert("Document upload failed, try again");
@@ -1626,7 +1621,7 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 							} else {
 								$('#respondentdiv').show();
 							}
-							alert("Deleted succesfully");
+							
 						} else {
 							alert(" Delete Unsuccessfull ");
 
@@ -1664,11 +1659,11 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 										},
 										success : function(response) {
 											var obj = JSON.parse(response);
-
+										
 											$("#exampleModal1 #respName")
 													.val(obj.respName);
 											$("#exampleModal1 #castevalue")
-													.val(obj.caste);
+													.val(obj.caste.trim());
 											$("#exampleModal1 #address")
 													.val(obj.address);
 											$("#exampleModal1 #mobile").val(
@@ -1725,7 +1720,6 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 						},
 						success : function(response) {
 
-							alert(response)
 							if (response == "Y") {
 								getRespondentList();
 							} else {

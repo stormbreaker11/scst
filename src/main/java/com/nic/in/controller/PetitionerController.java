@@ -25,6 +25,7 @@ import com.nic.in.dao.PetitionerDao;
 import com.nic.in.model.Identity;
 import com.nic.in.model.Login;
 import com.nic.in.model.NodalOfficer;
+import com.nic.in.model.Petition;
 import com.nic.in.model.Petitioner;
 
 @Controller
@@ -119,7 +120,7 @@ public class PetitionerController {
 			model.addAttribute("typeVal", "G");
 			model.addAttribute("typeOpt", "General");
 		}
-		model.addAttribute("nodal", new NodalOfficer());
+		model.addAttribute("petition", new Petition());
 		return "filepetition";
 	}
 

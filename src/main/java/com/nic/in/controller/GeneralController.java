@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.nic.in.commons.ScstCommons;
 import com.nic.in.dao.GeneralDao;
 import com.nic.in.dao.PetitionDao;
 import com.nic.in.dao.PetitionerDao;
+import com.nic.in.model.District;
 import com.nic.in.model.General;
 import com.nic.in.model.Login;
 import com.nic.in.model.Petition;
@@ -35,6 +37,8 @@ public class GeneralController {
 	@Autowired
 	private PetitionDao petitiondao;
 
+	@Autowired
+	private ScstCommons commons;
 	@RequestMapping(value = "/viewpetitionDetails.htm")
 	public String viewPetitionstatus(HttpServletRequest httpServletRequest, Model mode) {
 
@@ -55,6 +59,8 @@ public class GeneralController {
 			model.addAttribute("type", type);
 			model.addAttribute("typeVal", "S");
 			model.addAttribute("typeOpt", "Service");
+			List<District> districts = commons.getDistrict("36");
+			model.addAttribute("districts", districts);
 	        if(saveGeneralPetition==1) {
 	        	model.addAttribute("pid", general.getPetitioner_id());
 				model.addAttribute("petId", petitionID);
