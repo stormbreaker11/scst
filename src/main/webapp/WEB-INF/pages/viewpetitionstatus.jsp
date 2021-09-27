@@ -322,24 +322,21 @@ px
 				  <div align="center">
             </div>				
           
-            <input type="hidden" name="petitionerId" value="${petition.petitionerId}">
-            <input type="hidden" name="pid" value="${pid}">
-            <input type="hidden" name="category" value="${category}">
-            <input type="hidden" name="type" value="${type}">
+            <input type="hidden" id="petitionerId" name="petitionerId" value="${petition.petitionerId}">
+            <input type="hidden" id="pid" name="pid"  value="${pid}">
+            <input type="hidden" id="petitionId" name="petitionId"  value="${petition.petitionId}">
+            <input type="hidden" id="category" name="category" value="${category}">
+            <input type="hidden" id="type" name="type" value="${type}">
             </form>
          
 							<table class="table table-bordered">
 								<tbody>
-
 								<tr>
 										<td style="vertical-align: middle;" >1</td>
 										<td style="vertical-align: middle;"><b> <span>Name of the Petitioner </span>
 										</b></td>
 										<td style="vertical-align: middle; border-collapse: collapse; "  ><b> ${petition.petitionerName}
 										</b></td>
-										
-										
-										
 									</tr>
 									<tr>
 										<td>2</td>
@@ -507,7 +504,18 @@ px
 				}
 				
 			}
-
+		//Pdf pop up 
+        function printDiv()
+		{
+        	 var category=$("#category").val().toLowerCase(); 
+        	 var petitionerId=$("#petitionerId").val();
+        	 var petid=$("#petitionId").val();
+        	 	let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+        	 		width=1000,height=800,left=200,top=200`;
+        	 	var pid=$("#petitionId").val();
+        	 window.open("/scst/petition/"+category+"/pdfViewPointExport?petitionerId="+petitionerId+"&petid="+petid, 'test', params);
+    	
+		}
    
     </script>
     

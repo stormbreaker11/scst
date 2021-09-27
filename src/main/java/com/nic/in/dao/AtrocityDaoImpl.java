@@ -2,6 +2,7 @@ package com.nic.in.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,13 +141,13 @@ public class AtrocityDaoImpl implements AtrocityDao {
 	@Override
 	public Petition getPetition(String petitionerId, String petid) {
 		String sql="SELECT pm.petition_id, pm.petitioner_id,  pm.submit_date, pr.pr_name, pr.pr_caste, pr.address, pr.pr_photo,  pr.pr_signature, "
-				+ "pr.pr_mobile, pr.pr_email, pr.district, pr.mandal, pr.village, "
+				+ "pr.pr_mobile, pr.pr_email, d.dname, pr.mandal, pr.village, "
 				+ "pm.petition_type, pm.petition_category, pm.submit_date, " 
-				+ "pa.appeal,pa.pet_detail, rs.resp_type from petitioner  pr, " 
-				+ "petition_master pm, petition_atrocity pa, petition_respondent rs "
+				+ "pa.appeal,pa.pet_detail from petitioner pr," 
+				+ "petition_master pm, petition_atrocity pa, district d "
 				+ "where pr.petitioner_id=? and pr.petitioner_id=pa.petitioner_id "
-				+ "and pr.petitioner_id=rs.petitioner_id and pa.petition_id=pm.petition_id"
-				+ " and rs.petition_id=?";
+				+ " and pa.petition_id=pm.petition_id and d.dcode=pr.district"
+				+ " and pm.petition_id=?";
 
 		Petition pl= new Petition();
 
@@ -158,21 +159,31 @@ public class AtrocityDaoImpl implements AtrocityDao {
 					pl.setPetitionerName(rs.getString("pr_name"));
 					pl.setPetitionCat(rs.getString("petition_category"));
 					pl.setPetitionType(rs.getString("petition_type"));
+					pl.setCaste(rs.getString("pr_caste"));
 					pl.setMobile(rs.getString("pr_mobile"));
 					pl.setEmail(rs.getString("pr_email"));
-					pl.setDistrict(rs.getString("district"));
 					pl.setMandal(rs.getString("mandal"));
 					pl.setVillage(rs.getString("village"));
-					pl.setDistrict(rs.getString("district"));
+					pl.setDistrict(rs.getString("dname"));
 					pl.setAppeal(rs.getString("appeal"));
 					pl.setCourtPet(rs.getString("pet_detail"));
-					pl.setRespondent(rs.getString("resp_type"));
 					pl.setSubmit(rs.getString("submit_date"));
 					pl.setPhoto(rs.getBytes("pr_photo"));
 					pl.setSign(rs.getBytes("pr_signature"));
 					
-					String pid=pl.getPetitionId().substring(0, 2)+"/"+pl.getPetitionerId().substring(2, 6)+"/"+pl.getPetitionerId().substring(6, 10);
-					pl.setPetitionId(pid);
+					String pid=pl.getPetitionId().substring(0, 2)+"/"+pl.getPetitionId().substring(2, 6)+"/"+pl.getPetitionId().substring(6, 10);
+					pl.setPetitionFormat(pid);
+					
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					Date fechaNueva;
+						try {
+							fechaNueva = format.parse(pl.getSubmit());
+							format = new SimpleDateFormat("dd-MM-YYYY");
+							pl.setSubmit(format.format(fechaNueva));
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 				}
 				return pl;
 
@@ -221,52 +232,61 @@ public class AtrocityDaoImpl implements AtrocityDao {
 		SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			Date date = simple.parse(a.getOffence_date());
-
-			String sql = "update petition_atrocity set atrocity_type=:atrocity_type, offence_date=:offence_date, offence_place=:offence_place, off_district=:off_district,"
-					+ " off_mandal=:off_mandal, ps_complaint=:ps_complaint, ps_name=:ps_name, ps_village=:ps_village, ps_mandal=:ps_mandal, ps_district=:ps_district,"
-					+ " fir_no=:fir_no, fir_pdf=:fir_pdf, appeal=:appeal,  pet_detail=:pet_detail, action_userid=:action_userid, "
-					+ " action_date=now() where petition_id=:petition_id ";
-
-			MapSqlParameterSource map = new MapSqlParameterSource();
-			map.addValue("petition_id", a.getPetition_id());
-			map.addValue("atrocity_type", a.getAtrocity_type());
-			map.addValue("offence_date", date);
-
-			map.addValue("offence_place", a.getOffence_place());
-			map.addValue("off_district", Integer.parseInt(a.getOff_district()));
-			map.addValue("off_mandal", Integer.parseInt(a.getOff_mandal()));
-			map.addValue("ps_complaint", a.getPs_complaint());
-
-			if (a.getPs_complaint().equals("2")) { // 1 yes, 2 No
-				map.addValue("ps_name", null);
-				map.addValue("ps_village", null);
-				map.addValue("ps_mandal", null);
-				map.addValue("ps_district", null);
-				map.addValue("fir_no", null);
-				map.addValue("fir_pdf", null);
-			} else {
-				map.addValue("ps_name", a.getPs_name());
-				map.addValue("ps_village", a.getPs_village());
-				map.addValue("ps_mandal", Integer.parseInt(a.getPs_mandal()));
-				map.addValue("ps_district", Integer.parseInt(a.getPs_district()));
-				map.addValue("fir_no", a.getFir_no());
-				map.addValue("fir_pdf", a.getFir_pdf());
-
+			String countQuery="select Count(*) from petition_atrocity where petition_id=?";
+			int count=jdbcTemplate.queryForObject(countQuery, new Object[] {a.getPetition_id()}, Integer.class);
+			//inserting into atrocity if count ==0
+			if(count==0) {
+				int saveAtrocityPetition = saveAtrocityPetition(a,login, a.getPetition_id());
+				if(saveAtrocityPetition==1) {
+					save=1;
+				}
 			}
-			map.addValue("appeal", a.getAppeal());
-			map.addValue("pet_detail", a.getPet_detail());
-			map.addValue("action_userid", login.getCompid());
+			else {
+				
+				String sql = "update petition_atrocity set atrocity_type=:atrocity_type, offence_date=:offence_date, offence_place=:offence_place, off_district=:off_district,"
+						+ " off_mandal=:off_mandal, ps_complaint=:ps_complaint, ps_name=:ps_name, ps_village=:ps_village, ps_mandal=:ps_mandal, ps_district=:ps_district,"
+						+ " fir_no=:fir_no, fir_pdf=:fir_pdf, appeal=:appeal,  pet_detail=:pet_detail, action_userid=:action_userid, "
+						+ " action_date=now() where petition_id=:petition_id ";
 
-			int update = namedParameterJdbcTemplate.update(sql, map);
-			if (update == 1) {
-				save = 1;
+				MapSqlParameterSource map = new MapSqlParameterSource();
+				map.addValue("petition_id", a.getPetition_id());
+				map.addValue("atrocity_type", a.getAtrocity_type());
+				map.addValue("offence_date", date);
+
+				map.addValue("offence_place", a.getOffence_place());
+				map.addValue("off_district", Integer.parseInt(a.getOff_district()));
+				map.addValue("off_mandal", Integer.parseInt(a.getOff_mandal()));
+				map.addValue("ps_complaint", a.getPs_complaint());
+
+				if (a.getPs_complaint().equals("2")) { // 1 yes, 2 No
+					map.addValue("ps_name", null);
+					map.addValue("ps_village", null);
+					map.addValue("ps_mandal", null);
+					map.addValue("ps_district", null);
+					map.addValue("fir_no", null);
+					map.addValue("fir_pdf", null);
+				} else {
+					map.addValue("ps_name", a.getPs_name());
+					map.addValue("ps_village", a.getPs_village());
+					map.addValue("ps_mandal", Integer.parseInt(a.getPs_mandal()));
+					map.addValue("ps_district", Integer.parseInt(a.getPs_district()));
+					map.addValue("fir_no", a.getFir_no());
+					map.addValue("fir_pdf", a.getFir_pdf());
+
+				}
+				map.addValue("appeal", a.getAppeal());
+				map.addValue("pet_detail", a.getPet_detail());
+				map.addValue("action_userid", login.getCompid());
+
+				int update = namedParameterJdbcTemplate.update(sql, map);
+				if (update == 1) {
+					save = 1;
+				}
 			}
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			save = 0;
 		}
-
 		return save;
 
 	}

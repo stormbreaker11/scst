@@ -1,15 +1,21 @@
 package com.nic.in.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,16 +25,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.itextpdf.text.DocumentException;
 import com.nic.in.commons.ScstCommons;
+import com.nic.in.dao.DocDao;
 import com.nic.in.dao.LandDao;
 import com.nic.in.dao.PetitionDao;
 import com.nic.in.dao.PetitionerDao;
 import com.nic.in.model.District;
+import com.nic.in.model.Documents;
 import com.nic.in.model.Land;
 import com.nic.in.model.Login;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Petitioner;
 import com.nic.in.model.Petitition_Land;
+import com.nic.in.util.PDFViewPoint;
 
 @Controller
 @RequestMapping("/petition/land/")
@@ -46,6 +56,8 @@ public class LandPetitionController {
 	@Autowired
 	private ScstCommons commons;
 	
+	@Autowired
+	private DocDao docdao;
 	@RequestMapping(value = "savepetitiondetails.htm")
 	public String savePetitionDetails(HttpServletRequest httpServletRequest, Model model,@ModelAttribute("petitionland") Petitition_Land land, @RequestParam String type, @RequestParam String category) {
 		
@@ -140,7 +152,7 @@ public class LandPetitionController {
 	
 	@RequestMapping(value = "submitpetition.htm" , method = RequestMethod.POST)
 	public String submitPetition(HttpServletRequest httpServletRequest, @RequestParam String pid, @RequestParam String type, 
-			@RequestParam String category, Model model ) {
+			@RequestParam String category, Model model ) throws ParseException {
 		String petid = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		Petition petition=landdao.getPetition(pid, petid);
 		List<Petition> petitionEvidence=petitiondao.getEvedince(pid, petid);
@@ -217,6 +229,26 @@ public class LandPetitionController {
 	}
 
 	
-	
+	@GetMapping("/pdfViewPointExport")
+	public void exportToPDF( @RequestParam String petitionerId,  @RequestParam String petid, HttpServletRequest request, HttpServletResponse response)  throws DocumentException, IOException, 
+	ParseException, java.io.IOException
+	{
+		
+		//String petid = (String) request.getSession().getAttribute("petitionID");
+		String headerKey = "Content-Disposition";
+		String headerValue = "inline; filename=Land" + petid + ".pdf";
+		response.setHeader(headerKey, headerValue);
+
+		Petition petition = landdao.getPetition(petitionerId, petid);
+		if(petition.getPetitionId()!=null) {
+			
+			List<Documents> gettingDocsByPid = docdao.getUploadedDocsByPid(petid);	
+			PDFViewPoint exporter = new PDFViewPoint();
+			Petitioner docs = prDao.getDocs(petitionerId);
+			exporter.export(request,response, petition, gettingDocsByPid, docs);			
+		}
+
+	}
+
 	}
 	

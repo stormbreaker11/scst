@@ -2,6 +2,7 @@ package com.nic.in.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class RespondentDaoImpl implements RespondentDao {
 		MapSqlParameterSource map = new MapSqlParameterSource();
 
 		
-		int generateRespSrNo = generateRespSrNo();
+		int generateRespSrNo = generateRespSrNo(respondent.getPetition());
 		map.addValue("row_id", generateRowIdForRespondent());
 		map.addValue("petition_id", respondent.getPetition());
 		map.addValue("petitioner_id", respondent.getPetitionerId());
@@ -91,11 +92,19 @@ public class RespondentDaoImpl implements RespondentDao {
 	}
 
 	// generating serial number for respondent details
-	public int generateRespSrNo() {
-		String query = "SELECT coalesce(max(resp_srno),0) from petition_respondent";
+	public int generateRespSrNo(String petitionid) {
+
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+
+		String query = "SELECT coalesce(max(resp_srno),0) from petition_respondent where substring(petition_id from 3 for 4) "
+				+ " =? and substring(? from 3 for 4) = ? and petition_id=?";
+
 		int maxid = 0;
 		try {
-			int id = jdbcTemplate.queryForObject(query, Integer.class);
+			int id = jdbcTemplate.queryForObject(query,
+					new Object[] { petitionid.substring(2, 6), petitionid, String.valueOf(year), petitionid },
+					Integer.class);
 			if (id == 0) {
 				maxid = 1;
 			} else {

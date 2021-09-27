@@ -269,7 +269,9 @@ margin-right: 10px;
                         <div class="tab-pane fade in active" id="tab1primary">
                      <form:form modelAttribute="updateatrocity" name="updatemodifyatrocity" id="updateatrocity" >               
 						<form:input type="hidden" name="petition_id" path="petition_id"
-				          id="petition_id" value="${petition}" />
+				          id="petition_id" value="${petId}" />
+				          <form:input type="hidden" name="petitioner_id" path="petitioner_id"
+				          id="petitioner_id" value="${pid}" />
                   						<div class="row">
 											<div
 												class="col-sm-7 col-md-offset-2 form-group">
@@ -278,7 +280,7 @@ margin-right: 10px;
 													Atrocity<span class="star">*</span></label>
 												<div class="col-md-4">
 													<form:select class="form-control SelectStyle" path="atrocity_type"
-														id="Typeofatrocity" value="${updateatrocity.atrocity_type}" >
+														id="Typeofatrocity" value="${updateatrocity.atrocity_type}"  tabindex="1">
 														<form:option value="0">--Select--
 														</form:option>
 														<c:forEach items="${atrocities}" var="alt">
@@ -295,7 +297,7 @@ margin-right: 10px;
 <div class="col-sm-7 col-md-offset-2 form-group">
 <label class="col-md-6"> Date of Offense   <span class="star">*</span> </label>
 <div class="col-md-4">
-<form:input path="offence_date" value="${updateatrocity.offence_date}" id="offence_date" placeholder="" class="form-control" type="date"/>
+<form:input path="offence_date" value="${updateatrocity.offence_date}" id="offence_date" placeholder="" class="form-control" tabindex="2" autocomplete="off" type="date"/>
 </div>
 </div>
 </div>
@@ -310,7 +312,7 @@ margin-right: 10px;
 														value="${updateatrocity.offence_place}"
 														id="offence_place"
 														placeholder=" "
-														class="form-control" />
+														class="form-control" maxlength="50" />
 												</div>
 											</div>
 										</div>
@@ -345,7 +347,7 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="off_mandal"                
-															id="off_mandal">
+															id="off_mandal" tabindex="3">
 															<form:option value="26">--Select--
 															</form:option>
 															<form:option value="27">Mandal-1
@@ -368,7 +370,7 @@ margin-right: 10px;
 													Police Complaint<span class="star">*</span></label>
 												<div class="col-md-3">
 													<form:select class="form-control SelectStyle" path="ps_complaint"
-														id="ps_complaint">
+														id="ps_complaint" tabindex="4">
 														<form:option value="0">--Select--
 														</form:option>
 														<form:option 
@@ -398,7 +400,7 @@ margin-right: 10px;
 															path="ps_name"
 															id="ps_name"
 															placeholder=" policestation"
-															class="form-control" />
+															class="form-control" tabindex="5" maxlength="60"/>
 													</div>
 												</div>
 											</div>
@@ -414,7 +416,7 @@ margin-right: 10px;
 													<div
 														class="col-md-6">
 														<form:select class="form-control SelectStyle" path="ps_district"
-															id="ps_district">
+															id="ps_district" tabindex="6">
 															<form:option value="0">--Select--
 															</form:option>
 															<c:forEach items="${district}" var="alt">
@@ -436,7 +438,7 @@ margin-right: 10px;
 													<div
 														class="col-md-6">
 														<form:select class="form-control SelectStyle" path="ps_mandal"
-															id="ps_mandal">
+															id="ps_mandal" tabindex="7">
 															<form:option value="52">--Select--
 															</form:option>
 															<form:option value="53">Mandal-1
@@ -459,7 +461,7 @@ margin-right: 10px;
 													</label>
 													<div
 														class="col-md-6">
-														<form:input class="form-control SelectStyle" path="ps_village"                           
+														<form:input class="form-control SelectStyle" path="ps_village"  tabindex="8"   maxlength="60"                        
 															id="ps_village" value="${updateatrocity.ps_village }"/>
 															
 													</div>
@@ -474,10 +476,10 @@ margin-right: 10px;
 											<div
 												class="col-md-6">
 												<form:input type="text"
-													path="fir_no"
+													path="fir_no" tabindex="9"
 													id="fir_no"
-													placeholder="Type FIR Number"
-													class="form-control" />
+													
+													class="form-control" maxlength="50" />
 											</div>
 										</div>
 										</div>
@@ -486,7 +488,7 @@ margin-right: 10px;
 											<div class="col-sm-7 col-md-offset-2 form-group">
 											<label class="col-md-6">Upload FIR COPY<span class="star">*</span></label>
 											<div class="col-md-6">
-											<input name="fir_pdfUpload"  id="fir_pdfUpload" class="form-control" type="file" />
+											<input name="fir_pdfUpload"  id="fir_pdfUpload" class="form-control" type="file" tabindex="10" />
 											</div>
 											</div>
 											
@@ -506,7 +508,7 @@ margin-right: 10px;
 												<div class="col-md-6">
 													<form:textarea
 														cols="39"
-														rows="4" maxlength="100" id="appeal" path="appeal"></form:textarea>
+														rows="4" maxlength="100" id="appeal" tabindex="11" path="appeal"></form:textarea>
 												</div>
 											</div>
 										</div>
@@ -523,7 +525,7 @@ margin-right: 10px;
 													<form:textarea
 														path="pet_detail"
 														id="pet_detail"
-														cols="39"
+														cols="39" tabindex="12"  maxlength="500" 
 														rows="7"></form:textarea>
 												</div>
 											</div>
@@ -616,7 +618,7 @@ margin-right: 10px;
 														class="col-md-4">
 														<form:input type="text"
 															placeholder=" Designation" id="respProffesion"
-															class="form-control" path="respProffesion" />
+															class="form-control" path="respProffesion" maxlength="50" />
 													</div>
 												</div>
 											</div>
@@ -660,7 +662,7 @@ margin-right: 10px;
 														<form:input type="text"
 															placeholder=" Mobile No "
 															class="form-control"
-														 id="mobile" path="mobile" />
+														 id="mobile" path="mobile" maxlength="10" />
 													</div>
 												</div>
 											</div>
@@ -674,7 +676,7 @@ margin-right: 10px;
 														class="col-md-4">
 														<form:input type="text"
 															placeholder=" e-mail "
-															class="form-control"  id="email"   path="email" />
+															class="form-control"  id="email"   path="email" maxlength="50" />
 													</div>
 												</div>
 												<div class="col-md-offset-2 form-group " style="color: red;">
@@ -829,7 +831,8 @@ margin-right: 10px;
 														class="col-md-6">Document description</label>
 													<div
 														class="col-md-4">
-														<form:input type="text" style="text-transform:capitalize;" name="docDesc" id="docDesc" maxlength="100" path="docDesc" class="form-control"/>
+														<form:input type="text" style="text-transform:capitalize;"
+														 name="docDesc" id="docDesc" maxlength="100" path="docDesc" class="form-control"/>
 														
 													
 													</div>
@@ -1798,7 +1801,7 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 		}
 
 		function focus() {
-			document.getElementById("service_type").focus();
+			document.getElementById("Typeofatrocity").focus();
 		}
 
 		$('#ps_complaint').on('change', function () {

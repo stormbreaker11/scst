@@ -1,6 +1,9 @@
 package com.nic.in.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -63,14 +66,15 @@ public class ServiceDaoImpl implements ServiceDao
 	@Override
 	public Petition getPetition(String petitionerId, String petid) {
 		
-		String sql="SELECT pm.petition_id, pm.petitioner_id,  pm.submit_date, pr.pr_name, pr.pr_caste, pr.address, pr.pr_photo,  pr.pr_signature, "
-				+ "pr.pr_mobile, pr.pr_email, pr.district, pr.mandal, pr.village, "
+		String sql="SELECT pm.petition_id, pm.petitioner_id,  pm.submit_date, pr.pr_name, pr.pr_caste, pr.address, "
+				+ " pr.pr_photo,  pr.pr_signature, d.dname, "
+				+ "pr.pr_mobile, pr.pr_email, pr.mandal, pr.village, "
 				+ "pm.petition_type, pm.petition_category, pm.submit_date, " 
-				+ "s.appeal,s.pet_detail, rs.resp_type from petitioner  pr, " 
-				+ "petition_master pm, petition_service s, petition_respondent rs "
+				+ "s.appeal,s.pet_detail from petitioner pr, " 
+				+ " petition_master pm, petition_service s, district d "
 				+ "where pr.petitioner_id=? and pr.petitioner_id=s.petitioner_id "
-				+ "and pr.petitioner_id=rs.petitioner_id and s.petition_id=s.petition_id"
-				+ " and rs.petition_id=?";
+				+ "and s.petition_id=pm.petition_id and d.dcode=pr.district"
+				+ " and pm.petition_id=?";
 
 		Petition pl= new Petition();
 
@@ -84,19 +88,29 @@ public class ServiceDaoImpl implements ServiceDao
 					pl.setPetitionType(rs.getString("petition_type"));
 					pl.setMobile(rs.getString("pr_mobile"));
 					pl.setEmail(rs.getString("pr_email"));
-					pl.setDistrict(rs.getString("district"));
+					pl.setCaste(rs.getString("pr_caste"));
 					pl.setMandal(rs.getString("mandal"));
 					pl.setVillage(rs.getString("village"));
-					pl.setDistrict(rs.getString("district"));
+					pl.setDistrict(rs.getString("dname"));
 					pl.setAppeal(rs.getString("appeal"));
 					pl.setCourtPet(rs.getString("pet_detail"));
-					pl.setRespondent(rs.getString("resp_type"));
 					pl.setSubmit(rs.getString("submit_date"));
 					pl.setPhoto(rs.getBytes("pr_photo"));
 					pl.setSign(rs.getBytes("pr_signature"));
 					
-					String pid=pl.getPetitionId().substring(0, 2)+"/"+pl.getPetitionerId().substring(2, 6)+"/"+pl.getPetitionerId().substring(6, 10);
-					pl.setPetitionId(pid);
+					String pid=pl.getPetitionId().substring(0, 2)+"/"+pl.getPetitionId().substring(2, 6)+"/"+pl.getPetitionId().substring(6, 10);
+					pl.setPetitionFormat(pid);
+					
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					Date fechaNueva;
+						try {
+							fechaNueva = format.parse(pl.getSubmit());
+							format = new SimpleDateFormat("dd-MM-YYYY");
+							pl.setSubmit(format.format(fechaNueva));
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 				}
 				return pl;
 
@@ -126,27 +140,43 @@ public class ServiceDaoImpl implements ServiceDao
 	@Override
 	public int updateServiceAppeal(Service service, Login login) {
 		int update = 0;
+		
+		
+		
 		try {
-			String sql = "UPDATE petition_service " + " SET service_type=:service_type, appeal=:appeal, "
-					+ " oth_name=:oth_name, pet_detail=:pet_detail, action_date=now(), "
-					+ " action_userid=:action_userid where petition_id=:petition_id";
-
-			MapSqlParameterSource map = new MapSqlParameterSource();
-
-			map.addValue("appeal", service.getAppeal());
-			map.addValue("service_type", service.getService_type());
-			map.addValue("pet_detail", service.getPet_detail());
-			map.addValue("petition_id", service.getPetition_id());
-			map.addValue("action_userid", login.getCompid());
-			if (service.getService_type().equals("3")) {
-				map.addValue("oth_name", service.getOth_name());
-			} else {
-				map.addValue("oth_name", null);
+			
+			String countQuery="select count(*) from petition_service where petition_id=?";
+			int count=jdbcTemplate.queryForObject(countQuery, new Object[] {service.getPetition_id()}, Integer.class);
+			if(count==0) {
+				int saveServicePetition = saveServicePetition(service, login, service.getPetition_id());
+				if(saveServicePetition==1) {
+					update=1;
+				}
 			}
-			update = namedParameterJdbcTemplate.update(sql, map);
-			if (update == 1) {
-				update = 1;
+			else {
+
+				String sql = "UPDATE petition_service " + " SET service_type=:service_type, appeal=:appeal, "
+						+ " oth_name=:oth_name, pet_detail=:pet_detail, action_date=now(), "
+						+ " action_userid=:action_userid where petition_id=:petition_id";
+
+				MapSqlParameterSource map = new MapSqlParameterSource();
+
+				map.addValue("appeal", service.getAppeal());
+				map.addValue("service_type", service.getService_type());
+				map.addValue("pet_detail", service.getPet_detail());
+				map.addValue("petition_id", service.getPetition_id());
+				map.addValue("action_userid", login.getCompid());
+				if (service.getService_type().equals("3")) {
+					map.addValue("oth_name", service.getOth_name());
+				} else {
+					map.addValue("oth_name", null);
+				}
+				update = namedParameterJdbcTemplate.update(sql, map);
+				if (update == 1) {
+					update = 1;
+				}
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			update = 0;

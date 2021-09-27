@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nic.in.commons.ScstCommons;
 import com.nic.in.dao.PetitionDao;
 import com.nic.in.dao.PetitionerDao;
+import com.nic.in.model.District;
 import com.nic.in.model.Identity;
 import com.nic.in.model.Login;
 import com.nic.in.model.NodalOfficer;
@@ -48,6 +49,9 @@ public class PetitionerController {
 		List<Identity> identities = scstcommons.getIdentities();
 		model.addAttribute("identities", identities);
 		model.addAttribute("register", petitioner);
+List<District> district = scstcommons.getDistrict("36");
+		
+		model.addAttribute("district", district);
 		return "REGISTERPETITION";
 	}
 

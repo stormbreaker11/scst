@@ -188,7 +188,7 @@ border-color: black;
 					<label class="col-md-6">Kind of Land <span class="star">*</span></label>
 					<div class="col-md-4">
 						<form:select class="form-control SelectStyle" id="landKind"
-							path="landKind">
+							path="landKind" tabindex="1" autofocus="true">
 							<form:option value="0">--Select--
 														</form:option>
 							<form:option value="1">Agricultural
@@ -202,7 +202,9 @@ border-color: black;
 														</form:option>
 						</form:select>
 					</div>
-				</div>
+				</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="landKind"></form:errors>
+							</div>
 			</div>
 
 			<div class="row from group">
@@ -210,7 +212,7 @@ border-color: black;
 					<label class="col-md-6">Type of Land <span class="star">*</span></label>
 					<div class="col-md-4">
 						<form:select class="form-control SelectStyle" id="pitition1"
-							path="landType">
+							path="landType" tabindex="2">
 							<form:option value="0">--Select--
 														</form:option>
 							<form:option value="1">
@@ -228,7 +230,9 @@ border-color: black;
 														</form:option>
 						</form:select>
 					</div>
-				</div>
+				</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="landType"></form:errors>
+							</div>
 			</div>
 
 			<div class="otherland" id="3" style="display: none;">
@@ -238,12 +242,14 @@ border-color: black;
 						<div class="col-md-4">
 							<form:input type="text" placeholder=" Type of land"
 								class="form-control" id="olandtext" maxlength="30"
-								path="otherland" />
+								path="otherland" tabindex="3"/>
 						</div>
 					</div>
 				</div>
 
-				<br>
+				<br><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="otherland"></form:errors>
+							</div>
 			</div>
 			<br>
 			<div class="Petition170s1" id="land"></div>
@@ -255,7 +261,7 @@ border-color: black;
 						</label>
 						<div class="col-md-4">
 							<form:select class="form-control SelectStyle" path="landDistrict"
-								id="landDistrict" name="landDistrict">
+								id="landDistrict" name="landDistrict" tabindex="4">
 								<form:option value="0">--Select--</form:option>
 								<c:forEach items="${district}" var="alt">
 												<form:option value="${alt.distCode }" >${alt.distName }</form:option>
@@ -263,7 +269,9 @@ border-color: black;
 
 							</form:select>
 						</div>
-					</div>
+					</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="landDistrict"></form:errors>
+							</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-7 col-md-offset-2 form-group">
@@ -271,25 +279,26 @@ border-color: black;
 						</label>
 						<div class="col-md-4">
 							<form:select class="form-control SelectStyle" path="landmandal"
-								id="landmandal">
+								id="landmandal" tabindex="5">
 								<form:option value="0">--Select--</form:option>
-								<form:option value="0">Mandal-1</form:option>
-
-
-
+								<form:option value="1">Mandal-1</form:option>
 							</form:select>
 						</div>
-					</div>
+					</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="landmandal"></form:errors>
+							</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-7 col-md-offset-2 form-group">
 						<label class="col-md-6">Revenue Village </label>
 						<div class="col-md-4">
 							<form:input type="text" class="form-control SelectStyle" path="landvillage"
-								name="landvillage" id="landvillage"/>
+								name="landvillage" id="landvillage" tabindex="6" maxlength="50"/>
 							
 						</div>
-					</div>
+					</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="landvillage"></form:errors>
+							</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-7 col-md-offset-2 form-group">
@@ -297,9 +306,11 @@ border-color: black;
 						<div class="col-md-3">
 							<form:input type="text" path="passbookNo" id="passbookNo"
 								name="passbookNo" placeholder=" Patta number"
-								class="form-control" maxlength="10" />
+								class="form-control" maxlength="10" tabindex="7"/>
 						</div>
-					</div>
+					</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="passbookNo"></form:errors>
+							</div>
 				</div>
 
 				<div class="row">
@@ -308,9 +319,11 @@ border-color: black;
 						<div class="col-md-3">
 							<form:input type="text" placeholder=" Survey number"
 								maxlength="15" path="surveyNo" id="surveyNo" name="surveyNo"
-								class="form-control" />
+								class="form-control" tabindex="8" />
 						</div>
-					</div>
+					</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="surveyNo"></form:errors>
+							</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-7 col-md-offset-2 form-group">
@@ -318,7 +331,7 @@ border-color: black;
 						<div class="col-md-3">
 							<form:input type="text" placeholder="" maxlength="6"
 								path="extentOfLand" id="extentOfLand" name="extentOfLand"
-								class="form-control" />
+								class="form-control" tabindex="9" />
 						</div>
 						<div class="col-md-0">
 
@@ -337,7 +350,9 @@ border-color: black;
 						<div class="btn btn-primary" style="text-align: left;"
 							id="addmore" onclick="addLand()">+ Add More</div>
 					</div>
-
+<div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="extentOfLand"></form:errors>
+							</div>
 				</div>
 			</div>
 			<input type="hidden" name="type" value="${type }">

@@ -403,25 +403,9 @@ px
 								<form:select class="form-control SelectStyle" id="district"
 									path="district">
 									<form:option value="0">--Select--</form:option>
-									<form:option value="1">Hyderabad</form:option>
-									<form:option value="2">Rangareddy</form:option>
-									<form:option value="3">Nizamabad</form:option>
-									<form:option value="4">Mahabubnagar</form:option>
-									<form:option value="5">Medak</form:option>
-									<form:option value="6">Nalgonda</form:option>
-									<form:option value="7">Warangal</form:option>
-									<form:option value="8">Karimnagar</form:option>
-									<form:option value="9">Adilabad</form:option>
-									<form:option value="10">Khammam</form:option>
-									<form:option value="11">Khammam</form:option>
-									<form:option value="12">Medchal</form:option>
-									<form:option value="13">Vikarabad</form:option>
-									<form:option value="14">Sangareddy</form:option>
-									<form:option value="15">Siddipet</form:option>
-									<form:option value="16">Hanmakonda</form:option>
-									<form:option value="17"> Nagakarnool</form:option>
-									<form:option value="18">Yadadri</form:option>
-									<form:option value="19">Komaram-bheem</form:option>
+									<c:forEach var="alt" items="${district }">
+									<form:option value="${alt.distCode}">${alt.distName}</form:option>
+									</c:forEach>
 								</form:select>
 							</div>
 						</div>
@@ -798,7 +782,7 @@ px
 			<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Relation Type <span class="star">*</span></label>
-				<div class="col-md-2">
+				<div class="col-md-3">
 					<form:select class="form-control SelectStyle" id="bprrelation"
 						path="bprrelationType">
 						<form:option value="0">--Select--</form:option>
@@ -887,27 +871,11 @@ px
 				</label>
 				<div class="col-md-4">
 					<form:select class="form-control SelectStyle" id="" path="bprdistrict">
-						<form:option value="0">--Select--</form:option>
-						<form:option value="1">Hyderabad</form:option>
-						<form:option value="2">Rangareddy</form:option>
-						<form:option value="3">Nizamabad</form:option>
-						<form:option value="4">Mahabubnagar</form:option>
-						<form:option value="5">Medak</form:option>
-						<form:option value="6">Nalgonda</form:option>
-						<form:option value="7">Warangal</form:option>
-						<form:option value="8">Karimnagar</form:option>
-						<form:option value="9">Adilabad</form:option>
-						<form:option value="10">Khammam</form:option>
-						<form:option value="11">Khammam</form:option>
-						<form:option value="12">Medchal</form:option>
-						<form:option value="13">Vikarabad</form:option>
-						<form:option value="14">Sangareddy</form:option>
-						<form:option value="15">Siddipet</form:option>
-						<form:option value="16">Hanmakonda</form:option>
-						<form:option value="17"> Nagakarnool</form:option>
-						<form:option value="18">Yadadri</form:option>
-						<form:option value="19">Komaram-bheem</form:option>
-					</form:select>
+								<form:option value="0">--Select--</form:option>
+								<c:forEach var="alt" items="${district }">
+									<form:option value="${alt.distCode}">${alt.distName}</form:option>
+								</c:forEach>
+							</form:select>
 				</div>
 			</div>
 		</div>
@@ -1176,16 +1144,20 @@ px
 	$('#Applicant').on('change', function() {
 		
 		if ($(this).val() === "Y") {
+			
 			$(".applicantpetitioner").show();
 		} else {
 			$(".applicantpetitioner").hide();
 		} 
 	});
+
+	
 </script>
 
 	<script>
 	$('#check2').on('click', function() {
 		if ($(this).val() === "Y") {
+			
 			$(".applicantpetitioner").show();
 			$(".applicantpetitioner2").hide();
 		} 
@@ -1193,7 +1165,9 @@ px
 
 	
 	$('#check3').on('click', function() {
+		
 		if ($(this).val() === "N") {
+		
 			$(".applicantpetitioner2").show();
 			$(".applicantpetitioner").hide();
 		} 
@@ -1205,7 +1179,7 @@ px
 
 	<script>
 	$('#Identitype').on('change', function() {
-		if ($(this).val() === "6") {
+		if ($(this).val() === "O") {
 			$("#otherid").show();
 		} else {
 			$("#otherid").hide();
@@ -1213,7 +1187,7 @@ px
 	});
 	
 	$('#brIdentitype').on('change', function() {
-		if ($(this).val() === "6") {
+		if ($(this).val() === "O") {
 			$("#bprotherid").show();
 		} else {
 			$("#bprotherid").hide();
@@ -1413,6 +1387,24 @@ px
 
 			});
 
+
+
+
+
+
+
+
+$('#Applicant').on('change', function() {
+		
+		if ($(this).val() === "Y") {
+
+			
+			$(".applicantpetitioner").show();
+		} else {
+			$(".applicantpetitioner").hide();
+		} 
+	});
+	
 	//fetching subcaste onchange caste select option 
 	$(document)
 	.ready(

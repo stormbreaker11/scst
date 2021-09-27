@@ -297,7 +297,7 @@ margin-right: 10px;
 													Service<span class="star">*</span></label>
 												<div class="col-md-6">
 													<form:select class="form-control SelectStyle" path="service_type"
-														id="service_type" >
+														id="service_type" tabindex="1" >
 														<form:option value="0">--Select--
 														</form:option>
 														<form:option value="1">
@@ -311,6 +311,8 @@ margin-right: 10px;
 													</form:select>
 												</div>
 											</div>
+											<div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="service_type"></form:errors></div>
 										</div>
 										
 										<div class="Others" id="3" style="display: none;">
@@ -328,9 +330,10 @@ margin-right: 10px;
 															path="oth_name"
 															id="oth_name"
 															placeholder=" "
-															class="form-control" />
+															class="form-control" maxlength="100" />
 													</div>
-												</div>
+												</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="oth_name"></form:errors>
 											</div>
 										</div>
 									 
@@ -344,11 +347,13 @@ margin-right: 10px;
 													words) <span class="star">*</span></label>
 												<div class="col-md-6">
 													<form:textarea
-														path="appeal"
+														path="appeal" maxlength="100"
 														id="appeal"
 														cols="39"
 														rows="2"></form:textarea>
 												</div>
+											</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="appeal"></form:errors>
 											</div>
 										</div>
 										<div class="row">
@@ -362,7 +367,7 @@ margin-right: 10px;
 													<form:textarea
 														path="pet_detail"
 														id="pet_detail"
-														cols="39"
+														cols="39" maxlength="500"
 														rows="7"></form:textarea>
 												</div>
 											</div>

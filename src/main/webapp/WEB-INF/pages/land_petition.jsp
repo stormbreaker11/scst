@@ -254,9 +254,13 @@ margin-right: 10px;
 												<div class="col-md-6">
 													<form:textarea
 														cols="39"
-														rows="4" maxlength="100" id="appeal" path="appeal"></form:textarea>
+														rows="4" maxlength="100" id="appeal" path="appeal" autofocus="true" tabindex="1"></form:textarea>
 												</div>
 											</div>
+											  <div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="appeal"></form:errors>
+							</div>
+                    </div>
 										</div>
 										<div class="row">
 											<div
@@ -268,9 +272,11 @@ margin-right: 10px;
 												<div class="col-sm-6">
 													<form:textarea
 														cols="39" path="pet_detail" maxlength="500" id="pet_detail"
-														rows="7"></form:textarea>
+														rows="7" tabindex="2" ></form:textarea>
 												</div>
-											</div>
+											</div>  <div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="pet_detail"></form:errors>
+							</div>
 										</div>
 
 										<div class="row">
@@ -284,7 +290,7 @@ margin-right: 10px;
 													court <span class="star">*</span></label>
 												<div class="col-md-3">
 													<form:select class="form-control SelectStyle"
-														id="court" path="courtComp">
+														id="court" path="courtComp" tabindex="3" >
 														<form:option value="0" >--Select--
 														</form:option>
 														<form:option
@@ -295,7 +301,9 @@ margin-right: 10px;
 														</form:option>
 													</form:select>
 												</div>
-											</div>
+											</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="courtComp"></form:errors>
+							</div>
 										</div>
 										<div class="courtpetione" id="Yes" style="display: none;">
 											<div class="row">
@@ -309,9 +317,11 @@ margin-right: 10px;
 														class="col-md-4">
 														<form:input type="text" id="courtName" maxlength="50"
 															placeholder=" Court name " 
-															class="form-control" path="courtName"/>
+															class="form-control" path="courtName" tabindex="4" />
 													</div>
-												</div>
+												</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="courtName"></form:errors>
+							</div>
 											</div>
 											<div class="row">
 												<div
@@ -322,7 +332,7 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:select class="form-control SelectStyle"
-															id="courtState" path="courtState">
+															id="courtState" path="courtState" tabindex="5">
 															<form:option value="0">--Select--
 															</form:option>
 															<c:forEach items="${states}" var="alt">
@@ -331,7 +341,9 @@ margin-right: 10px;
 
 														</form:select>
 													</div>
-											</div>
+											</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="courtState"></form:errors>
+							</div>
 											</div>
 
 											<div class="row">
@@ -343,28 +355,32 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="courtDist"
-															id="courtDist">
+															id="courtDist" tabindex="6">
 															<form:option value="0" >--Select--
 															</form:option>
 															
 															
 														</form:select>
 													</div>
-												</div>
+												</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="courtDist"></form:errors>
+							</div>
 											</div>
 											<div class="row">
 												<div
 													class="col-sm-7 col-md-offset-2 form-group">
 													<label
 														class="col-md-6">
-														Select Mandal</label>
+														 Mandal</label>
 													<div
 														class="col-md-4">
 														<input type="text" id="courtMandal" class="form-control SelectStyle"
-															path="courtMandal"/>
+															path="courtMandal" tabindex="7"/>
 															
 													</div>
-												</div>
+												</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="courtMandal"></form:errors>
+							</div>
 											</div>
 											<div class="row">
 												<div
@@ -377,9 +393,11 @@ margin-right: 10px;
 														class="col-md-3">
 														<form:input type="text"
 															placeholder=" Type case number" path="caseNo"
-															class="form-control" maxlength="30"/>
+															class="form-control" maxlength="30" tabindex="8"/>
 													</div>
-												</div>
+												</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="caseNo"></form:errors>
+							</div>
 											</div>
 											<div class="row">
 											<div
@@ -389,7 +407,7 @@ margin-right: 10px;
 													</label>
 												<div class="col-md-2">
 													<form:select class="form-control SelectStyle"
-														id="casestatus" path="caseStatus">
+														id="casestatus" path="caseStatus" tabindex="9">
 														<form:option value="0">--Select--
 														</form:option>
 														<form:option value="P">
@@ -399,14 +417,16 @@ margin-right: 10px;
 														</form:option>
 													</form:select>
 												</div>
-											</div>
+											</div><div class="col-md-offset-2 form-group " style="color: red;">
+											  <form:errors path="caseNo"></form:errors>
+							</div>
 										</div>
-										<div class="select_Status" style="display: none;">
+										<div class="caseStatus" style="display: none;">
                     <div class="row">
                     <div class="col-sm-7 col-md-offset-2 form-group">
                     <label class="col-md-6">Upload the Court Orders</label>
                     <div class="col-md-6">
-                    <input name="courtorders" placeholder="" class="form-control" type="file">
+                    <input name="courtorders" placeholder="" class="form-control" type="file" tabindex="10">
                     </div>
                     </div>
                     

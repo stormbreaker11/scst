@@ -1,5 +1,6 @@
 package com.nic.in.dao;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.nic.in.model.Land;
@@ -22,7 +23,7 @@ public interface LandDao {
 	public Land landdetails(String landcode, String petitionerId);
 
 	public int updateLand(Land land, Login login);
-	public Petition getPetition(String petitionerId, String pid);
+	public Petition getPetition(String petitionerId, String pid) throws ParseException;
 
 	public int updateLandAppeal(Petitition_Land land, Login login);
 }

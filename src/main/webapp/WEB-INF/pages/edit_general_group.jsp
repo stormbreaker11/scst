@@ -313,17 +313,7 @@ margin-right: 10px;
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-sm-7 col-md-offset-2 form-group">
-								<label class="col-md-6">Name of the Nodal person representing the Group/Organization<span
-									class="star">*</span></label>
-								<div class="col-md-4">
-									<form:input  type="text" class="form-control SelectStyle" id="nodalRepresent" path="nodalRepresent"
-										name="nodalRepresent" value="${petition.nodalRepresent}"  />
-										
-								</div>
-							</div>
-						</div>
+						
 						<div class="row">
 							<div class="col-sm-7 col-md-offset-2 form-group">
 								<label class="col-md-6">Upload Signature of the nodal person<span

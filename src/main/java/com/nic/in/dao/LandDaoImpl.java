@@ -3,6 +3,9 @@ package com.nic.in.dao;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -324,13 +327,13 @@ public class LandDaoImpl implements LandDao {
 	public Petition getPetition(String petitionerId, String pid) {
 		
 		String sql="SELECT pm.petition_id, pm.petitioner_id,  pm.submit_date, pr.pr_name, pr.pr_caste, pr.address, pr.pr_photo,  pr.pr_signature, "
-				+ "pr.pr_mobile, pr.pr_email, pr.district, pr.mandal, pr.village, "
-				+ "pm.petition_type, pm.petition_category, pm.submit_date, " 
-				+ "la.appeal,la.pet_detail, rs.resp_type from petitioner  pr, " 
-				+ "petition_master pm, land_appeal la, petition_respondent rs "
-				+ "where pr.petitioner_id=? and pr.petitioner_id=la.petitioner_id "
-				+ "and pr.petitioner_id=rs.petitioner_id and la.petition_id=pm.petition_id"
-				+ " and rs.petition_id=?";
+				+ "	pr.pr_mobile, pr.pr_email, pr.mandal, d.dname, pr.village, "
+				+ "	pm.petition_type, pm.petition_category, pm.submit_date, "
+				+ "	la.appeal,la.pet_detail from petitioner  pr, district d, "
+				+ "	petition_master pm, land_appeal la "
+				+ "	where pr.petitioner_id=? and pr.petitioner_id=la.petitioner_id "
+				+ " and la.petition_id=pm.petition_id and d.dcode=pr.district "
+				+ "	and pm.petition_id=?";
 
 		Petition pl= new Petition();
 
@@ -342,21 +345,30 @@ public class LandDaoImpl implements LandDao {
 					pl.setPetitionerName(rs.getString("pr_name"));
 					pl.setPetitionCat(rs.getString("petition_category"));
 					pl.setPetitionType(rs.getString("petition_type"));
+					pl.setCaste(rs.getString("pr_caste"));
 					pl.setMobile(rs.getString("pr_mobile"));
 					pl.setEmail(rs.getString("pr_email"));
-					pl.setDistrict(rs.getString("district"));
+					pl.setDistrict(rs.getString("dname"));
 					pl.setMandal(rs.getString("mandal"));
 					pl.setVillage(rs.getString("village"));
-					pl.setDistrict(rs.getString("district"));
 					pl.setAppeal(rs.getString("appeal"));
 					pl.setCourtPet(rs.getString("pet_detail"));
-					pl.setRespondent(rs.getString("resp_type"));
+					
 					pl.setSubmit(rs.getString("submit_date"));
 					pl.setPhoto(rs.getBytes("pr_photo"));
 					pl.setSign(rs.getBytes("pr_signature"));
-					
-					String pid=pl.getPetitionId().substring(0, 2)+"/"+pl.getPetitionerId().substring(2, 6)+"/"+pl.getPetitionerId().substring(6, 10);
-					pl.setPetitionId(pid);
+					String pid=pl.getPetitionId().substring(0, 2)+"/"+pl.getPetitionId().substring(2, 6)+"/"+pl.getPetitionId().substring(6, 10);
+					pl.setPetitionFormat(pid);
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					Date fechaNueva;
+						try {
+							fechaNueva = format.parse(pl.getSubmit());
+							format = new SimpleDateFormat("dd-MM-YYYY");
+							pl.setSubmit(format.format(fechaNueva));
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 				}
 				return pl;
 
@@ -378,46 +390,10 @@ public class LandDaoImpl implements LandDao {
 			
 			if(count==0) {
 				
-				
-				String sql="INSERT INTO land_appeal(petition_id, petitioner_id, userid, appeal,pet_detail, comp_in_court,"
-						+ " court_name, court_state, court_dist, court_mandal,"
-						+ " case_no, case_status, entry_date)"
-						+ "VALUES (:petition_id,:petitioner_id,:userid, :appeal,:pet_detail, :comp_in_court,"
-						+ ":court_name,:court_state,:court_dist,:court_mandal,:case_no,:case_status, now() )";
-			
-				MapSqlParameterSource map= new MapSqlParameterSource();
-				
-				map.addValue("petition_id", land.getPetitionId());
-				map.addValue("petitioner_id", land.getPetitionerId());
-				map.addValue("userid", login.getCompid());
-				map.addValue("appeal", land.getAppeal());
-				map.addValue("pet_detail", land.getPet_detail());
-				map.addValue("comp_in_court", land.getCourtComp());
-			
-				
-				if(land.getCourtComp().equals("Y")) {
-					map.addValue("court_name", land.getCourtName());
-					map.addValue("court_state", Integer.parseInt(land.getCourtState()));
-					map.addValue("court_dist", Integer.parseInt(land.getCourtDist()));
-					map.addValue("court_mandal", land.getCourtMandal());
-					map.addValue("case_no", land.getCaseNo());
-					map.addValue("case_status", land.getCaseStatus());
-					
-				}else {
-					
-					map.addValue("court_name", null);
-					map.addValue("court_state", null);
-					map.addValue("court_dist", null);
-					map.addValue("court_mandal", null);
-					map.addValue("case_no", null);
-					map.addValue("case_status", null);
+				int saveLandPetition = saveLandPetition(land, login, land.getPetitionId());
+				if(saveLandPetition==1) {
+					update=1;
 				}
-				
-					
-				update= namedParameterJdbcTemplate.update(sql, map);
-				
-				
-				
 			}
 			else {
 				
@@ -462,7 +438,7 @@ public class LandDaoImpl implements LandDao {
 
 		catch (Exception e) {
 			update = 0;
-			e.printStackTrace();
+			System.out.print(e.getMessage());
 		}
 		
 		

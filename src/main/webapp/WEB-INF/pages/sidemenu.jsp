@@ -87,7 +87,7 @@ body {
 					<li   ><a href="viewpetition.htm" target="content">Petition</a>
 					
 				</ul></li>
-				<!-- <li><a href="viewpetition.htm" target="content">View Petitions</a></li> -->
+			 <li><a href="viewSubmittedpetition.htm" target="content">View Petition Status</a></li>
 		</ul>
 		
 	</div>

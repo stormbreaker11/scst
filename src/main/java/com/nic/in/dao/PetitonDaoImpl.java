@@ -80,6 +80,12 @@ public class PetitonDaoImpl implements PetitionDao {
 			map.addValue("mandal", petitioner.getMandal());
 			map.addValue("village", petitioner.getVillage());
 			map.addValue("pr_id_type", petitioner.getBprprProofType());
+			if(petitioner.getBprprProofType().equals("O")) {
+				map.addValue("pr_oth_id_name", petitioner.getPrOtherid());
+			}
+			else {
+				map.addValue("pr_oth_id_name", null);
+			}
 			map.addValue("pr_id_no", petitioner.getBprProofId());
 			map.addValue("pr_photo", petitioner.getPrPhoto());
 			map.addValue("pr_signature", petitioner.getPrSign());
@@ -120,16 +126,23 @@ public class PetitonDaoImpl implements PetitionDao {
 			map.addValue("b_pr_mobile", petitioner.getBprMobile());
 			map.addValue("b_pr_email", petitioner.getBprMail());
 			map.addValue("b_pr_id_type", petitioner.getBprProofId());
+			if(petitioner.getBprProofId().equals("O")) {
+				map.addValue("pr_oth_id_name", petitioner.getBprprOtherid());
+			}
+			else {
+				map.addValue("pr_oth_id_name", null);
+			}
 			map.addValue("b_pr_id_no", petitioner.getBprProofNo());
 			map.addValue("b_pr_signature", petitioner.getBprSign());
 			
-		}
-			int update = namedParameterJdbcTemplate.update(sql, map);
-			if(update==1) {
-				petitioner.setPetionerId(petitonerId);
-				save=1;
 			}
+		int update = namedParameterJdbcTemplate.update(sql, map);
+		if(update==1) {
+			petitioner.setPetionerId(petitonerId);
+			save=1;
 		}
+		
+}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 			save=0;
@@ -143,8 +156,8 @@ public class PetitonDaoImpl implements PetitionDao {
 	@Override
 	public List<Petition> getSubmittedPetition(String compid) {
 
-		String quer = "SELECT petitioner_id, petition_id, petition_type, petition_category, submit_date, final_submit from"
-				+ " petition_master pm where userid=?";
+		String quer = "SELECT petitioner_id, petition_id, petition_type, petition_category, submit_date, final_submit, s.status_name  from"
+				+ " petition_master pm, petition_status s where userid=? and s.status_code=pm.petition_status";
 		Object[] eduParam = new Object[] { compid };
 		List<Petition> plist = jdbcTemplate.query(quer, eduParam, new RowMapper<Petition>() {
 			public Petition mapRow(ResultSet rs, int rownumber) throws SQLException {
@@ -155,6 +168,7 @@ public class PetitonDaoImpl implements PetitionDao {
 				p.setPetitionType(rs.getString("petition_type"));
 				p.setPetitionCat(rs.getString("petition_category"));
 				p.setFinalsubmit(rs.getString("final_submit"));
+				p.setStatus(rs.getString("status_name"));
 				p.setPetitionFormat(p.getPetitionId().substring(0,2)+"/"+p.getPetitionId().substring(2,6)+"/"+p.getPetitionId().substring(6,10));
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				Date fechaNueva;

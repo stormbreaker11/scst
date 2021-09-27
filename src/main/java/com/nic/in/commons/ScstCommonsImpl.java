@@ -106,7 +106,7 @@ public class ScstCommonsImpl implements ScstCommons {
 	@Override
 	public List<Caste> getCastes(String id) {
 		
-		String sql="select sub_code, sub_name from sub_caste where caste_code=?";
+		String sql="select sub_code, sub_name from sub_caste where caste_code=? order by sub_name";
 		
 		List<Caste> clist = jdbcTemplate.query(sql, new Object[] {id} ,new RowMapper<Caste>() {
 			public Caste mapRow(ResultSet rs, int rownumber) throws SQLException {

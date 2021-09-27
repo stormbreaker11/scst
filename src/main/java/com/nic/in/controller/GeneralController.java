@@ -1,28 +1,36 @@
 package com.nic.in.controller;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itextpdf.text.DocumentException;
 import com.nic.in.commons.ScstCommons;
+import com.nic.in.dao.DocDao;
 import com.nic.in.dao.GeneralDao;
 import com.nic.in.dao.PetitionDao;
 import com.nic.in.dao.PetitionerDao;
 import com.nic.in.model.District;
+import com.nic.in.model.Documents;
 import com.nic.in.model.General;
 import com.nic.in.model.Login;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Petitioner;
 import com.nic.in.model.Respondent;
+import com.nic.in.util.PDFViewPoint;
 
 @Controller
 @RequestMapping("/petition/general")
@@ -37,6 +45,9 @@ public class GeneralController {
 	@Autowired
 	private PetitionDao petitiondao;
 
+	@Autowired
+	private DocDao docdao;
+	
 	@Autowired
 	private ScstCommons commons;
 	@RequestMapping(value = "/viewpetitionDetails.htm")
@@ -119,4 +130,26 @@ public class GeneralController {
 			return save;
 			
 			}
+		
+		@GetMapping("/pdfViewPointExport")
+		public void exportToPDF( @RequestParam String petitionerId, @RequestParam String petid, HttpServletRequest request, HttpServletResponse response)  throws DocumentException, IOException, 
+		ParseException, java.io.IOException
+		{
+			//response.setContentType("application/pdf");
+		
+			//String petid = (String) request.getSession().getAttribute("petitionID");
+			String headerKey = "Content-Disposition";
+			String headerValue = "inline; filename=Atrocity" + petid + ".pdf";
+			response.setHeader(headerKey, headerValue);
+
+			Petition petition = generaldao.getPetition(petitionerId, petid);
+			if(petition.getPetitionId()!=null) {
+				List<Documents> gettingDocsByPid = docdao.getUploadedDocsByPid(petid);	
+				PDFViewPoint exporter = new PDFViewPoint();
+				Petitioner docs = petitionerdao.getDocs(petitionerId);
+				exporter.export(request,response, petition, gettingDocsByPid, docs);			
+			}
+
+		}
+
 }

@@ -258,13 +258,14 @@ margin-right: 10px;
 													petitioner(100
 													words) <span class="star">*</span></label>
 												<div class="col-md-6">
-													<form:textarea
-														path="appeal"
+													<form:textarea tabindex="1"
+														path="appeal" maxlength="100"
 														id="appeal"
 														cols="39"
 														rows="2"></form:textarea>
 												</div>
-											</div>
+											</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="appeal"></form:errors></div>
 										</div>
 										<div class="row">
 											<div
@@ -275,12 +276,13 @@ margin-right: 10px;
 												<span class="star">*</span></label>
 												<div class="col-md-6">
 													<form:textarea
-														path="pet_detail"
+														path="pet_detail" maxlength="500"
 														id="pet_detail"
-														cols="39"
+														cols="39" tabindex="2"
 														rows="7"></form:textarea>
 												</div>
-											</div>
+											</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="appeal"></form:errors></div>
 										</div>
 									
                         				

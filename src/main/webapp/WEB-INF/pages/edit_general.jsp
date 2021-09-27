@@ -276,10 +276,9 @@ margin-right: 10px;
                      						
 						<form:form modelAttribute="updategeneral" name="updatemodifygeneral" id="updategeneral" >               
 						<form:input type="hidden" name="petition_id" path="petition_id"
-				          id="petition_id" value="${petition}" />
-                  						
-									 
-										
+				          id="petition_id" value="${petId}" />
+						<form:input type="hidden" name="petitioner_id" path="petitioner_id"
+				          id="petitioner_id" value="${pid}" />
 										  <div class="row">
 											<div
 												class="col-sm-7 col-md-offset-2 form-group">
@@ -294,8 +293,6 @@ margin-right: 10px;
 												</div>
 											</div>
 										</div>
-         								
-         								
 										<div class="row">
 											<div
 												class="col-sm-7 col-md-offset-2 form-group" >
@@ -312,9 +309,6 @@ margin-right: 10px;
 												</div>
 											</div>
 										</div>
-					
-					
-						
 			</form:form>
                     
                     <div align="center">

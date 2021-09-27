@@ -221,7 +221,7 @@ margin-right: 10px;
 </style>
 
 </head>
-<body style="margin-right: 20px; margin-left: 20px;">
+<body style="margin-right: 20px; margin-left: 20px;" >
 	<div class="container-fluid">
 	
 		<div class="col-md-12">
@@ -263,7 +263,7 @@ margin-right: 10px;
 													Atrocity<span class="star">*</span></label>
 												<div class="col-md-4">
 													<form:select class="form-control SelectStyle" path="atrocity_type"
-														id="Typeofatrocity" >
+														id="Typeofatrocity" tabindex="1" autofocus="true">
 														<form:option value="0">--Select--
 														</form:option>
 														<c:forEach items="${atrocities}" var="alt">
@@ -272,13 +272,15 @@ margin-right: 10px;
 														</c:forEach>
 													</form:select>
 												</div>
-											</div>
+											</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="atrocity_type"></form:errors></div>         
+										</div>
 										</div>
 <div class="row">
 <div class="col-sm-7 col-md-offset-2 form-group">
 <label class="col-md-6"> Date of Offense   <span class="star">*</span> </label>
 <div class="col-md-4">
-<form:input path="offence_date" id="offence_date" placeholder="" class="form-control" type="date"/>
+<form:input path="offence_date" id="offence_date" placeholder="" class="form-control" tabindex="2" type="date"/>
 </div>
 </div>
 </div>
@@ -291,10 +293,12 @@ margin-right: 10px;
 													<form:input type="text"
 														path="offence_place"
 														id="offence_place"
-														placeholder=" "
-														class="form-control" />
+														tabindex="3"
+														class="form-control" maxlength="50" />
 												</div>
-											</div>
+											</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="offence_place"></form:errors></div>         
+										</div>
 										</div>
 										<div class="row">
 												<div
@@ -306,7 +310,7 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="off_district"
-															id="off_district">
+															id="off_district"  tabindex="4">
 															<form:option value="0">--Select--
 															</form:option>
 															<c:forEach items="${district}" var="alt">
@@ -315,7 +319,8 @@ margin-right: 10px;
 														</c:forEach>
 														</form:select>
 													</div>
-												</div>
+												</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="off_district"></form:errors></div>   
 											</div>
 											
 										<div class="row">
@@ -327,7 +332,7 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="off_mandal"                
-															id="off_mandal">
+															id="off_mandal" tabindex="5">
 															<form:option value="26">--Select--
 															</form:option>
 															<form:option value="27">Mandal-1
@@ -339,7 +344,8 @@ margin-right: 10px;
 
 														</form:select>
 													</div>
-												</div>
+												</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="off_mandal"></form:errors></div>  
 											</div>
 											
 										<div class="row">
@@ -350,7 +356,7 @@ margin-right: 10px;
 													Police Complaint<span class="star">*</span></label>
 												<div class="col-md-3">
 													<form:select class="form-control SelectStyle" path="ps_complaint"
-														id="ps_complaint">
+														id="ps_complaint" tabindex="6">
 														<form:option value="0">--Select--
 														</form:option>
 														<form:option 
@@ -361,7 +367,8 @@ margin-right: 10px;
 														</form:option>
 													</form:select>
 												</div>
-											</div>
+											</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="ps_complaint"></form:errors></div>  
 										</div>
 										<div class="PoliceComplaint "
 											id="1
@@ -379,10 +386,11 @@ margin-right: 10px;
 														<form:input type="text"
 															path="ps_name"
 															id="ps_name"
-															placeholder=" policestation"
-															class="form-control" />
+															tabindex="7"
+															class="form-control" maxlength="60"/>
 													</div>
-												</div>
+												</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="ps_name"></form:errors></div> 
 											</div>
 
 											
@@ -396,7 +404,7 @@ margin-right: 10px;
 													<div
 														class="col-md-6">
 														<form:select class="form-control SelectStyle" path="ps_district"
-															id="ps_district">
+															id="ps_district" tabindex="8">
 															<form:option value="0">--Select--
 															</form:option>
 															<c:forEach items="${district}" var="alt">
@@ -407,7 +415,8 @@ margin-right: 10px;
 															
 														</form:select>
 													</div>
-												</div>
+												</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="ps_district"></form:errors></div> 
 											</div>
 											<div class="row">
 												<div
@@ -418,7 +427,7 @@ margin-right: 10px;
 													<div
 														class="col-md-6">
 														<form:select class="form-control SelectStyle" path="ps_mandal"
-															id="ps_mandal">
+															id="ps_mandal" tabindex="9">
 															<form:option value="52">--Select--
 															</form:option>
 															<form:option value="53">Mandal-1
@@ -430,7 +439,8 @@ margin-right: 10px;
 
 														</form:select>
 													</div>
-												</div>
+												</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="ps_mandal"></form:errors></div> 
 											</div>
 											<div class="row">
 												<div
@@ -442,10 +452,11 @@ margin-right: 10px;
 													<div
 														class="col-md-6">
 														<form:input class="form-control SelectStyle" path="ps_village"                           
-															id="ps_village"/>
+															id="ps_village" tabindex="10"/>
 															
 													</div>
-												</div>
+												</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="ps_village"></form:errors></div> 
 											</div>
 											<div class="row">
 											<div
@@ -457,23 +468,22 @@ margin-right: 10px;
 												class="col-md-6">
 												<form:input type="text"
 													path="fir_no"
-													id="fir_no"
-													placeholder="Type FIR Number"
+													id="fir_no" maxlength="50" tabindex="11"
+													
 													class="form-control" />
 											</div>
-										</div>
+										</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="fir_no"></form:errors></div>
 										</div>
 										
 										<div class="row">
 											<div class="col-sm-7 col-md-offset-2 form-group">
 											<label class="col-md-6">Upload FIR COPY<span class="star">*</span></label>
 											<div class="col-md-6">
-											<input name="fir_pdfUpload"  id="fir_pdfUpload" class="form-control" type="file" />
+											<input name="fir_pdfUpload"  id="fir_pdfUpload" class="form-control" type="file" tabindex="12" />
 											</div>
 											</div>
-											
 											<div class="col-md-offset-2 form-group " style="color: red;">allowed .pdf file of 1 mb size </div>         
-							
 										</div> 
 									</div>
 									 
@@ -488,9 +498,10 @@ margin-right: 10px;
 												<div class="col-md-6">
 													<form:textarea
 														cols="39"
-														rows="4" maxlength="100" id="appeal" path="appeal"></form:textarea>
+														rows="4" maxlength="100" tabindex="13" id="appeal" path="appeal"></form:textarea>
 												</div>
-											</div>
+											</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="appeal"></form:errors></div>
 										</div>
 										<div class="row">
 											<div
@@ -503,10 +514,11 @@ margin-right: 10px;
 													<form:textarea
 														path="pet_detail"
 														id="pet_detail"
-														cols="39"
+														cols="39" tabindex="14" 
 														rows="7"></form:textarea>
 												</div>
-											</div>
+											</div><div class="col-md-offset-2 form-group " style="color: red;">
+											<form:errors path="pet_detail"></form:errors></div>
 										</div>
 									
                         				

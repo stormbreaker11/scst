@@ -26,7 +26,7 @@ public class Petition {
 	private byte[] sign;
 	private String docdesc;
 	private byte[] docpdf;
-
+	private String caste;
 	// nodal
 	private String groupName;
 	private String nodalName;
@@ -274,6 +274,14 @@ public class Petition {
 
 	public void setNodalSign(byte[] nodalSign) {
 		this.nodalSign = nodalSign;
+	}
+
+	public String getCaste() {
+		return caste;
+	}
+
+	public void setCaste(String caste) {
+		this.caste = caste;
 	}
 
 }

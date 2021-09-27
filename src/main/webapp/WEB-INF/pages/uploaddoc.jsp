@@ -297,7 +297,7 @@ px
 														class="col-md-6">Document description</label>
 													<div
 														class="col-md-4">
-														<form:input type="text" style="text-transform:capitalize;" name="docDesc" id="docDesc" maxlength="100" path="docDesc" class="form-control"/>
+														<form:input type="text" style="text-transform:capitalize;" name="docDesc" id="docDesc" tabindex="1" maxlength="100" path="docDesc" class="form-control"/>
 														
 													
 													</div>
@@ -524,6 +524,15 @@ function openRequestedPopup(response) {
 		width=1000,height=600,left=250,top=150`;
 	var pid=$("#petitionId").val();
 window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'test', params);
+ 
+}
+
+function printDiv() {
+	
+	let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+		width=1000,height=600,left=250,top=150`;
+	var pid=$("#petitionId").val();
+window.open("/scst/petition/land/pdfViewPointExport?pid="+pid+"&docno="+response, 'test', params);
  
 }
 

@@ -1,6 +1,7 @@
 package com.nic.in.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestMethod;
 import com.nic.in.dao.PetitionDao;
 import com.nic.in.model.Login;
 import com.nic.in.model.Petition;
@@ -26,5 +27,16 @@ public class ViewPetitions {
 			List<Petition> petitions = petitiondao.getSubmittedPetition(login.getCompid());
 			mode.addAttribute("petitions", petitions);
 			return "viewPetition";
+		}
+		
+		@RequestMapping(value = "viewSubmittedpetition.htm", method = RequestMethod.GET)
+		public String viewSubmittedpetition(HttpServletRequest httpServletRequest, Model model) {
+			
+			Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+			List<Petition> petitions = petitiondao.getSubmittedPetition(login.getCompid());
+			List<Petition> collectFinalSubmit = petitions.stream().filter(x->x.getFinalsubmit().equals("Y")).collect(Collectors.toList());
+			model.addAttribute("petitions", collectFinalSubmit);
+			return "viewSubmittedpetition";
+			
 		}
 }

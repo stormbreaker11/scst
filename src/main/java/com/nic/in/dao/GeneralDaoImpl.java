@@ -2,6 +2,9 @@ package com.nic.in.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -58,12 +61,12 @@ public class GeneralDaoImpl implements GeneralDao {
 	public Petition getPetition(String petitionerId, String pid) {
 
 		String sql = "SELECT pm.petition_id, pm.petitioner_id,  pm.submit_date, pr.pr_name, pr.pr_caste, pr.address, pr.pr_photo,  pr.pr_signature, "
-				+ "pr.pr_mobile, pr.pr_email, pr.district, pr.mandal, pr.village, "
+				+ "pr.pr_mobile, pr.pr_email, d.dname, pr.mandal, pr.village, "
 				+ "pm.petition_type, pm.petition_category, pm.submit_date, "
-				+ "pg.appeal,pg.pet_detail, rs.resp_type from petitioner  pr, "
-				+ "petition_master pm, petition_general pg, petition_respondent rs "
+				+ "pg.appeal,pg.pet_detail from petitioner  pr, "
+				+ "petition_master pm, petition_general pg, distric d "
 				+ "where pr.petitioner_id=? and pr.petitioner_id=pg.petitioner_id "
-				+ "and pr.petitioner_id=rs.petitioner_id and pg.petition_id=pm.petition_id" + " and rs.petition_id=?";
+				+ " d.dcode=pr.district and pg.petition_id=pm.petition_id and and pm.petition_id=?";
 
 		Petition pl = new Petition();
 
@@ -77,20 +80,29 @@ public class GeneralDaoImpl implements GeneralDao {
 					pl.setPetitionType(rs.getString("petition_type"));
 					pl.setMobile(rs.getString("pr_mobile"));
 					pl.setEmail(rs.getString("pr_email"));
-					pl.setDistrict(rs.getString("district"));
+					pl.setDistrict(rs.getString("dname"));
 					pl.setMandal(rs.getString("mandal"));
 					pl.setVillage(rs.getString("village"));
-					pl.setDistrict(rs.getString("district"));
 					pl.setAppeal(rs.getString("appeal"));
 					pl.setCourtPet(rs.getString("pet_detail"));
-					pl.setRespondent(rs.getString("resp_type"));
+					pl.setCaste(rs.getString("pr_caste"));
 					pl.setSubmit(rs.getString("submit_date"));
 					pl.setPhoto(rs.getBytes("pr_photo"));
 					pl.setSign(rs.getBytes("pr_signature"));
 
-					String pid = pl.getPetitionId().substring(0, 2) + "/" + pl.getPetitionerId().substring(2, 6) + "/"
-							+ pl.getPetitionerId().substring(6, 10);
-					pl.setPetitionId(pid);
+					String pid=pl.getPetitionId().substring(0, 2)+"/"+pl.getPetitionId().substring(2, 6)+"/"+pl.getPetitionId().substring(6, 10);
+					pl.setPetitionFormat(pid);
+					
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					Date fechaNueva;
+						try {
+							fechaNueva = format.parse(pl.getSubmit());
+							format = new SimpleDateFormat("dd-MM-YYYY");
+							pl.setSubmit(format.format(fechaNueva));
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 				}
 				return pl;
 
@@ -123,23 +135,33 @@ public class GeneralDaoImpl implements GeneralDao {
 
 		try {
 
-			String sql = "update petition_general set appeal=:appeal, "
-					+ "pet_detail=:pet_detail, action_userid=:action_userid, action_date=now() where petition_id=:petition_id ";
-
-			MapSqlParameterSource map = new MapSqlParameterSource();
-
-			map.addValue("appeal", g.getAppeal());
-			map.addValue("pet_detail", g.getPet_detail());
-			map.addValue("petition_id", g.getPetition_id());
-			map.addValue("action_userid", login.getCompid());
-
-			int update = namedParameterJdbcTemplate.update(sql, map);
-			if (update == 1) {
-				save = 1;
+			String countQuery="Select count(*) from petition_general where petition_id=?";
+			int count=jdbcTemplate.queryForObject(countQuery, new Object[] {g.getPetition_id()}, Integer.class);
+			
+			if(count==0) {
+					int saveGeneralPetition = saveGeneralPetition(g, login, g.getPetition_id());
+					if(saveGeneralPetition==1) {
+						save=1;
+					}
 			}
+			else {
+				String sql = "update petition_general set appeal=:appeal, "
+						+ "pet_detail=:pet_detail, action_userid=:action_userid, action_date=now() where petition_id=:petition_id ";
 
+				MapSqlParameterSource map = new MapSqlParameterSource();
+
+				map.addValue("appeal", g.getAppeal());
+				map.addValue("pet_detail", g.getPet_detail());
+				map.addValue("petition_id", g.getPetition_id());
+				map.addValue("action_userid", login.getCompid());
+
+				int update = namedParameterJdbcTemplate.update(sql, map);
+				if (update == 1) {
+					save = 1;
+				}
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			save = 0;
 		}
 

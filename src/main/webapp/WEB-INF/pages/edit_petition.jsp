@@ -272,6 +272,8 @@ margin-right: 10px;
                         <div class="tab-pane fade in active" id="tab1primary">
                         <form:form name="petitionland" id="petitionland" modelAttribute="petitionland" >
 		
+		<form:input type="hidden" name="petitionerId" path="petitionerId"
+				id="petitionerId" value="${pid}" />
 		<form:input type="hidden" name="petitionId" path="petitionId"
 				id="petitionId" value="${petId}" />
                         <div class="row from group">
@@ -296,7 +298,7 @@ margin-right: 10px;
 												<div class="col-md-6">
 													<form:textarea
 														cols="39"
-														rows="2" maxlength="100" id="appeal" path="appeal" value="${landAppeal.appeal }"></form:textarea>
+														rows="2" maxlength="100" id="appeal" path="appeal" tabindex="1" value="${landAppeal.appeal }"></form:textarea>
 												</div>
 											</div>
 										</div>
@@ -309,7 +311,7 @@ margin-right: 10px;
 												<span class="star">*</span></label>
 												<div class="col-sm-6">
 													<form:textarea
-														cols="39" path="pet_detail" value="${landAppeal.pet_detail}" maxlength="500" id="pet_detail"
+														cols="39" path="pet_detail" tabindex="2" value="${landAppeal.pet_detail}" maxlength="500" id="pet_detail"
 														rows="7"></form:textarea>
 												</div>
 											</div>
@@ -324,8 +326,8 @@ margin-right: 10px;
 													Lodged Complaint
 													in any
 													court <span class="star">*</span></label>
-												<div class="col-md-2">
-													<form:select class="form-control SelectStyle"
+												<div class="col-md-3">
+													<form:select class="form-control SelectStyle" tabindex="3"
 														id="court" path="courtComp" > 
 														<%-- <form:option value="0" >--Select--
 														</form:option> --%>
@@ -381,7 +383,7 @@ margin-right: 10px;
 													<div
 														class="col-md-6">
 														<form:input type="text" id="courtName" maxlength="50"
-															placeholder=" Court name " 
+															placeholder=" Court name " tabindex="4"
 															class="form-control" path="courtName" value="${landAppeal.courtName}"/>
 													</div>
 												</div>
@@ -394,7 +396,7 @@ margin-right: 10px;
 														Select State</label>
 													<div
 														class="col-md-4">
-												<form:select class="form-control SelectStyle"
+												<form:select class="form-control SelectStyle" tabindex="5"
 													id="courtState" path="courtState">
 													<form:option value="${petitionland.courtStateCode}">${petitionland.courtState}</form:option>
 													<c:forEach items="${states}" var="alt">
@@ -413,7 +415,7 @@ margin-right: 10px;
 													</label>
 													<div
 														class="col-md-4">
-														<form:select class="form-control SelectStyle" path="courtDist"
+														<form:select class="form-control SelectStyle" path="courtDist" tabindex="6"
 															id="courtDist">
 															<form:option value="${petitionland.courtDistCode}" >${petitionland.courtDist}
 															</form:option>
@@ -427,10 +429,10 @@ margin-right: 10px;
 													class="col-sm-7 col-md-offset-2 form-group">
 													<label
 														class="col-md-6">
-														Select Mandal</label>
+														 Mandal</label>
 													<div
 														class="col-md-4">
-														<form:input id="courtMandal" class="form-control SelectStyle"
+														<form:input id="courtMandal" class="form-control SelectStyle" tabindex="6" maxlength="100"
 															path="courtMandal" value="${landAppeal.courtMandal}" />
 														
 													</div>
@@ -447,7 +449,7 @@ margin-right: 10px;
 														class="col-md-3">
 														<form:input type="text"
 															placeholder=" Type case number" path="caseNo"
-															class="form-control" value="${landAppeal.caseNo}" maxlength="30"/>
+															class="form-control" value="${landAppeal.caseNo}" maxlength="30" tabindex="7"/>
 													</div>
 												</div>
 											</div>
@@ -543,7 +545,7 @@ margin-right: 10px;
 					<label class="col-md-6">Kind of Land <span class="star">*</span></label>
 					<div class="col-md-4">
 						<form:select class="form-control SelectStyle" id="landKind"
-							path="landKind">
+							path="landKind" autofocus="true" >
 							<form:option value="0">--Select--
 														</form:option>
 							<form:option value="1">Agricultural
@@ -625,7 +627,7 @@ margin-right: 10px;
 						</label>
 						<div class="col-md-4">
 							<form:select class="form-control SelectStyle" path="landmandal"
-								id="landmandal">
+								id="landmandal" >
 								<form:option value="0" selected="true">--Select--</form:option>
 								<form:option value="1">Mandal-1</form:option>
 
@@ -640,7 +642,7 @@ margin-right: 10px;
 						<label class="col-md-6">Revenue Village </label>
 						<div class="col-md-4">
 							<form:input type="text" class="form-control SelectStyle" path="landvillage"
-								name="landvillage" id="landvillage"/>
+								name="landvillage" id="landvillage" maxlength="50"/>
 							
 						</div>
 					</div>
@@ -649,7 +651,7 @@ margin-right: 10px;
 					<div class="col-sm-7 col-md-offset-2 form-group">
 						<label class="col-md-6">Patta Passbook number</label>
 						<div class="col-md-3">
-							<form:input type="text" path="passbookNo" id="passbookNo"
+							<form:input type="text" path="passbookNo" maxlength="10" id="passbookNo"
 								name="passbookNo" placeholder=" Patta number"
 								class="form-control" maxlength="10" />
 						</div>
@@ -661,7 +663,7 @@ margin-right: 10px;
 						<label class="col-md-6">Survey number <span class="star">*</span></label>
 						<div class="col-md-3">
 							<form:input type="text" placeholder=" Survey number"
-								maxlength="15" path="surveyNo" id="surveyNo" name="surveyNo"
+								maxlength="15" path="surveyNo" id="surveyNo" name="surveyNo" 
 								class="form-control" />
 						</div>
 					</div>
@@ -823,7 +825,7 @@ margin-right: 10px;
 														class="col-md-4">
 														<form:input type="text"
 															placeholder=" Designation" id="respProffesion"
-															class="form-control" path="respProffesion" />
+															class="form-control" path="respProffesion" maxlength="50" />
 													</div>
 												</div>
 											</div>
@@ -864,7 +866,7 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:input type="text"
-															placeholder=" Mobile No "
+															placeholder=" Mobile No " maxlength="10"
 															class="form-control"
 														 id="mobile" path="mobile" />
 													</div>
@@ -880,7 +882,7 @@ margin-right: 10px;
 														class="col-md-4">
 														<form:input type="text"
 															placeholder=" e-mail "
-															class="form-control"  id="email"   path="email" />
+															class="form-control"  id="email"   path="email" maxlength="50" />
 													</div>
 												</div>
 												<div class="col-md-offset-2 form-group " style="color: red;">

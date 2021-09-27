@@ -2,6 +2,7 @@ package com.nic.in.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class DocDaoImpl implements DocDao {
 		int save=0;
 		String sql="INSERT INTO evidence(row_id, petition_id, petitioner_id, userid, doc_srno, doc_desc,doc_pdf, entry_date)"
 				+ "VALUES (:row_id, :petition_id, :petitioner_id, :userid, :doc_srno, :doc_desc, :doc_pdf, now())";
-		int generateDcoSrNo = generateDcoSrNo();
+		int generateDcoSrNo = generateDcoSrNo(documents.getPetitionId());
 		MapSqlParameterSource map=new MapSqlParameterSource();
 		map.addValue("row_id", generateRowIdForDoc());
 		map.addValue("petition_id", documents.getPetitionId());
@@ -57,23 +58,29 @@ public class DocDaoImpl implements DocDao {
 		return save;
 	}
 	// generating serial number for respondent details
-		public int generateDcoSrNo() {
-			String query = "SELECT coalesce(max(doc_srno),0) from evidence";
-			int maxid = 0;
-			try {
-				int id = jdbcTemplate.queryForObject(query, Integer.class);
-				if (id == 0) {
-					maxid = 1;
-				} else {
-					maxid = id + 1;
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				maxid = 0;
+	public int generateDcoSrNo(String petitionid) {
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+
+		String query = "SELECT coalesce(max(doc_srno),0) from evidence where substring(petition_id from 3 for 4) "
+				+ "=? and substring(? from 3 for 4) = ? and petition_id=? ";
+
+		int maxid = 0;
+		try {
+			int id = jdbcTemplate.queryForObject(query,
+					new Object[] { petitionid.substring(2, 6), petitionid, String.valueOf(year), petitionid },
+					Integer.class);
+			if (id == 0) {
+				maxid = 1;
+			} else {
+				maxid = id + 1;
 			}
-			return maxid;
+		} catch (Exception e) {
+			e.printStackTrace();
+			maxid = 0;
 		}
-	
+		return maxid;
+	}
 
 		// generating rowid for evidence table
 		public int generateRowIdForDoc() {

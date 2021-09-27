@@ -193,7 +193,7 @@ response.setDateHeader("Expires", 0);
 							class="star">*</span></label>
 						<div class="col-md-4">
 							<form:select class="form-control SelectStyle"
-								id="respondentdetails" path="respType">
+								id="respondentdetails" path="respType" tabindex="1">
 								<form:option value="0">--Select--
 															</form:option>
 								<form:option value="P">Private/Individual</form:option>
@@ -210,7 +210,7 @@ response.setDateHeader("Expires", 0);
 						<div class="col-md-4">
 							<form:input type="text" placeholder=" Full Name"
 								class="form-control" maxlength="100" id="respName"
-								path="respName" />
+								path="respName" tabindex="2" />
 						</div>
 					</div>
 				</div>
@@ -220,7 +220,7 @@ response.setDateHeader("Expires", 0);
 						<label class="col-md-6"> Select Caste <span class="star">*</span></label>
 
 						<div class="col-md-3">
-							<form:select class="form-control SelectStyle" path="caste"
+							<form:select class="form-control SelectStyle" path="caste" tabindex="4"
 								id="castevalue">
 								<form:option value="0">--Select--
 															</form:option>
@@ -239,7 +239,7 @@ response.setDateHeader("Expires", 0);
 							class="star">*</span></label>
 						<div class="col-md-4">
 							<form:input type="text" placeholder=" Designation"
-								id="respProffesion" class="form-control" path="respProffesion" />
+								id="respProffesion" class="form-control" path="respProffesion" maxlength="50" tabindex="5" />
 						</div>
 					</div>
 				</div>
@@ -248,7 +248,7 @@ response.setDateHeader("Expires", 0);
 						<label class="col-md-6">Select District <span class="star">*</span></label>
 						<div class="col-md-4">
 							<form:select class="form-control SelectStyle" path="district"
-								id="district">
+								id="district" tabindex="6">
 								<form:option value="0">--Select--
 															</form:option>
 								<c:forEach items="${districts}" var="alt">
@@ -262,7 +262,7 @@ response.setDateHeader("Expires", 0);
 					<div class="col-sm-7 col-md-offset-2 form-group">
 						<label class="col-md-6">Address </label>
 						<div class="col-md-6">
-							<form:textarea maxlength="200" cols="39" rows="4" id="address"
+							<form:textarea maxlength="200" cols="39" rows="4" id="address" tabindex="7"
 								path="address"></form:textarea>
 						</div>
 					</div>
@@ -272,7 +272,7 @@ response.setDateHeader("Expires", 0);
 						<label class="col-md-6">Mobile No </label>
 						<div class="col-md-4">
 							<form:input type="text" placeholder=" Mobile No "
-								class="form-control" id="mobile" path="mobile" />
+								class="form-control" id="mobile" path="mobile" maxlength="10" tabindex="8" />
 						</div>
 					</div>
 				</div>
@@ -281,7 +281,7 @@ response.setDateHeader("Expires", 0);
 						<label class="col-md-6">E-Mail ID</label>
 						<div class="col-md-4">
 							<form:input type="text" placeholder=" e-mail "
-								class="form-control" id="email" path="email" />
+								class="form-control" id="email" path="email" maxlength="100" tabindex="9"/>
 						</div>
 					</div>
 					<div class="col-md-offset-2 form-group " style="color: red;">
@@ -375,7 +375,7 @@ response.setDateHeader("Expires", 0);
 										<div class="col-md-6">
 											<input type="text" placeholder=" Designation"
 												id="respProffesion" class="form-control"
-												name="respProffesion" />
+												name="respProffesion" maxlength="50"/>
 										</div>
 									</div>
 								</div>
@@ -417,7 +417,7 @@ response.setDateHeader("Expires", 0);
 										<label class="col-md-6">E-Mail ID</label>
 										<div class="col-md-6">
 											<input type="text" placeholder=" e-mail "
-												class="form-control" id="email" name="email" />
+												class="form-control" id="email" name="email" maxlength="100"  />
 										</div>
 									</div>
 
