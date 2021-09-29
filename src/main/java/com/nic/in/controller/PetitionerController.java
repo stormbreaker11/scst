@@ -22,10 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nic.in.commons.ScstCommons;
 import com.nic.in.dao.PetitionDao;
 import com.nic.in.dao.PetitionerDao;
+import com.nic.in.model.Category;
 import com.nic.in.model.District;
 import com.nic.in.model.Identity;
 import com.nic.in.model.Login;
-import com.nic.in.model.NodalOfficer;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Petitioner;
 
@@ -103,28 +103,14 @@ List<District> district = scstcommons.getDistrict("36");
 
 	}
 
-	@RequestMapping(value = "/filepetion.htm/{pid}/{type}")
-	public String filepetion(HttpServletRequest httpServletRequest, Model model, @PathVariable("pid") String pid,
-			@PathVariable("type") String type) {
-		model.addAttribute("pid", pid); // id is petitioner id
+	@RequestMapping(value = "filepetion.htm")
+	public String filepetion(HttpServletRequest httpServletRequest, Model model, @RequestParam String pid) {
 
-		if (type.equals("L")) {
-			model.addAttribute("typeVal", "L");
-			model.addAttribute("typeOpt", "Land");
-		}
-		if (type.equals("A")) {
-			model.addAttribute("typeVal", "A");
-			model.addAttribute("typeOpt", "Atrocity");
-		}
-		if (type.equals("S")) {
-			model.addAttribute("typeVal", "S");
-			model.addAttribute("typeOpt", "Service");
-		}
-		if (type.equals("G")) {
-			model.addAttribute("typeVal", "G");
-			model.addAttribute("typeOpt", "General");
-		}
 		model.addAttribute("petition", new Petition());
+		
+		List<Category> categories = scstcommons.getCategories();
+		model.addAttribute("categories", categories);
+		model.addAttribute("pid", pid);
 		return "filepetition";
 	}
 

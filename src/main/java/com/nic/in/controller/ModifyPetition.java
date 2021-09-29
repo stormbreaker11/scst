@@ -94,6 +94,10 @@ public class ModifyPetition {
 		model.addAttribute("petition", grppetition );
 		if(cat.equals("L")) {//Land
 			Petitition_Land landAppeal = landdao.getLandAppeal(petition);
+			List<Land> landkinds = commons.getLands();
+			List<Land> landTypes = commons.getLandTypes();
+			model.addAttribute("landkinds", landkinds);
+			model.addAttribute("landTypes", landTypes);
 			//System.out.println(landAppeal.getCourtComp()+ " "+landAppeal.getCourtComp().length() );
 			model.addAttribute("petitionland", landAppeal);
 			model.addAttribute("states", states);

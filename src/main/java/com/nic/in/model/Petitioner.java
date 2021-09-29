@@ -2,6 +2,8 @@ package com.nic.in.model;
 
 public class Petitioner {
 
+	
+	//the same model class is used for joint petitioner 
 	private String petionerId;
 	private String petitonId;
 	private String isPetitioner;
@@ -26,6 +28,8 @@ public class Petitioner {
 	private byte[] prPhoto;
 	private byte[] prSign;
 	private String entry;
+	
+	
 	//behalf
 	private String bprName;
 	private String bprProfession;

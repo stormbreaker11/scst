@@ -379,7 +379,7 @@ public class PDFViewPoint {
 	
 		byte[] readAllBytes = Files.readAllBytes(java.nio.file.Paths.get(realPath));
 		byte[] prPhoto = docs.getPrPhoto();
-		byte[] prSign = docs.getPrSign();
+		byte[] prSign = docs.getPrSign(); 
 		//Image instance1 = Image.getInstance(realPath1);
 		Image tslogo = Image.getInstance(readAllBytes); //ts logo
 		Image photoPR = Image.getInstance(prPhoto); //photo

@@ -38,34 +38,34 @@ public class RespondentDaoImpl implements RespondentDao {
 				+ ":resp_name, :resp_caste, :address, :resp_mobile, :resp_email, :district, now())";
 
 		MapSqlParameterSource map = new MapSqlParameterSource();
-
+		try {
 		
 		int generateRespSrNo = generateRespSrNo(respondent.getPetition());
 		map.addValue("row_id", generateRowIdForRespondent());
-		map.addValue("petition_id", respondent.getPetition());
-		map.addValue("petitioner_id", respondent.getPetitionerId());
-		map.addValue("userid", login.getCompid());
-		map.addValue("resp_srno", generateRespSrNo);
-		map.addValue("resp_type", respondent.getRespType());
-		map.addValue("resp_type", respondent.getRespType());
-		map.addValue("resp_profession", respondent.getRespProffesion());
-		map.addValue("resp_name", respondent.getRespName());
-		if(respondent.getCaste()!=null) {
-			map.addValue("resp_caste", respondent.getCaste().trim());	
-		}
-		else{
-			map.addValue("resp_caste", "0");	
-		}
-		map.addValue("address", respondent.getAddress());
-		map.addValue("resp_mobile", respondent.getMobile());
-		map.addValue("resp_email", respondent.getEmail());
-		map.addValue("district", Integer.parseInt(respondent.getDistrict()));
-
-		try {
-			save = namedParameterJdbcTemplate.update(sql, map);
-			if (save == 1) {
-				save = generateRespSrNo;
+		if(generateRowIdForRespondent()!=0) {
+			map.addValue("petition_id", respondent.getPetition());
+			map.addValue("petitioner_id", respondent.getPetitionerId());
+			map.addValue("userid", login.getCompid());
+			map.addValue("resp_srno", generateRespSrNo);
+			map.addValue("resp_type", respondent.getRespType());
+			map.addValue("resp_type", respondent.getRespType());
+			map.addValue("resp_profession", respondent.getRespProffesion());
+			map.addValue("resp_name", respondent.getRespName());
+			if(respondent.getCaste()!=null) {
+				map.addValue("resp_caste", respondent.getCaste().trim());	
 			}
+			else{
+				map.addValue("resp_caste", "0");	
+			}
+			map.addValue("address", respondent.getAddress());
+			map.addValue("resp_mobile", respondent.getMobile());
+			map.addValue("resp_email", respondent.getEmail());
+			map.addValue("district", Integer.parseInt(respondent.getDistrict()));
+				save = namedParameterJdbcTemplate.update(sql, map);
+				if (save == 1) {
+					save = generateRespSrNo;
+				}
+		}
 		} catch (Exception e) {
 			e.printStackTrace();
 			save = 0;
@@ -75,12 +75,16 @@ public class RespondentDaoImpl implements RespondentDao {
 
 	// generating rowid for respondent table
 	public int generateRowIdForRespondent() {
-		String query = "SELECT coalesce(max(row_id),0) from petition_respondent";
+		Calendar cal=Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		
+		String query = "SELECT coalesce(max(row_id),0) from petition_respondent where substring(cast(row_id  as varchar) from 1 for 4 )=?";
 		int maxid = 0;
 		try {
-			int id = jdbcTemplate.queryForObject(query, Integer.class);
+			int id = jdbcTemplate.queryForObject(query, new Object[] {String.valueOf(year)}, Integer.class);
 			if (id == 0) {
-				maxid = 1;
+				//String tempid=year+"0001";
+				maxid = Integer.parseInt(year+"0001");
 			} else {
 				maxid = id + 1;
 			}

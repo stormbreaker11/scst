@@ -546,18 +546,12 @@ margin-right: 10px;
 					<div class="col-md-4">
 						<form:select class="form-control SelectStyle" id="landKind"
 							path="landKind" autofocus="true" >
-							<form:option value="0">--Select--
-														</form:option>
-							<form:option value="1">Agricultural
-															land
-														</form:option>
-							<form:option value="2">Housing
-															Land
-														</form:option>
-							<form:option value="3">Forest
-															Land
-														</form:option>
-						</form:select>
+							<form:option value="0">--Select--</form:option>
+
+										<c:forEach items="${landkinds }" var="alt">
+											<form:option value="${alt.landsrno }">${alt.landKind}</form:option>
+										</c:forEach>
+									</form:select>
 					</div>
 				</div>
 			</div>
@@ -570,19 +564,13 @@ margin-right: 10px;
 							path="landType">
 							<form:option value="0">--Select--
 														</form:option>
-							<form:option value="1">
-															Patta
-															land
-														</form:option>
-							<form:option value="2">
-															Govt.
-															Assigned
-															land
-														</form:option>
-							<form:option value="3">
-															Other
-															Land
-														</form:option>
+								
+							
+								<c:forEach items="${landTypes }" var="alt">
+							<option value="${alt.landsrno }">${alt.landType}</option>
+														
+							
+							</c:forEach>
 						</form:select>
 					</div>
 				</div>
@@ -653,7 +641,7 @@ margin-right: 10px;
 						<div class="col-md-3">
 							<form:input type="text" path="passbookNo" maxlength="10" id="passbookNo"
 								name="passbookNo" placeholder=" Patta number"
-								class="form-control" maxlength="10" />
+								class="form-control"  />
 						</div>
 					</div>
 				</div>
@@ -1145,10 +1133,10 @@ margin-right: 10px;
 									<div class="col-md-6">
 										<select class="form-control SelectStyle" id="landKind" name="landKind">
 											<option value="0">--Select--</option>
-											<option value="1">Agricultural land</option>
-											<option value="2">Housing Land</option>
-											<option value="3">Forest Land</option>
-										</select>
+												<c:forEach items="${landkinds }" var="alt">
+											<option value="${alt.landsrno }">${alt.landKind}</option>
+										</c:forEach>
+									</select>
 									</div>
 								</div>
 							</div>
@@ -1160,9 +1148,11 @@ margin-right: 10px;
 										<select class="form-control SelectStyle" id="pitition1" name="landType"
 											>
 											<option value="0">--Select--</option>
-											<option value="1">Patta land</option>
-											<option value="2">Govt. Assigned land</option>
-											<option value="3">Other Land</option>
+												<c:forEach items="${landTypes }" var="alt">
+							<option value="${alt.landsrno }">${alt.landType}</option>
+														
+							
+							</c:forEach>
 										</select>
 									</div>
 								</div>
@@ -2011,13 +2001,11 @@ $(document).on('click','#edit', function() {
 								else{
 									caste=castevalueText;
 									}
-								var row = $('.table-bordered tr').length;
-								if (row == 1) {
-									k = 0;
-								}
+							
 								k = $(
 										'.table-bordered tr:last-child td:nth-child(2)')
 										.html();
+								alert(k)
 								if (isNaN(k)) {
 									k = 0;
 								}

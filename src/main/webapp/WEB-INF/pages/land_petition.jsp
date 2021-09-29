@@ -405,7 +405,7 @@ margin-right: 10px;
 												<label class="col-md-6">
 													Status of Case
 													</label>
-												<div class="col-md-2">
+												<div class="col-md-3">
 													<form:select class="form-control SelectStyle"
 														id="casestatus" path="caseStatus" tabindex="9">
 														<form:option value="0">--Select--

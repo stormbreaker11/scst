@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -97,26 +98,29 @@ public class LandDaoImpl implements LandDao {
 				+ " VALUES (:row_id,:petition_id,:petitioner_id,:userid,:land_srno, :land_kind, :land_type, :district,:mandal, :village, "
 				+ ":passbook_no, :survey_no, :extent_land, :land_units, now())";
 		MapSqlParameterSource map = new MapSqlParameterSource();
-		int generateLandSrNo = generateLandSrNo();
-		map.addValue("row_id", generateRowIdForLand());
-		map.addValue("petition_id", land.getPetitionId());
-		map.addValue("petitioner_id", land.getPetitionerId());
-		map.addValue("userid", login.getCompid());
-		map.addValue("land_kind", land.getLandKind());
-		map.addValue("land_type", land.getLandType());
-		map.addValue("land_srno", generateLandSrNo);
-		map.addValue("district", land.getLandDistrict());
-		map.addValue("mandal", land.getLandmandal());
-		map.addValue("village", land.getLandvillage());
-		map.addValue("passbook_no", land.getPassbookNo());
-		map.addValue("survey_no", land.getSurveyNo());
-		map.addValue("extent_land", new BigDecimal(land.getExtentOfLand()));
-		map.addValue("land_units", land.getUnits());
-		
+		int generateLandSrNo = generateLandSrNo(land.getPetitionId());
+		int generateRowIdForLand = generateRowIdForLand();
 		try {
-			save=namedParameterJdbcTemplate.update(sql, map);
-			if(save==1) {
-				save=generateLandSrNo;
+			if (generateRowIdForLand != 0) {
+				map.addValue("row_id", generateRowIdForLand());
+				map.addValue("petition_id", land.getPetitionId());
+				map.addValue("petitioner_id", land.getPetitionerId());
+				map.addValue("userid", login.getCompid());
+				map.addValue("land_kind", land.getLandKind());
+				map.addValue("land_type", land.getLandType());
+				map.addValue("land_srno", generateLandSrNo);
+				map.addValue("district", land.getLandDistrict());
+				map.addValue("mandal", land.getLandmandal());
+				map.addValue("village", land.getLandvillage());
+				map.addValue("passbook_no", land.getPassbookNo());
+				map.addValue("survey_no", land.getSurveyNo());
+				map.addValue("extent_land", new BigDecimal(land.getExtentOfLand()));
+				map.addValue("land_units", land.getUnits());
+
+				save = namedParameterJdbcTemplate.update(sql, map);
+				if (save == 1) {
+					save = generateLandSrNo;
+				}
 			}
 		}
 		catch (Exception e) {
@@ -128,12 +132,18 @@ public class LandDaoImpl implements LandDao {
 	}
 	//generating rowid 
 	public int generateRowIdForLand() {
-		String query = "SELECT coalesce(max(row_id),0) from land_detail";
+		
+		Calendar cal=Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		
+		//substring(petition_id from 3 for 4)
+		String query = "SELECT coalesce(max(row_id),0) from land_detail where substring(cast(row_id  as varchar) from 1 for 4 )=?";
 		int maxid = 0;
 		try {
-			int id = jdbcTemplate.queryForObject(query, Integer.class);
+			int id = jdbcTemplate.queryForObject(query, new Object[] {String.valueOf(year)}, Integer.class);
 			if (id==0) {
-				maxid =1;
+				String tempid=year+"0001";
+				maxid =Integer.parseInt(tempid);
 			} else {
 				maxid = id+1;
 			}
@@ -144,11 +154,19 @@ public class LandDaoImpl implements LandDao {
 		return maxid;
 	}
 	//generating serial number for land details
-	public int generateLandSrNo() {
-		String query = "SELECT coalesce(max(land_srno),0) from land_detail";
+	public int generateLandSrNo(String petitionid) {
+		
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		
+
+		String query = "SELECT coalesce(max(land_srno),0) from land_detail where substring(petition_id from 3 for 4) "
+				+ " =? and substring(? from 3 for 4) = ? and petition_id=?";
+
+		//String query = "SELECT coalesce(max(land_srno),0) from land_detail";
 		int maxid = 0;
 		try {
-			int id = jdbcTemplate.queryForObject(query, Integer.class);
+			int id = jdbcTemplate.queryForObject(query, new Object[] { petitionid.substring(2, 6), petitionid, String.valueOf(year), petitionid }, Integer.class);
 			if (id==0) {
 				maxid =1;
 			} else {

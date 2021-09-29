@@ -2,6 +2,7 @@ package com.nic.in.model;
 
 public class Land {
 
+	private String landsrno;
 	private String petitionId;
 	private String petitionerId;
 	private int landId;
@@ -94,6 +95,12 @@ public class Land {
 	}
 	public void setLandmandal(int landmandal) {
 		this.landmandal = landmandal;
+	}
+	public String getLandsrno() {
+		return landsrno;
+	}
+	public void setLandsrno(String landsrno) {
+		this.landsrno = landsrno;
 	}
 	
 	

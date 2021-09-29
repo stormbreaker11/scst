@@ -521,7 +521,7 @@ label {
 		<td>${alt.age }</td>
 			
 		<td  align="center"  >${alt.entry }</td>
-			<td align="center" ><a href="${pageContext.request.contextPath}/filepetion.htm/${alt.petionerId }/${type}" target="content"> <button class="btn btn-success btn-sm"  >Proceed to file Petition</button></a></td>
+			<td align="center" ><a href="${pageContext.request.contextPath}/filepetion.htm?pid=${alt.petionerId }" target="content"> <button class="btn btn-success btn-sm"  >Proceed to file Petition</button></a></td>
 		</tr>
 		</c:forEach>
 		</tbody>

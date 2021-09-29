@@ -227,7 +227,7 @@ margin-right: 10px;
 			<div class="box form_content">
 	
  <h5 class="subhead">
-					<h1 align="center" style="color:  #2d3990;">Petition - ${typeOpt}</h1>
+					<h1 align="center" style="color:  #2d3990;">Petition - Entry</h1>
 					</h5> 
 				<br> 
 
@@ -239,12 +239,12 @@ margin-right: 10px;
 								<label class="col-md-6">Type of Petition <span
 									class="star">*</span></label>
 								<div class="col-md-4">
-									<select class="form-control SelectStyle" id="typeofpetition"
-										name="type" >
-										<option value="0">--Select--</option>
-										<option value="I">Individual</option>
-										<option value="G">Group</option>
-									</select>
+									<form:select class="form-control SelectStyle" id="typeofpetition"
+										name="type" path="petitionType">
+										<form:option value="0">--Select--</form:option>
+										<form:option value="I">Individual</form:option>
+										<form:option value="G">Group</form:option>
+									</form:select>
 								</div>
 							</div>
 						</div>
@@ -325,10 +325,13 @@ margin-right: 10px;
 								<label class="col-md-6">Category of Petition<span
 									class="star">*</span></label>
 								<div class="col-md-4">
-									<select class="form-control SelectStyle"  name="category"
-										 required="required">
-										<option value="${typeVal}" selected="selected">${typeOpt}</option>
-									</select>
+									<form:select class="form-control SelectStyle"  name="category"
+										 required="required" path="petitionCat">
+										<form:option value="0" >--Select--</form:option>
+										<c:forEach var="alt" items="${categories}">
+										<form:option value="${alt.ccode}" >${alt.cname}</form:option>
+										</c:forEach>
+									</form:select>
 								</div>
 							</div>
 						</div>
@@ -340,7 +343,7 @@ margin-right: 10px;
 					<div align="center" style="color: red;">
 							<b>${error }</b>
 						</div>
-					<input type="hidden" name="pid" value="${pid }">
+					<input type="hidden" name="pid" value="${pid}">
 				</form:form>
 				<br>
 				

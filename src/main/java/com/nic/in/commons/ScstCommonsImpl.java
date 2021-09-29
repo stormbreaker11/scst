@@ -14,8 +14,11 @@ import org.springframework.stereotype.Repository;
 
 import com.nic.in.model.Atrocity;
 import com.nic.in.model.Caste;
+import com.nic.in.model.Category;
 import com.nic.in.model.District;
 import com.nic.in.model.Identity;
+import com.nic.in.model.Land;
+import com.nic.in.model.Petition;
 import com.nic.in.model.Relation;
 import com.nic.in.model.State;
 
@@ -107,7 +110,6 @@ public class ScstCommonsImpl implements ScstCommons {
 	public List<Caste> getCastes(String id) {
 		
 		String sql="select sub_code, sub_name from sub_caste where caste_code=? order by sub_name";
-		
 		List<Caste> clist = jdbcTemplate.query(sql, new Object[] {id} ,new RowMapper<Caste>() {
 			public Caste mapRow(ResultSet rs, int rownumber) throws SQLException {
 				Caste c = new Caste();
@@ -118,4 +120,50 @@ public class ScstCommonsImpl implements ScstCommons {
 		});
 		return clist;
 	}
+
+	@Override
+	public List<Category> getCategories() {
+
+		String sql = "select ccode, cname from category_master where active='Y' order by cname";
+		List<Category> clist = jdbcTemplate.query(sql, new RowMapper<Category>() {
+			public Category mapRow(ResultSet rs, int rownumber) throws SQLException {
+				Category c1 = new Category();
+				c1.setCcode(rs.getString("ccode"));
+				c1.setCname(rs.getString("cname"));
+				return c1;
+			}
+		});
+		return clist;
+
+	}
+
+	@Override
+	public List<Land> getLands() {
+		String query=" select land_code, land_name from land_kind where active='Y' ";
+		List<Land> list = jdbcTemplate.query(query, new RowMapper<Land>() {
+			public Land mapRow(ResultSet rs, int rownumber) throws SQLException {
+				Land l1 = new Land();
+				l1.setLandsrno(rs.getString("land_code"));
+				l1.setLandKind(rs.getString("land_name"));
+				return l1;
+			}
+		});
+		return list;
+	}
+
+	@Override
+	public List<Land> getLandTypes() {
+		String query=" select land_type_code, land__type_name from land_type where active='Y' ";
+		List<Land> list = jdbcTemplate.query(query, new RowMapper<Land>() {
+			public Land mapRow(ResultSet rs, int rownumber) throws SQLException {
+				Land l1 = new Land();
+				l1.setLandsrno(rs.getString("land_type_code"));
+				l1.setLandType(rs.getString("land__type_name"));
+				return l1;
+			}
+		});
+		return list;
+	}
+	
+	
 }

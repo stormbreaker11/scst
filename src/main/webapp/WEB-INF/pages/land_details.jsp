@@ -191,15 +191,11 @@ border-color: black;
 							path="landKind" tabindex="1" autofocus="true">
 							<form:option value="0">--Select--
 														</form:option>
-							<form:option value="1">Agricultural
-															land
-														</form:option>
-							<form:option value="2">Housing
-															Land
-														</form:option>
-							<form:option value="3">Forest
-															Land
-														</form:option>
+							<c:forEach items="${landkinds }" var="alt">
+							<form:option value="${alt.landsrno }">${alt.landKind}</form:option>
+														
+							
+							</c:forEach>
 						</form:select>
 					</div>
 				</div><div class="col-md-offset-2 form-group " style="color: red;">
@@ -215,19 +211,11 @@ border-color: black;
 							path="landType" tabindex="2">
 							<form:option value="0">--Select--
 														</form:option>
-							<form:option value="1">
-															Patta
-															land
-														</form:option>
-							<form:option value="2">
-															Govt.
-															Assigned
-															land
-														</form:option>
-							<form:option value="3">
-															Other
-															Land
-														</form:option>
+							<c:forEach items="${landTypes }" var="alt">
+							<form:option value="${alt.landsrno }">${alt.landType}</form:option>
+														
+							
+							</c:forEach>
 						</form:select>
 					</div>
 				</div><div class="col-md-offset-2 form-group " style="color: red;">
@@ -439,6 +427,7 @@ border-color: black;
 								
 							<form name="editland" id="editland">
 							
+							<input type="hidden" name="petitionId" value="${petId }">
 							<input type="hidden" name="petitionerId" value="${petitionerId }">
 							<div class="row">
 								<div class="col-sm-7 col-md-offset-2 form-group">
@@ -446,10 +435,10 @@ border-color: black;
 									<div class="col-md-6">
 										<select class="form-control SelectStyle" id="landKind" name="landKind">
 											<option value="0">--Select--</option>
-											<option value="1">Agricultural land</option>
-											<option value="2">Housing Land</option>
-											<option value="3">Forest Land</option>
-										</select>
+												<c:forEach items="${landkinds }" var="alt">
+													<option value="${alt.landsrno }">${alt.landKind}</option>
+												</c:forEach>
+											</select>
 									</div>
 								</div>
 							</div>
@@ -461,9 +450,11 @@ border-color: black;
 										<select class="form-control SelectStyle" id="pitition1" name="landType"
 											>
 											<option value="0">--Select--</option>
-											<option value="1">Patta land</option>
-											<option value="2">Govt. Assigned land</option>
-											<option value="3">Other Land</option>
+											<c:forEach items="${landTypes }" var="alt">
+							<option value="${alt.landsrno }">${alt.landType}</option>
+														
+							
+							</c:forEach>
 										</select>
 									</div>
 								</div>

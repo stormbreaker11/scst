@@ -3,7 +3,6 @@ package com.nic.in.dao;
 import java.util.List;
 
 import com.nic.in.model.Login;
-import com.nic.in.model.NodalOfficer;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Petitioner;
 

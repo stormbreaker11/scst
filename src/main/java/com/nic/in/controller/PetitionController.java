@@ -18,11 +18,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.nic.in.commons.ScstCommons;
 import com.nic.in.dao.PetitionDao;
+import com.nic.in.dao.PetitionerDao;
 import com.nic.in.model.Atrocity;
+import com.nic.in.model.Category;
 import com.nic.in.model.District;
 import com.nic.in.model.General;
 import com.nic.in.model.Login;
-import com.nic.in.model.NodalOfficer;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Petitioner;
 import com.nic.in.model.Petitition_Land;
@@ -35,39 +36,41 @@ public class PetitionController {
 
 	@Autowired
 	private PetitionDao petitiondao;
-	
+
+	@Autowired
+	private PetitionerDao petitionerdao;
+
 	@Autowired
 	private ScstCommons scstdao;
 
 	@RequestMapping(value = "/petitiondetails.htm", method = RequestMethod.POST)
-	public String petitionDetails(HttpServletRequest httpServletRequest, @ModelAttribute("petition") Petition petition, @RequestParam("file") MultipartFile nodalSign, Model model, @RequestParam String type, @RequestParam String pid, @RequestParam String category ) throws IOException {
-		
+	public String petitionDetails(HttpServletRequest httpServletRequest, @ModelAttribute("petition") Petition petition,
+			@RequestParam("file") MultipartFile nodalSign, Model model, @RequestParam String pid) throws IOException {
+
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
-		String petitionId=petitiondao.createPetitionId(pid, type);
-		if(!petitionId.equals("")) {
-			
-			model.addAttribute("type", type);
-			model.addAttribute("category", category);
+		String petitionId = petitiondao.createPetitionId(pid, petition.getPetitionType());
+		if (!petitionId.equals("")) {
+
+			model.addAttribute("type", petition.getPetitionType());
+			model.addAttribute("category", petition.getPetitionCat());
 			model.addAttribute("pid", pid);
-			
-			petition.setPetitionCat(category);
-			petition.setPetitionType(type);
+
 			petition.setPetitionerId(pid);
 			petition.setPetitionId(petitionId);
 			model.addAttribute("pid", pid); // pid is petitioner id
-			if (category.equals("L")) {
+			if (petition.getPetitionCat().equals("L")) {
 				model.addAttribute("typeVal", "L");
 				model.addAttribute("typeOpt", "Land");
 			}
-			if (category.equals("A")) {
+			if (petition.getPetitionCat().equals("A")) {
 				model.addAttribute("typeVal", "A");
 				model.addAttribute("typeOpt", "Atrocity");
 			}
-			if (category.equals("S")) {
+			if (petition.getPetitionCat().equals("S")) {
 				model.addAttribute("typeVal", "S");
 				model.addAttribute("typeOpt", "Service");
 			}
-			if (category.equals("G")) {
+			if (petition.getPetitionCat().equals("G")) {
 				model.addAttribute("typeVal", "G");
 				model.addAttribute("typeOpt", "General");
 			}
@@ -76,67 +79,66 @@ public class PetitionController {
 			model.addAttribute("district", district);
 			byte[] bytes = IOUtils.toByteArray(nodalSign.getInputStream());
 			petition.setNodalSign(bytes); /// setting nodal sign
-
-		    //inserting petition 
+			List<Category> categories = scstdao.getCategories();
+			model.addAttribute("categories", categories);
+			// inserting petition
 			int insertPetition = petitiondao.insertPetition(petition, login);
-			if(insertPetition==1) {
-				HttpSession httpSession=httpServletRequest.getSession();
+			if (insertPetition == 1) {
+				HttpSession httpSession = httpServletRequest.getSession();
 				httpSession.setAttribute("petitionID", petitionId);
-				
-				if(type.equals("G")) {
+
+				if (petition.getPetitionType().equals("G")) {
 					model.addAttribute("jointpetitioner", new Petitioner());
 					return "jointpetitioner";
 				}
-				if(category.equals("L")) {  //L for land
+				if (petition.getPetitionCat().equals("L")) { // L for land
 					model.addAttribute("petitionland", new Petitition_Land());
 					model.addAttribute("states", states);
 					return "land_petition";
 				}
-				if(category.equals("A")) { //A for Atrocity
-					List<Atrocity> atrocities=scstdao.getAtrocities();
-					
+				if (petition.getPetitionCat().equals("A")) { // A for Atrocity
+					List<Atrocity> atrocities = scstdao.getAtrocities();
+
 					model.addAttribute("atrocities", atrocities);
 					model.addAttribute("atrocity", new Atrocity());
 					return "atrocity_petition"; //
 				}
-				if(category.equals("S")) { //S for Service
+				if (petition.getPetitionCat().equals("S")) { // S for Service
 					model.addAttribute("service", new Service());
 					return "service_petition";
 				}
-				if(category.equals("G")) { //G for general
+				if (petition.getPetitionCat().equals("G")) { // G for general
 					model.addAttribute("general", new General());
 					return "general_petition";
 				}
-			}
-			else {
+			} else {
 				model.addAttribute("error",
 						"Error : Petition is already filed or failed to file a new petition, try again");
 				return "filepetition";
 			}
 		}
-			model.addAttribute("error",
-					"Error : Filing Petition, try again ");
-			return "filepetition";
+		model.addAttribute("error", "Error : Filing Petition, try again ");
+		return "filepetition";
 	}
-	@RequestMapping(value = "finalsubmit.htm" , method = RequestMethod.POST)
-	public String finalSubmit(HttpServletRequest httpServletRequest, @RequestParam String petitionerId, @RequestParam String category, @RequestParam String type, Model model) {
+
+	@RequestMapping(value = "/finalsubmit.htm", method = RequestMethod.POST)
+	public String finalSubmit(HttpServletRequest httpServletRequest, @RequestParam String petitionerId,
+			@RequestParam String category, @RequestParam String type, Model model) {
 		String pid = (String) httpServletRequest.getSession().getAttribute("petitionID");
-		int submit=petitiondao.submitPetition(petitionerId,pid);
+		int submit = petitiondao.submitPetition(petitionerId, pid);
 		model.addAttribute("pid", pid);
 		model.addAttribute("type", type);
 		model.addAttribute("category", category);
-		if(submit==0) {
+		if (submit == 0) {
 			model.addAttribute("error", "Error: Occured while Submitting Petition. try again");
-			//Petition petition=petitiondao.getPetition(petitionerId, pid);
-			//model.addAttribute("petition", petition);
+			// Petition petition=petitiondao.getPetition(petitionerId, pid);
+			// model.addAttribute("petition", petition);
 			return "viewpetitionstatus";
-		}
-		else {
-			model.addAttribute("pid", pid.substring(0,2)+"/"+pid.substring(2,6)+"/"+pid.substring(6,10));
+		} else {
+			model.addAttribute("pid", pid.substring(0, 2) + "/" + pid.substring(2, 6) + "/" + pid.substring(6, 10));
 			return "submittedpetition";
 		}
 	}
-	
 
 	/*
 	 * @RequestMapping(value = "submitpetition.htm" , method = RequestMethod.POST)
@@ -151,5 +153,13 @@ public class PetitionController {
 	 * petid.substring(0,2)+"/"+petid.substring(2,6)+"/"+petid.substring(6,10));
 	 * model.addAttribute("petition", petition); return "viewpetitionstatus"; }
 	 */
-	
+
+	@RequestMapping(value = "/viewpetitionDetails.htm")
+	public String viewPetitionstatus(HttpServletRequest httpServletRequest, Model mode) {
+		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		List<Petitioner> petitions = petitionerdao.getPetitions(login.getCompid());
+		mode.addAttribute("petitions", petitions);
+
+		return "viewPetionDetails";
+	}
 }

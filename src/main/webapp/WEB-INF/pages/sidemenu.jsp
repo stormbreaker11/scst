@@ -43,43 +43,8 @@ body {
 			<!-- <li><a href="#">View Petition Status</a></li> -->
 			<li tabindex="-1" class='has-sub'> <a href="#" target="content">Fresh Entry<i class="caret"></i></a>
 				<ul>
-					<li  class='has-sub' ><a href="#" target="content">Land</a>
-					<ul>
-					<li><a  href="${pageContext.request.contextPath}/petition/land/viewpetitionDetails.htm" target="content"><span>Petition Details</span></a></li>
-					<li><a href="prevcred" target="content"><span>Land
-								Details</span></a></li>
-								<li><a href="prevcred" target="content"><span>Respondent
-								Details</span></a></li>
-								<li><a href="prevcred" target="content"><span>Upload
-								Documents</span></a></li>
-					</ul></li>
-					<li  class='has-sub' ><a href="#" target="content">Atrocity</a>
-					<ul>
-					<li><a  href="${pageContext.request.contextPath}/petition/atrocity/viewpetitionDetails.htm" target="content"><span>Petition Details</span></a></li>
-					
-								<li><a href="prevcred" target="content"><span>Respondent
-								Details</span></a></li>
-								<li><a href="prevcred" target="content"><span>Upload
-								Documents</span></a></li>
-					</ul></li>
-					<li  class='has-sub' ><a href="#" target="content">Service</a>
-					<ul>
-					<li><a  href="${pageContext.request.contextPath}/petition/service/viewpetitionDetails.htm" target="content"><span>Petition Details</span></a></li>
-					
-								<li><a href="prevcred" target="content"><span>Respondent
-								Details</span></a></li>
-								<li><a href="prevcred" target="content"><span>Upload
-								Documents</span></a></li>
-					</ul></li>
-					<li  class='has-sub' ><a href="#" target="content">General</a>
-					<ul>
-					<li><a  href="${pageContext.request.contextPath}/petition/general/viewpetitionDetails.htm" target="content"><span>Petition Details</span></a></li>
-					
-								<li><a href="prevcred" target="content"><span>Respondent
-								Details</span></a></li>
-								<li><a href="prevcred" target="content"><span>Upload
-								Documents</span></a></li>
-					</ul></li>
+				<li><a  href="${pageContext.request.contextPath}/petition/viewpetitionDetails.htm" target="content"><span>Petition Entry</span></a></li>
+			<!-- 	<li><a  href="#" target=""><span>Petition Details</span></a></li> -->
 					
 				</ul></li>
 				<li tabindex="-1" class='has-sub'> <a href="#" target="content">Modify<i class="caret"></i></a>
@@ -87,7 +52,7 @@ body {
 					<li   ><a href="viewpetition.htm" target="content">Petition</a>
 					
 				</ul></li>
-			 <li><a href="viewSubmittedpetition.htm" target="content">View Petition Status</a></li>
+			 <li><a href="viewSubmittedpetition.htm" target="content">View Petition</a></li>
 		</ul>
 		
 	</div>

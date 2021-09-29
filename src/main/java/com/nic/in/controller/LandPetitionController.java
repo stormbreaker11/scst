@@ -74,7 +74,10 @@ public class LandPetitionController {
 			 * petitionId.substring(0,2)+"/"+petitionId.substring(2,6)+"/"+petitionId.
 			 * substring(6,10));
 			 */
-		
+		List<Land> landkinds = commons.getLands();
+		List<Land> landTypes = commons.getLandTypes();
+		model.addAttribute("landkinds", landkinds);
+		model.addAttribute("landTypes", landTypes);
 			model.addAttribute("landdetails", new Land());
 			model.addAttribute("petitionerId", land.getPetitionerId());
 			model.addAttribute("type", type);
@@ -84,22 +87,8 @@ public class LandPetitionController {
 			return "land_details";
 		}
 		model.addAttribute("error", "Error : Filing Petition failed, try again");
-		if(type.equals("L")) {
-			model.addAttribute("typeVal", "L");
-			model.addAttribute("typeOpt", "Land");
-		}
-		if(category.equals("A")) {
-			model.addAttribute("typeVal", "A");
-			model.addAttribute("typeOpt", "Atrocity");
-		}
-		if(category.equals("S")) {
-			model.addAttribute("typeVal", "S");
-			model.addAttribute("typeOpt", "Service");
-		}
-		if(category.equals("G")) {
-			model.addAttribute("typeVal", "G");
-			model.addAttribute("typeOpt", "General");
-		}
+	
+		model.addAttribute("petition", new Petition());
 		return "filepetition";
 		
 	}
@@ -117,6 +106,10 @@ public class LandPetitionController {
 		model.addAttribute("district", district);
 		model.addAttribute("lands", lands);
 		model.addAttribute("petId", petId);
+		List<Land> landkinds = commons.getLands();
+		List<Land> landTypes = commons.getLandTypes();
+		model.addAttribute("landkinds", landkinds);
+		model.addAttribute("landTypes", landTypes);
 		return "land_details";
 	}
 	
@@ -181,7 +174,6 @@ public class LandPetitionController {
 		String response="N";
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		land.setLandId(Integer.parseInt(landcode));
-	
 		int update=landdao.updateLand(land, login);
 		if(update==1) {
 			response="Y";

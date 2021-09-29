@@ -483,7 +483,7 @@ label {
   Header
   ============================-->
 		<div class="container-fluid">
-		 <h1 align="center" style="color:  #2d3990;">Petition Status</h1>
+		 <h1 align="center" style="color:  #2d3990;">View Petition</h1>
 		<form name="modify">
 		
 		<c:if test="${empty petitions }">
@@ -530,8 +530,8 @@ label {
 		
 	
 		<td style="text-align: center;">${alt.submit }</td>
-		<td style="text-align: center;">${alt.status }</td>
 		<td align="center" ><a class="btn btn-primary btn-sm" onclick="printDiv('${alt.petitionCat}', '${alt.petitionId }', '${alt.petitionerId }' )" href="#" target="content">View Petition</a></td>
+		<td style="text-align: center;">${alt.status }</td>
 		</tr>
 		</c:forEach>
 		</tbody>
