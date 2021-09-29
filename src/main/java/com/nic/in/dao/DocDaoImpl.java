@@ -33,23 +33,25 @@ public class DocDaoImpl implements DocDao {
 		
 		
 		int save=0;
+		try {
 		String sql="INSERT INTO evidence(row_id, petition_id, petitioner_id, userid, doc_srno, doc_desc,doc_pdf, entry_date)"
 				+ "VALUES (:row_id, :petition_id, :petitioner_id, :userid, :doc_srno, :doc_desc, :doc_pdf, now())";
 		int generateDcoSrNo = generateDcoSrNo(documents.getPetitionId());
 		MapSqlParameterSource map=new MapSqlParameterSource();
-		map.addValue("row_id", generateRowIdForDoc());
-		map.addValue("petition_id", documents.getPetitionId());
-		map.addValue("petitioner_id", documents.getPetitionerId());
-		map.addValue("userid", login.getCompid());
-		map.addValue("doc_srno", generateDcoSrNo);
-		map.addValue("doc_desc", documents.getDocDesc());
-		map.addValue("doc_pdf", documents.getDocContent());
-		
-		try {
-			save=namedParameterJdbcTemplate.update(sql, map);
-			if(save==1) {
-				save=generateDcoSrNo;
-			}
+		int generateRowIdForDoc = generateRowIdForDoc();
+		if(generateRowIdForDoc!=0) {
+			map.addValue("row_id", generateRowIdForDoc());
+			map.addValue("petition_id", documents.getPetitionId());
+			map.addValue("petitioner_id", documents.getPetitionerId());
+			map.addValue("userid", login.getCompid());
+			map.addValue("doc_srno", generateDcoSrNo);
+			map.addValue("doc_desc", documents.getDocDesc());
+			map.addValue("doc_pdf", documents.getDocContent());
+				save=namedParameterJdbcTemplate.update(sql, map);
+				if(save==1) {
+					save=generateDcoSrNo;
+				}
+		}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -84,12 +86,17 @@ public class DocDaoImpl implements DocDao {
 
 		// generating rowid for evidence table
 		public int generateRowIdForDoc() {
-			String query = "SELECT coalesce(max(row_id),0) from evidence";
+			
+			Calendar cal=Calendar.getInstance();
+			int year = cal.get(Calendar.YEAR);
+			
+			String query = "SELECT coalesce(max(row_id),0) from evidence where substring(cast(row_id  as varchar) from 1 for 4 )=?";
+		//	String query = "SELECT coalesce(max(row_id),0) from evidence";
 			int maxid = 0;
 			try {
 				int id = jdbcTemplate.queryForObject(query, Integer.class);
 				if (id == 0) {
-					maxid = 1;
+					maxid = Integer.parseInt(year+"0001");
 				} else {
 					maxid = id + 1;
 				}

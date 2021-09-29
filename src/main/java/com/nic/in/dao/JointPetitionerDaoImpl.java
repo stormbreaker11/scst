@@ -2,6 +2,7 @@ package com.nic.in.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,25 +32,27 @@ public class JointPetitionerDaoImpl implements JointPetitionerDao {
 	public int addJointPetitioner(Petitioner petitioner, Login login, String pid) {
 
 		int update =0;
-		int generateJointSrNo = generateJointSrNo();
 		try {
 			String query = "INSERT INTO joint_petitioner("
 					+ " row_id, petition_id, petitioner_id, userid, joint_srno, joint_pet_name, "
 					+ " joint_pet_sign, entry_date) VALUES (:row_id,:petition_id,:petitioner_id,:userid,:joint_srno,:joint_pet_name, :joint_pet_sign, now())";
+			int generateJointSrNo = generateJointSrNo(pid);
+			if(generateJointSrNo!=0) { 
+				MapSqlParameterSource map = new MapSqlParameterSource();
+				map.addValue("row_id", generateRowSrNo());
+				map.addValue("petition_id", pid );
+				map.addValue("petitioner_id", petitioner.getPetionerId() );
+				map.addValue("userid", login.getCompid() );
+				map.addValue("joint_srno", generateJointSrNo);
+				map.addValue("joint_pet_name", petitioner.getPetionerName());
+				map.addValue("joint_pet_sign", petitioner.getPrSign());
 
-			MapSqlParameterSource map = new MapSqlParameterSource();
-			map.addValue("row_id", generateRowSrNo());
-			map.addValue("petition_id", pid );
-			map.addValue("petitioner_id", petitioner.getPetionerId() );
-			map.addValue("userid", login.getCompid() );
-			map.addValue("joint_srno", generateJointSrNo);
-			map.addValue("joint_pet_name", petitioner.getPetionerName());
-			map.addValue("joint_pet_sign", petitioner.getPrSign());
-
-			update = namedParameterJdbcTemplate.update(query, map);
-			 if(update==1) {
-				 update=generateJointSrNo;
-			 }
+				update = namedParameterJdbcTemplate.update(query, map);
+				 if(update==1) {
+					 update=generateJointSrNo;
+				 }	
+			}	
+			
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -59,11 +62,16 @@ public class JointPetitionerDaoImpl implements JointPetitionerDao {
 	}
 
 	//generating serial number for Joint petitioner table
-	public int generateJointSrNo() {
-		String query = "SELECT coalesce(max(joint_srno),0) from joint_petitioner";
+	public int generateJointSrNo(String petitionid) {
+		
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+
 		int maxid = 0;
 		try {
-			int id = jdbcTemplate.queryForObject(query, Integer.class);
+			String query = "SELECT coalesce(max(joint_srno),0) from joint_petitioner where substring(petition_id from 3 for 4) "
+					+ "=? and substring(? from 3 for 4) = ? and petition_id=? ";
+			int id = jdbcTemplate.queryForObject(query, new Object[] {petitionid.substring(2, 6), petitionid, String.valueOf(year), petitionid}, Integer.class);
 			if (id==0) {
 				maxid =1;
 			} else {
@@ -79,12 +87,17 @@ public class JointPetitionerDaoImpl implements JointPetitionerDao {
 	
 	//generating serial number for Joint petitioner table
 		public int generateRowSrNo() {
-			String query = "SELECT coalesce(max(row_id),0) from joint_petitioner";
+			
+			Calendar cal=Calendar.getInstance();
+			int year = cal.get(Calendar.YEAR);
 			int maxid = 0;
 			try {
+			String query = "SELECT coalesce(max(row_id),0) from joint_petitioner where substring(cast(row_id  as varchar) from 1 for 4 )=?";
+			//String query = "SELECT coalesce(max(row_id),0) from joint_petitioner";
+		
 				int id = jdbcTemplate.queryForObject(query, Integer.class);
 				if (id==0) {
-					maxid =1;
+					maxid =Integer.parseInt(year+"0001");
 				} else {
 					maxid =id+1;
 				}
