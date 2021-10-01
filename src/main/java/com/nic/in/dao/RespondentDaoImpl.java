@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -139,7 +140,8 @@ public class RespondentDaoImpl implements RespondentDao {
 				respondent.setCaste(rs.getString("resp_caste").trim());
 				respondent.setMobile(rs.getString("resp_mobile"));
 				respondent.setEmail(rs.getString("resp_email"));
-				respondent.setDistrict(rs.getString("dname"));
+				respondent.setDistrict(WordUtils.capitalizeFully(rs.getString("dname")));
+				
 				boolean equals = respondent.getCaste().equals("0");
 				if(equals) {
 					respondent.setCaste("-");
@@ -148,11 +150,11 @@ public class RespondentDaoImpl implements RespondentDao {
 					
 					if(respondent.getCaste().equals("1")) {
 						
-						respondent.setCaste("OC");
+						respondent.setCaste("Other caste (OC)");
 					}
 					if(respondent.getCaste().equals("2")) {
 						
-						respondent.setCaste("BC");
+						respondent.setCaste("Backward Caste (BC)");
 					}
 					
 				}

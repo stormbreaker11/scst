@@ -41,7 +41,6 @@ public class Petitioner {
 	private String bprProofNo; 
 	private String bprSign;
 	
-	
 
 	private String bprpetionerId;
 	private String bprpetitonId;
@@ -60,6 +59,7 @@ public class Petitioner {
 	private String bprprMobile;
 	private String bprprMail;
 	private String bprprProofType;
+	private String bprprOtherProofType;
 	private String bprprProofId;
 	private byte[] bprprProofDoc;
 	private String bprprOtherid;
@@ -394,6 +394,12 @@ public class Petitioner {
 	}
 	public void setBprsubcaste(String bprsubcaste) {
 		this.bprsubcaste = bprsubcaste;
+	}
+	public String getBprprOtherProofType() {
+		return bprprOtherProofType;
+	}
+	public void setBprprOtherProofType(String bprprOtherProofType) {
+		this.bprprOtherProofType = bprprOtherProofType;
 	}
 
 	

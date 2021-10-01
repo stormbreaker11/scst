@@ -8,6 +8,7 @@ import com.nic.in.model.Category;
 import com.nic.in.model.District;
 import com.nic.in.model.Identity;
 import com.nic.in.model.Land;
+import com.nic.in.model.Mandal;
 import com.nic.in.model.Relation;
 import com.nic.in.model.State;
 
@@ -30,4 +31,6 @@ public interface ScstCommons {
 	public List<Land> getLands();
 
 	public List<Land> getLandTypes();
+
+	public List<Mandal> getMandals(String id);
 }

@@ -249,7 +249,7 @@ border-color: black;
 						</label>
 						<div class="col-md-4">
 							<form:select class="form-control SelectStyle" path="landDistrict"
-								id="landDistrict" name="landDistrict" tabindex="4">
+								id="landDistrict" name="landDistrict" tabindex="4" onchange="getMandals('landDistrict','landmandal')">
 								<form:option value="0">--Select--</form:option>
 								<c:forEach items="${district}" var="alt">
 												<form:option value="${alt.distCode }" >${alt.distName }</form:option>
@@ -269,7 +269,7 @@ border-color: black;
 							<form:select class="form-control SelectStyle" path="landmandal"
 								id="landmandal" tabindex="5">
 								<form:option value="0">--Select--</form:option>
-								<form:option value="1">Mandal-1</form:option>
+								
 							</form:select>
 						</div>
 					</div><div class="col-md-offset-2 form-group " style="color: red;">
@@ -1021,6 +1021,36 @@ function getLandList(){
 function focus(){
 	document.getElementById("landKind").focus();
 	}
+//fetch mandals onchange 
+function getMandals(ditrict,mandal){
+	var district = $('#'+ditrict+'').val();
+	//var dist = $('#dist').val();
+	$
+			.ajax({
+				type : 'GET',
+				url : '/scst/loadmandal/'
+						+ district,
+				success : function(
+						result) {
+
+					
+					$('#'+mandal+'').html('');
+					$('#'+mandal+'').append(new Option("--Select--", "0"));
+					var result = JSON
+							.parse(result);
+					var s = '';
+					for (var i = 0; i < result.length; i++) {
+						s += '<option style="text-transform:capitalize"; value="'+result[i].mcode+'">'
+								+ result[i].mname
+								+ '</option>';
+					}
+					$('#'+mandal+'')
+							.append(s);
+				}
+			});
+	
+	}
+
 
 </script>
 </html>

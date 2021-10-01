@@ -326,7 +326,7 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="off_district"
-															id="off_district">
+															id="off_district" onchange="getMandals('off_district','off_mandal')">
 															<form:option value="0">--Select--
 															</form:option>
 															<c:forEach items="${district}" var="alt">
@@ -599,9 +599,9 @@ margin-right: 10px;
 														<form:select class="form-control SelectStyle" path="caste" id="castevalue">
 															<form:option value="0" >--Select--
 															</form:option>
-															<form:option value="1">OC
+															<form:option value="1">Other caste (OC)
 															</form:option>
-															<form:option value="2">BC
+															<form:option value="2">Backward Class (BC)
 															</form:option>
 														
 														</form:select>
@@ -736,8 +736,8 @@ margin-right: 10px;
 														<td>${alt.caste}</td>
 														<td >${alt.respProffesion }</td>
 														<td>${alt.district }</td>
-														<td style="text-align: center;" >${alt.mobile }</td>
 														<td>${alt.email }</td>
+														<td style="text-align: center;" >${alt.mobile}</td>
 														<td style="text-align: center;"  data-toggle="modal"
 									data-target="#exampleModal1" ><img height="22px" id="edit"  data-toggle="tooltip" title="Click to edit details"  src="${pageContext.request.contextPath}/static/images/edit.png"></img></td>
 														<td style="text-align: center;" id="btn-remove" ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td>
@@ -915,183 +915,7 @@ margin-right: 10px;
 
 
 <!-- Land details modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div align="center"><h3 class="modal-title" id="exampleModalLabel">Edit - Land Details</h3></div>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    <div class="modal-body">
 
-								
-							<form name="editland" id="editland">
-							
-							<input type="hidden" name="petitionId" value="${petId }">
-							<input type="hidden" name="petitionerId" value="${pid }">
-							<div class="row">
-								<div class="col-sm-7 col-md-offset-2 form-group">
-									<label class="col-md-6">Kind of Land <span class="star">*</span></label>
-									<div class="col-md-6">
-										<select class="form-control SelectStyle" id="landKind" name="landKind">
-											<option value="0">--Select--</option>
-											<option value="1">Agricultural land</option>
-											<option value="2">Housing Land</option>
-											<option value="3">Forest Land</option>
-										</select>
-									</div>
-								</div>
-							</div>
-
-							<div class="row from group">
-								<div class="col-sm-7 col-md-offset-2 form-group">
-									<label class="col-md-6">Type of Land <span class="star">*</span></label>
-									<div class="col-md-6">
-										<select class="form-control SelectStyle" id="pitition1" name="landType"
-											>
-											<option value="0">--Select--</option>
-											<option value="1">Patta land</option>
-											<option value="2">Govt. Assigned land</option>
-											<option value="3">Other Land</option>
-										</select>
-									</div>
-								</div>
-							</div>
-
-							<div class="otherland" id="3" style="display: none;">
-								<div class="row">
-									<div class="col-sm-7 col-md-offset-2 form-group">
-										<label class="col-md-6">Others Land <span class="star">*</span></label>
-										<div class="col-md-6">
-											<input type="text" placeholder=" Type of land"
-												class="form-control" id="olandtext" maxlength="30"
-												name="otherland" />
-										</div>
-									</div>
-								</div>
-
-								<br>
-							</div>
-							<br>
-							<div class="Petition170s1" id="land"></div>
-							<div class="ppetioner" id="pland">
-
-								<div class="row">
-									<div class="col-sm-7 col-md-offset-2 form-group">
-										<label class="col-md-6">Select District <span
-											class="star">*</span>
-										</label>
-										<div class="col-md-6">
-											<select class="form-control SelectStyle"
-												id="landDistrict" name="landDistrict">
-												<option value="0">--Select--</option>
-												<option value="1">Hyderabad</option>
-												<option value="2">Rangareddy</option>
-												<option value="3">Nizamabad</option>
-												<option value="4">Mahabubnagar</option>
-
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-7 col-md-offset-2 form-group">
-										<label class="col-md-6">Select Mandal <span
-											class="star">*</span>
-										</label>
-										<div class="col-md-6">
-											<select class="form-control SelectStyle" 
-												id="landmandal" name="landmandal">
-												<option value="0">--Select--</option>
-												<option value="1">Mandal-1</option>
-
-
-
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-7 col-md-offset-2 form-group">
-										<label class="col-md-6">Revenue Village </label>
-										<div class="col-md-6">
-											<input type="text" class="form-control SelectStyle" 
-												name="landvillage" id="landvillage">
-											
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-7 col-sm-offset-2 form-group">
-										<label class="col-md-6">Patta Passbook number</label>
-										<div class="col-md-6">
-											<input type="text" path="passbookNo" id="passbookNo"
-												name="passbookNo" placeholder=" Patta number"
-												class="form-control" maxlength="10" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-7 col-md-offset-2 form-group">
-										<label class="col-md-6">Survey number <span
-											class="star">*</span></label>
-										<div class="col-md-6">
-											<input type="text" placeholder=" Survey number"
-												maxlength="15" path="surveyNo" id="surveyNo" name="surveyNo"
-												class="form-control" />
-										</div>
-									</div>
-								</div>
-							<div class="row">
-					<div class="col-sm-7 col-md-offset-2 form-group">
-						<label class="col-md-6">Extent of land </label>
-						<div class="col-md-3">
-							<input type="text" placeholder="" maxlength="6"
-								path="extentOfLand" id="extentOfLand" name="extentOfLand"
-								class="form-control" />
-						</div>
-						<div class="col-md-0">
-
-							<select class="form-control SelectStyle" name="units"
-								style="width: 125px;" id="units">
-								<option value="0">--Select--</option>
-								<option value="1">Acre</option>
-								<option value="2">Gunta</option>
-								<option value="3">Square yards</option>
-							</select>
-						</div>
-
-
-					</div>
-					<div class="col-md-2">
-						<div style="text-align: left;"
-							>&nbsp;</div>
-					</div>
-
-				</div>
-								<div class="modal-footer">
-									<center>
-										<div role="group" aria-label="group button">
-
-											<input type="button" class="btn btn-primary" id="updateLand"
-												data-dismiss="modal" value="Update" role="button"  /> <input
-												type="button" class="btn btn-danger" data-dismiss="modal"
-												value="Close" role="button" />
-
-										</div>
-								</div>
-							</div>
-							
-							<input type="hidden" id="petId" name="petId" value="${petId }">
-							</form>
-						</div>
-     
-    </div>
-  </div>
-</div>   <!-- land detail modal end -->
 
 
 	<!-- Respondent modal starts-->
@@ -1145,8 +969,8 @@ margin-right: 10px;
 											<select class="form-control SelectStyle" name="caste"
 												id="castevalue">
 												<option value="0">--Select--</option>
-												<option value="1">OC</option>
-												<option value="2">BC</option>
+												<option value="1">Other caste (OC)</option>
+												<option value="2">Backward Class (BC)</option>
 
 											</select>
 										</div>
@@ -1671,7 +1495,7 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 													.val(obj.address);
 											$("#exampleModal1 #mobile").val(
 													obj.mobile);
-											$("#squarespaceModal #email").val(
+											$("#exampleModal1 #email").val(
 													obj.email);
 											$('#exampleModal1 #district')
 													.val(obj.district).change();
@@ -1681,8 +1505,6 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 											$(
 													'#exampleModal1 #respProffesion')
 													.val(obj.respProffesion);
-
-											
 										}
 									});
 
@@ -1693,7 +1515,7 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 				'click',
 				'#updateRespondent',
 				function() {
-
+					
 					var name = $("#exampleModal1 #respName").val();
 					var address = $("#exampleModal1 #address").val();
 					var mobile = $("#exampleModal1 #mobile").val();
@@ -1764,11 +1586,11 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 								} 
 							
 								if (caste == "1") {
-									caste="OC";
+									caste="Other caste (OC)";
 								} 
 							
 								if (caste == "2") {
-									caste="BC";
+									caste="Backward Class (BC)";
 								} 
 							
 		                      
@@ -1804,25 +1626,39 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 			document.getElementById("Typeofatrocity").focus();
 		}
 
-		$('#ps_complaint').on('change', function () {
-			if ($(this).val() === "1") {
-				$(".PoliceComplaint").show();
-			}
-			else {
-				$(".PoliceComplaint").hide();
-			}
-		});
+		//fetch mandals onchange 
+		function getMandals(ditrict,mandal){
+			var district = $('#'+ditrict+'').val();
+			//var dist = $('#dist').val();
+			$
+					.ajax({
+						type : 'GET',
+						url : '/scst/loadmandal/'
+								+ district,
+						success : function(
+								result) {
 
-		$(document).ready( function () {
+							
+							$('#'+mandal+'').html('');
+							$('#'+mandal+'').append(new Option("--Select--", "0"));
+							var result = JSON
+									.parse(result);
+							var s = '';
+							for (var i = 0; i < result.length; i++) {
+								s += '<option style="text-transform:capitalize"; value="'+result[i].mcode+'">'
+										+ result[i].mname
+										+ '</option>';
+							}
+							$('#'+mandal+'')
+									.append(s);
+						}
+					});
+			
+			}
+		
+	
 
-			var ps=$("#ps_complaint").val();
-			if (ps=="1") {
-				$(".PoliceComplaint").show();
-			}
-			else {
-				$(".PoliceComplaint").hide();
-			}
-		});
+	
 </script>
 
 

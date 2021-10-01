@@ -108,6 +108,10 @@ public class LandDaoImpl implements LandDao {
 				map.addValue("userid", login.getCompid());
 				map.addValue("land_kind", land.getLandKind());
 				map.addValue("land_type", land.getLandType());
+				if(land.getLandType().equals("3")) {
+					
+				}
+				
 				map.addValue("land_srno", generateLandSrNo);
 				map.addValue("district", land.getLandDistrict());
 				map.addValue("mandal", land.getLandmandal());

@@ -310,7 +310,7 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="off_district"
-															id="off_district"  tabindex="4">
+															id="off_district"  tabindex="4" onchange="getMandals('off_district','off_mandal')">
 															<form:option value="0">--Select--
 															</form:option>
 															<c:forEach items="${district}" var="alt">
@@ -333,15 +333,9 @@ margin-right: 10px;
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="off_mandal"                
 															id="off_mandal" tabindex="5">
-															<form:option value="26">--Select--
+															<form:option value="0">--Select--
 															</form:option>
-															<form:option value="27">Mandal-1
-															</form:option>
-															<form:option value="28">Mandal-2
-															</form:option>
-															<form:option value="29">Mandal-3
-															</form:option>
-
+															
 														</form:select>
 													</div>
 												</div><div class="col-md-offset-2 form-group " style="color: red;">
@@ -559,6 +553,38 @@ margin-right: 10px;
 				$(".PoliceComplaint").hide();
 			}
 		});
+
+
+		//fetch mandals onchange 
+		function getMandals(ditrict,mandal){
+			var district = $('#'+ditrict+'').val();
+			//var dist = $('#dist').val();
+			$
+					.ajax({
+						type : 'GET',
+						url : '/scst/loadmandal/'
+								+ district,
+						success : function(
+								result) {
+
+							
+							$('#'+mandal+'').html('');
+							$('#'+mandal+'').append(new Option("--Select--", "0"));
+							var result = JSON
+									.parse(result);
+							var s = '';
+							for (var i = 0; i < result.length; i++) {
+								s += '<option style="text-transform:capitalize"; value="'+result[i].mcode+'">'
+										+ result[i].mname
+										+ '</option>';
+							}
+							$('#'+mandal+'')
+									.append(s);
+						}
+					});
+			
+			}
+		
 	</script>
 	
 	</body>

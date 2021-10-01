@@ -95,7 +95,7 @@ public class JointPetitionerDaoImpl implements JointPetitionerDao {
 			String query = "SELECT coalesce(max(row_id),0) from joint_petitioner where substring(cast(row_id  as varchar) from 1 for 4 )=?";
 			//String query = "SELECT coalesce(max(row_id),0) from joint_petitioner";
 		
-				int id = jdbcTemplate.queryForObject(query, Integer.class);
+				int id = jdbcTemplate.queryForObject(query, new Object[] {String.valueOf(year)}, Integer.class);
 				if (id==0) {
 					maxid =Integer.parseInt(year+"0001");
 				} else {

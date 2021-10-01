@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false"%><!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -88,8 +92,7 @@ h2.active {
 
 /* FORM TYPOGRAPHY*/
 input[type=button], input[type=submit], input[type=reset] {
-	background-color: #56baed;
-	border: none;
+border: none;
 	color: white;
 	padding: 15px 80px;
 	text-align: center;
@@ -124,7 +127,6 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active
 }
 
 input[type=text], input[type=password] {
-	background-color: #f6f6f6;
 	border: none;
 	color: #0d0d0d;
 	padding: 15px 32px;
@@ -134,14 +136,12 @@ input[type=text], input[type=password] {
 	font-size: 16px;
 	margin: 5px;
 	width: 85%;
-	border: 2px solid #f6f6f6;
 	-webkit-transition: all 0.5s ease-in-out;
 	-moz-transition: all 0.5s ease-in-out;
 	-ms-transition: all 0.5s ease-in-out;
 	-o-transition: all 0.5s ease-in-out;
 	transition: all 0.5s ease-in-out;
 	-webkit-border-radius: 5px 5px 5px 5px;
-	border-radius: 5px 5px 5px 5px;
 }
 
 input[type=text]:focus, input[type=password]:focus {
@@ -525,16 +525,17 @@ label {
 				</nav>
 			</div> -->
 
-
-
-
+<%-- 
+<% String username = (String)request.getSession().getAttribute("captcha_security"); 
+out.print("Pkk"+ username);
+%> --%>
 			<div class="row">
 				<div class="header">
 					<img class="img-responsive" src="static/images/header.png">
 				</div>
 			</div>
 			<header id="header">
-				<div class="row">
+				<div   class="row">
 
 					<div class="menu">
 						<div id="navbar">
@@ -557,7 +558,7 @@ label {
 										<li><a href="${pageContext.request.contextPath}/home">Home</a></li>
 
 										<li class="dropdown"><a href="" class="dropdown-toggle"
-											data-toggle="dropdown">State Committe <b class="caret"></b></a>
+											data-toggle="dropdown">State Committee <b class="caret"></b></a>
 											<ul class="dropdown-menu">
 												<%-- <li><a href="${pageContext.request.contextPath}/chairman.htm">Chairman</a></li>
 												<li><a href="${pageContext.request.contextPath}/member.htm">Members</a></li>
@@ -1045,8 +1046,8 @@ label {
 						<div class="form-row">
                         <div class="form-group col-md-6">
                             <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                <div class="custom-checkbox d-block"> <label > <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                        <div class="custom-control-label" for="customCheck1" style="display: flex;">Remember Password</div>
+                                <div class="custom-checkbox d-block"> <label >
+                                        <div><input type="checkbox" name="box1"  value="Accept and Procced">&nbsp;Accept and Procced</div>
                                     </label> 
                             </div>
                         </div>
@@ -1058,9 +1059,7 @@ label {
 								style="width: 50%; text-align: center; background: linear-gradient(208deg, #2196F3, #102976) !important;"
 								type="button" class="fadeIn third" id="submitbtn" class="login" value="Sign in">
 								
-								    <div class="row">
-            <div class="col-12 mb-4 d-flex align-items-center justify-content-center"> <label for="check" class="d-flex align-items-center justify-content-center "> <input type="checkbox" id="check"> <span class="ms-2 textmuted">Subscrible to our newsletter</span> </label> </div>
-        </div>
+						
 						</form>
 
 					</div>
@@ -1095,6 +1094,7 @@ label {
 					</div>
 					
 					<input type="hidden" name="server"  id="serverotp">
+					<input type="hidden" name="servercaptcha"  id="servercaptcha">
 				</form>
 			</div>
 
@@ -1240,18 +1240,30 @@ $(document).ready(function() {
     });
 });
 
-
-
 				$("#submitbtn").click(function() {
 
 					var enterotp = $("#enterotp").val();
 					var serverotp = $("#serverotp").val();
-
+					getcaptcha();
+					var servercaptcha= $("#servercaptcha").val();
+					var captcha= $("#captcha").val();
+					
 					if (enterotp != serverotp) {
 						alert("OTP is incorrect, Re-enter OTP");
 						$("#enterotp").focus();
 						return false;
 					}
+					if(servercaptcha != captcha){
+						alert("Invalid Captcha");
+						$("#captcha").focus();
+						return false;
+						}
+					if($('input[type=checkbox]:checked').length == 0)
+					{
+					    alert ( "Must check checkbox before sign in" );
+					    return false;
+					}
+					
 					document.home.method = "POST";
 					document.home.action = "login.htm";
 					document.home.submit();
@@ -1268,12 +1280,29 @@ $(document).ready(function() {
 				$(document).ready(function(e) {
 					  $('#reload_captcha').on('click', function() {
 						  d = new Date();
-						
-					  //  $(this).replaceWith('<img  src="${pageContext.request.contextPath}/getcaptcha.htm" />');
 				        $('#captcha_image').attr('src', '${pageContext.request.contextPath}/getcaptcha.htm?'+d.getTime());
+				      
 					  });
 					});
+								function getcaptcha() {
 
+								        $.ajax({
+											url : '${pageContext.request.contextPath}/getcaptchacode',
+											type : "GET",
+											success : function(response) {
+												
+											$("#servercaptcha").val(response);
+											}
+										});
+								      
+								        
+									};
+									$(document).ready(function(e) {
+										 
+									        getcaptcha();
+										
+										});
+									
 
 				
 			</script>

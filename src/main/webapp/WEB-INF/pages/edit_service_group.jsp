@@ -627,9 +627,9 @@ margin-right: 10px;
 														<form:select class="form-control SelectStyle" path="caste" id="castevalue">
 															<form:option value="0" >--Select--
 															</form:option>
-															<form:option value="1">OC
+															<form:option value="1">Other caste (OC)
 															</form:option>
-															<form:option value="2">BC
+															<form:option value="2">Backward Class (BC)
 															</form:option>
 														
 														</form:select>
@@ -763,8 +763,8 @@ margin-right: 10px;
 														<td>${alt.caste }</td>
 														<td >${alt.respProffesion }</td>
 														<td>${alt.district }</td>
-														<td style="text-align: center;" >${alt.mobile }</td>
 														<td>${alt.email }</td>
+														<td style="text-align: center;" >${alt.mobile }</td>
 														<td style="text-align: center;"  data-toggle="modal"
 									data-target="#exampleModal1" ><img height="22px" id="edit"  data-toggle="tooltip" title="Click to edit details"  src="${pageContext.request.contextPath}/static/images/edit.png"></img></td>
 														<td style="text-align: center;" id="btn-remove" ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td>
@@ -992,8 +992,8 @@ margin-right: 10px;
 											<select class="form-control SelectStyle" name="caste"
 												id="castevalue">
 												<option value="0">--Select--</option>
-												<option value="1">OC</option>
-												<option value="2">BC</option>
+												<option value="1">Other caste (OC)</option>
+												<option value="2">Backward Class (BC)</option>
 
 											</select>
 										</div>
@@ -1500,7 +1500,7 @@ $(function(){
 													.val(obj.address);
 											$("#exampleModal1 #mobile").val(
 													obj.mobile);
-											$("#squarespaceModal #email").val(
+											$("#exampleModal1 #email").val(
 													obj.email);
 											$('#exampleModal1 #district')
 													.val(obj.district).change();
@@ -1594,11 +1594,11 @@ $(function(){
 								} 
 							
 								if (caste == "1") {
-									caste="OC";
+									caste="Other caste (OC)";
 								} 
 							
 								if (caste == "2") {
-									caste="BC";
+									caste="Backward Class (BC)";
 								} 
 							
 		                      

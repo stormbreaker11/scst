@@ -34,13 +34,12 @@ public class PetitionerController {
 
 	@Autowired
 	private PetitionDao petitiondao;
-	
+
 	@Autowired
 	private PetitionerDao petitionerdao;
-	
-	
+
 	@Autowired
-	private ScstCommons scstcommons; 
+	private ScstCommons scstcommons;
 
 	// petition registration page request mapper
 	@RequestMapping(value = "/registrtation.htm")
@@ -49,10 +48,10 @@ public class PetitionerController {
 		List<Identity> identities = scstcommons.getIdentities();
 		model.addAttribute("identities", identities);
 		model.addAttribute("register", petitioner);
-List<District> district = scstcommons.getDistrict("36");
-		
+		List<District> district = scstcommons.getDistrict("36");
+
 		model.addAttribute("district", district);
-		return "REGISTERPETITION";
+		return "petitioner";
 	}
 
 	// petition details page request mapper
@@ -96,9 +95,9 @@ List<District> district = scstcommons.getDistrict("36");
 			model.addAttribute("savePetiton", petitioner.getPetionerId());
 			return "savepetition";
 		} else {
-			model.addAttribute("error", "Error: Petitioner Registration failed, try again!!");
+			model.addAttribute("error", "Error: Petitioner Entry failed, try again!!");
 			model.addAttribute("register", petitioner);
-			return "REGISTERPETITION";
+			return "petitioner";
 		}
 
 	}
@@ -107,7 +106,7 @@ List<District> district = scstcommons.getDistrict("36");
 	public String filepetion(HttpServletRequest httpServletRequest, Model model, @RequestParam String pid) {
 
 		model.addAttribute("petition", new Petition());
-		
+
 		List<Category> categories = scstcommons.getCategories();
 		model.addAttribute("categories", categories);
 		model.addAttribute("pid", pid);
@@ -151,5 +150,4 @@ List<District> district = scstcommons.getDistrict("36");
 
 	}
 
-	
 }

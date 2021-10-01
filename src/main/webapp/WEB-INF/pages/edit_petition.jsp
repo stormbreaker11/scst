@@ -588,18 +588,15 @@ margin-right: 10px;
 					</div>
 				</div>
 
-				<br>
 			</div>
-			<br>
 			<div class="ppetioner" id="pland">
-
 				<div class="row">
 					<div class="col-sm-7 col-md-offset-2 form-group">
 						<label class="col-md-6">Select District <span class="star">*</span>
 						</label>
 						<div class="col-md-4">
 							<form:select class="form-control SelectStyle" path="landDistrict"
-								id="landDistrict" name="landDistrict">
+								id="landDistrict" name="landDistrict" onchange="getMandals('landDistrict','landmandal')">
 								<form:option value="0">--Select--</form:option>
 								<c:forEach items="${district}" var="alt">
 												<form:option value="${alt.distCode}" >${alt.distName}</form:option>
@@ -617,7 +614,7 @@ margin-right: 10px;
 							<form:select class="form-control SelectStyle" path="landmandal"
 								id="landmandal" >
 								<form:option value="0" selected="true">--Select--</form:option>
-								<form:option value="1">Mandal-1</form:option>
+								
 
 
 
@@ -794,9 +791,9 @@ margin-right: 10px;
 														<form:select class="form-control SelectStyle" path="caste" id="castevalue">
 															<form:option value="0" >--Select--
 															</form:option>
-															<form:option value="1">OC
+															<form:option value="1">Other caste (OC)
 															</form:option>
-															<form:option value="2">BC
+															<form:option value="2">Backward Class (BC)
 															</form:option>
 														
 														</form:select>
@@ -930,8 +927,8 @@ margin-right: 10px;
 														<td>${alt.caste}</td>
 														<td >${alt.respProffesion }</td>
 														<td>${alt.district }</td>
-														<td style="text-align: center;" >${alt.mobile }</td>
 														<td>${alt.email }</td>
+														<td style="text-align: center;" >${alt.mobile }</td>
 														<td style="text-align: center;"  data-toggle="modal"
 									data-target="#exampleModal1" ><img height="22px" id="edit"  data-toggle="tooltip" title="Click to edit details"  src="${pageContext.request.contextPath}/static/images/edit.png"></img></td>
 														<td style="text-align: center;" id="btn-remove" ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td>
@@ -1342,8 +1339,8 @@ margin-right: 10px;
 											<select class="form-control SelectStyle" name="caste"
 												id="castevalue">
 												<option value="0">--Select--</option>
-												<option value="1">OC</option>
-												<option value="2">BC</option>
+												<option value="1">Other caste (OC)</option>
+												<option value="2">Backward Class (BC)</option>
 
 											</select>
 										</div>
@@ -1438,12 +1435,6 @@ margin-right: 10px;
 
 
 
-
-
-
-
-
-
 $('#pitition1').on('change', function () {
 	if ($(this).val() === "3") {
 		$(".otherland").show();
@@ -1478,7 +1469,11 @@ function addLand(){
 	
 	 var frm = $('#landdetails').serialize();
 
+	 if(pitition1=="3"){
+		 pitition1Text=olandtext;
+		 }
 
+	 alert(pitition1Text)
 	   var k=0;
 		$.ajax({
 			url : '/scst/petition/land/addlanddetails.htm',
@@ -1572,10 +1567,6 @@ $(document).on('click','#landTable #btn-remove', function() {
     var $row = $(this).closest("tr"); // Find the row
 	var landcode = $row.find("#hiddencode").text();
 	var petitionerId=$("#petitionerId").val();
-
-
-
-	
 	var con = confirm("Are you sure you want to delete?");
 	if (con) {
 		$.ajax({
@@ -1645,8 +1636,7 @@ $(document).on('click','#landTable  #edit', function() {
 });
 
 
-//update land
-
+//update land onclick
 $(document).on('click','#exampleModal #updateLand', function() {
 
 	   var $row = $("#edit").closest("tr"); // Find the row
@@ -1671,7 +1661,7 @@ $(document).on('click','#exampleModal #updateLand', function() {
 });
 });
 
-
+//get land details 
 function getLandList(){
 	$("#landTabletr").empty();
 	var k=0;
@@ -1725,6 +1715,7 @@ function getLandList(){
 </script>
 		<script>
 
+		//submit 
 function proceed(){
 	document.landdetails.method="POST";
 	document.landdetails.action="/scst/petition/land/submitpetition.htm";
@@ -1770,7 +1761,7 @@ $(document).ready(function(){
 			}
 }); 
 
-
+// case pending and dispose show on chnage
 $("#Casestatus").change(function(){
 	var casestatus=$("#Casestatus").val();
 	if(casestatus=="D"){
@@ -1781,7 +1772,7 @@ $("#Casestatus").change(function(){
 }); 
 
 
-
+//delete evidence 
 $(document).on('click','#docdiv #btn-remove', function() {
 
 	    var petitionID=$("#petitionId").val();
@@ -1818,6 +1809,9 @@ $(document).on('click','#docdiv #btn-remove', function() {
 
 	});
 
+
+
+//add evidence
 
 $(function(){
     $('#addDoc').on('click', function(){ 
@@ -1901,6 +1895,11 @@ $(function(){
     });
 });
 
+
+
+
+
+
 //popup window
 
 function openEvidence(response) {
@@ -1910,11 +1909,6 @@ function openEvidence(response) {
 window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'test', params);
  
 }
-
-
-
-
-
 
 //deleting land details onclick
 $(document).on('click','#edit', function() {
@@ -2048,6 +2042,8 @@ $(document).on('click','#edit', function() {
 
 					});
 		}
+
+		//caste hide and display for respondent details
 		$('#respondentdetails').on('change', function () {
 			if ($(this).val() === "P") {
 				$("#caste").show();
@@ -2067,7 +2063,7 @@ $(document).on('click','#edit', function() {
 		});
 		
 
-		//deleting land details onclick
+		//deleting respondent details onclick
 		$(document).on('click', '#respondentTable #btn-remove', function() {
 
 			var $row = $(this).closest("tr"); // Find the row
@@ -2143,7 +2139,7 @@ $(document).on('click','#edit', function() {
 													.val(obj.address);
 											$("#exampleModal1 #mobile").val(
 													obj.mobile);
-											$("#squarespaceModal #email").val(
+											$("#exampleModal1 #email").val(
 													obj.email);
 											$('#exampleModal1 #district')
 													.val(obj.district).change();
@@ -2161,6 +2157,7 @@ $(document).on('click','#edit', function() {
 						});
 
 
+		//update respondent details on click
 		$(document).on(
 				'click',
 				'#updateRespondent',
@@ -2205,6 +2202,7 @@ $(document).on('click','#edit', function() {
 					});
 				});
 
+		//fetches respondent list 
 		function getRespondentList() {
 			$("#myTable").empty();
 			var k = 0;
@@ -2236,11 +2234,11 @@ $(document).on('click','#edit', function() {
 								} 
 							
 								if (caste == "1") {
-									caste="OC";
+									caste="Other caste (OC)";
 								} 
 							
 								if (caste == "2") {
-									caste="BC";
+									caste="Backward Class (BC)";
 								} 
 							
 		                      
@@ -2316,6 +2314,37 @@ $(document).on('click','#edit', function() {
 									});
 
 				});
+		//fetch mandals onchange 
+		function getMandals(ditrict,mandal){
+			var district = $('#'+ditrict+'').val();
+			//var dist = $('#dist').val();
+			$
+					.ajax({
+						type : 'GET',
+						url : '/scst/loadmandal/'
+								+ district,
+						success : function(
+								result) {
+
+							
+							$('#'+mandal+'').html('');
+							$('#'+mandal+'').append(new Option("--Select--", "0"));
+							var result = JSON
+									.parse(result);
+							var s = '';
+							for (var i = 0; i < result.length; i++) {
+								s += '<option style="text-transform:capitalize"; value="'+result[i].mcode+'">'
+										+ result[i].mname
+										+ '</option>';
+							}
+							$('#'+mandal+'')
+									.append(s);
+						}
+					});
+			
+			}
+
+				
 		
 </script>
 

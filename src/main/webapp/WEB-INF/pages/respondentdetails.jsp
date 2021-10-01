@@ -224,9 +224,9 @@ response.setDateHeader("Expires", 0);
 								id="castevalue">
 								<form:option value="0">--Select--
 															</form:option>
-								<form:option value="1">OC
+								<form:option value="1">Other caste (OC)
 															</form:option>
-								<form:option value="2">BC
+								<form:option value="2">Backward Class (BC)
 															</form:option>
 
 							</form:select>
@@ -361,8 +361,8 @@ response.setDateHeader("Expires", 0);
 											<select class="form-control SelectStyle" name="caste"
 												id="castevalue">
 												<option value="0">--Select--</option>
-												<option value="1">OC</option>
-												<option value="2">BC</option>
+												<option value="1">Other caste (OC)</option>
+												<option value="2">Backward Class (BC)</option>
 
 											</select>
 										</div>
@@ -826,11 +826,11 @@ response.setDateHeader("Expires", 0);
 								} 
 							
 								if (caste == "1") {
-									caste="OC";
+									caste="Other caste (OC)";
 								} 
 							
 								if (caste == "2") {
-									caste="BC";
+									caste="Backward Class (BC)";
 								} 
 							
 		                      

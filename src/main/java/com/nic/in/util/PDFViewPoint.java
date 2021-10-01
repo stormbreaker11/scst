@@ -1,7 +1,6 @@
 package com.nic.in.util;
 
 import java.io.BufferedOutputStream;
-import java.net.URL;
 import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.List;
@@ -9,9 +8,6 @@ import java.util.List;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.felix.ipojo.annotations.Component;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.itextpdf.io.IOException;
 import com.itextpdf.io.source.ByteArrayOutputStream;
@@ -27,13 +23,9 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.nic.in.dao.DocDao;
-import com.nic.in.dao.PetitionerDao;
 import com.nic.in.model.Documents;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Petitioner;
-//import com.nic.in.pdfView.AbstractITextPdfView;
 
 public class PDFViewPoint {
 	
@@ -50,23 +42,10 @@ public class PDFViewPoint {
 		bos = new BufferedOutputStream(baos);
 		baos.reset();
 		
-		/* WebColors.getRGBColor("#988dfc"); */
-
-		PdfWriter instance2 = PdfWriter.getInstance(doc, baos);
-
-		
 		Paragraph bottom = new Paragraph();
 		bottom.add(Chunk.NEWLINE);
 		bottom.setAlignment(Element.ALIGN_BOTTOM);
 		bottom.setAlignment(Element.ALIGN_CENTER);
-		Font font1 = FontFactory.getFont(FontFactory.defaultEncoding, 8, Font.NORMAL);
-		
-		//String encodedText = Base64Utils.encodeToString(ipsPhoto);
-
-		
-
-		/* Date dateOfBirth = formatter.parse(probationerDetails.getDob()); */
-
 		
 
 		
@@ -108,7 +87,6 @@ public class PDFViewPoint {
 		doc.add(paragraph);
 		
 		Font font = FontFactory.getFont(FontFactory.defaultEncoding, 11, Font.NORMAL);
-		Font subFont = FontFactory.getFont(FontFactory.defaultEncoding, 12, Font.BOLD);
 		Paragraph paragraph1 = new Paragraph();
 		doc.add(paragraph1);
 			
@@ -381,20 +359,25 @@ public class PDFViewPoint {
 		byte[] prPhoto = docs.getPrPhoto();
 		byte[] prSign = docs.getPrSign(); 
 		//Image instance1 = Image.getInstance(realPath1);
+		
+		if(prPhoto!=null ) {
+			Image photoPR = Image.getInstance(prPhoto); //photo
+			photoPR.scaleToFit(100,80);
+			photoPR.setAbsolutePosition(470, 660);
+			doc.add(photoPR);
+		}
+		if(prSign!=null) {
+			
+			Image signpr = Image.getInstance(prSign); //sign
+			signpr.scaleToFit(100,80);
+			signpr.setAbsolutePosition(20, 240);
+			doc.add(signpr);
+		}
 		Image tslogo = Image.getInstance(readAllBytes); //ts logo
-		Image photoPR = Image.getInstance(prPhoto); //photo
-		Image signpr = Image.getInstance(prSign); //sign
 		tslogo.scaleToFit(90,70);
 		tslogo.setAbsolutePosition(25, 730);
 		doc.add(tslogo);
-		
-		photoPR.scaleToFit(100,80);
-		photoPR.setAbsolutePosition(470, 660);
-		doc.add(photoPR);
-		
-		signpr.scaleToFit(100,80);
-		signpr.setAbsolutePosition(20, 240);
-		doc.add(signpr);
+
 		//doc.add(instance1);
 		
 		ServletOutputStream os = response.getOutputStream();

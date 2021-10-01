@@ -64,9 +64,9 @@ public class GeneralDaoImpl implements GeneralDao {
 				+ "pr.pr_mobile, pr.pr_email, d.dname, pr.mandal, pr.village, "
 				+ "pm.petition_type, pm.petition_category, pm.submit_date, "
 				+ "pg.appeal,pg.pet_detail from petitioner  pr, "
-				+ "petition_master pm, petition_general pg, distric d "
+				+ "petition_master pm, petition_general pg, district d "
 				+ "where pr.petitioner_id=? and pr.petitioner_id=pg.petitioner_id "
-				+ " d.dcode=pr.district and pg.petition_id=pm.petition_id and and pm.petition_id=?";
+				+ " and d.dcode=pr.district and pg.petition_id=pm.petition_id and  pm.petition_id=?";
 
 		Petition pl = new Petition();
 

@@ -222,17 +222,15 @@ margin-right: 10px;
 </head>
 <body style="margin-right: 20px; margin-left: 20px;" onload="focus()">
 	<div class="container-fluid">
-	<br>
-		<div class="col-md-12">
-			<div class="box form_content">
 	
- <h5 class="subhead">
 					<h1 align="center" style="color:  #2d3990;">Petition - Entry</h1>
-					</h5> 
-				<br> 
-
+    <div class="title1"  >
+													<b style="padding-left: 5px;">Petition - Entry</b>
+													
+												</div>
 				<form:form modelAttribute="petition" name="petition"  enctype="multipart/form-data">
 
+<br>
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-sm-7 col-md-offset-2 form-group">
@@ -291,7 +289,7 @@ margin-right: 10px;
 									<input type=file class="form-control SelectStyle" id="file" 
 										name="file">
 								</div>
-							</div><div class="col-md-offset-2 form-group " style="color: red;">allowed .jpg/jpeg of 1 mb size
+							</div><div class="col-md-offset-2 form-group " style="color: red;">allowed .jpg/jpeg of 100 kb size
 							</div>
 						</div>  
 						
@@ -348,8 +346,6 @@ margin-right: 10px;
 				<br>
 				
 					<br>
-			</div>
-		</div>
 	</div>
 	<script type="text/javascript">
 

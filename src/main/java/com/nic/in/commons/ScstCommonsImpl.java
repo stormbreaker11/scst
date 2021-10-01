@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,6 +19,7 @@ import com.nic.in.model.Category;
 import com.nic.in.model.District;
 import com.nic.in.model.Identity;
 import com.nic.in.model.Land;
+import com.nic.in.model.Mandal;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Relation;
 import com.nic.in.model.State;
@@ -54,6 +56,9 @@ public class ScstCommonsImpl implements ScstCommons {
 				District d = new District();
 				d.setDistCode(rs.getString("dcode"));
 				d.setDistName(rs.getString("dname"));
+				String capitalizeFully = WordUtils.capitalizeFully(d.getDistName());
+				d.setDistName(capitalizeFully);
+				
 				return d;
 			}
 		});
@@ -63,7 +68,7 @@ public class ScstCommonsImpl implements ScstCommons {
 	@Override
 	public List<State> getStates() {
 		
-		String query = "select scode, sname from state order by sname ";
+		String query = "select scode, sname from state where scode in ('36') order by sname  "; //36 code is for telanaganaa 
 
 		List<State> slist = jdbcTemplate.query(query, new RowMapper<State>() {
 			public State mapRow(ResultSet rs, int rownumber) throws SQLException {
@@ -153,6 +158,7 @@ public class ScstCommonsImpl implements ScstCommons {
 
 	@Override
 	public List<Land> getLandTypes() {
+		
 		String query=" select land_type_code, land__type_name from land_type where active='Y' ";
 		List<Land> list = jdbcTemplate.query(query, new RowMapper<Land>() {
 			public Land mapRow(ResultSet rs, int rownumber) throws SQLException {
@@ -160,6 +166,21 @@ public class ScstCommonsImpl implements ScstCommons {
 				l1.setLandsrno(rs.getString("land_type_code"));
 				l1.setLandType(rs.getString("land__type_name"));
 				return l1;
+			}
+		});
+		return list;
+	}
+
+	@Override
+	public List<Mandal> getMandals(String id) {
+		
+		String query="select mcode, mname from mandal where dcode=? order by mname";
+		List<Mandal> list = jdbcTemplate.query(query, new Object[] {Integer.parseInt(id)}, new RowMapper<Mandal>() {
+			public Mandal mapRow(ResultSet rs, int rownumber) throws SQLException {
+				Mandal m = new Mandal();
+				m.setMcode(rs.getString("mcode"));
+				m.setMname(rs.getString("mname"));
+				return m;
 			}
 		});
 		return list;

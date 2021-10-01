@@ -498,7 +498,7 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="off_district"
-															id="off_district">
+															id="off_district" onchange="getMandals('off_district','off_mandal')">
 															<form:option value="0">--Select--
 															</form:option>
 															<c:forEach items="${district}" var="alt">
@@ -522,12 +522,7 @@ margin-right: 10px;
 															id="off_mandal">
 															<form:option value="26">--Select--
 															</form:option>
-															<form:option value="27">Mandal-1
-															</form:option>
-															<form:option value="28">Mandal-2
-															</form:option>
-															<form:option value="29">Mandal-3
-															</form:option>
+															
 
 														</form:select>
 													</div>
@@ -771,9 +766,9 @@ margin-right: 10px;
 														<form:select class="form-control SelectStyle" path="caste" id="castevalue">
 															<form:option value="0" >--Select--
 															</form:option>
-															<form:option value="1">OC
+															<form:option value="1">Other caste (OC)
 															</form:option>
-															<form:option value="2">BC
+															<form:option value="2">Backward caste (BC)
 															</form:option>
 														
 														</form:select>
@@ -908,8 +903,8 @@ margin-right: 10px;
 														<td>${alt.caste}</td>
 														<td >${alt.respProffesion }</td>
 														<td>${alt.district }</td>
-														<td style="text-align: center;" >${alt.mobile }</td>
 														<td>${alt.email }</td>
+														<td style="text-align: center;" >${alt.mobile }</td>
 														<td style="text-align: center;"  data-toggle="modal"
 									data-target="#exampleModal1" ><img height="22px" id="edit"  data-toggle="tooltip" title="Click to edit details"  src="${pageContext.request.contextPath}/static/images/edit.png"></img></td>
 														<td style="text-align: center;" id="btn-remove" ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td>
@@ -1316,8 +1311,8 @@ margin-right: 10px;
 											<select class="form-control SelectStyle" name="caste"
 												id="castevalue">
 												<option value="0">--Select--</option>
-												<option value="1">OC</option>
-												<option value="2">BC</option>
+												<option value="1">Other caste (OC)</option>
+												<option value="2">Backward Class (BC)</option>
 
 											</select>
 										</div>
@@ -1825,7 +1820,7 @@ $(function(){
 													.val(obj.address);
 											$("#exampleModal1 #mobile").val(
 													obj.mobile);
-											$("#squarespaceModal #email").val(
+											$("#exampleModal1 #email").val(
 													obj.email);
 											$('#exampleModal1 #district')
 													.val(obj.district).change();
@@ -1919,11 +1914,11 @@ $(function(){
 								} 
 							
 								if (caste == "1") {
-									caste="OC";
+									caste="Other caste (OC)";
 								} 
 							
 								if (caste == "2") {
-									caste="BC";
+									caste="Backward Class (BC)";
 								} 
 							
 		                      
@@ -2117,6 +2112,36 @@ function openRequestedPopup(response) {
 window.open("/scst/viewSign?pid="+pid+"&docno="+response, 'test', params);
  
 }
+//fetch mandals onchange 
+function getMandals(ditrict,mandal){
+	var district = $('#'+ditrict+'').val();
+	//var dist = $('#dist').val();
+	$
+			.ajax({
+				type : 'GET',
+				url : '/scst/loadmandal/'
+						+ district,
+				success : function(
+						result) {
+
+					
+					$('#'+mandal+'').html('');
+					$('#'+mandal+'').append(new Option("--Select--", "0"));
+					var result = JSON
+							.parse(result);
+					var s = '';
+					for (var i = 0; i < result.length; i++) {
+						s += '<option style="text-transform:capitalize"; value="'+result[i].mcode+'">'
+								+ result[i].mname
+								+ '</option>';
+					}
+					$('#'+mandal+'')
+							.append(s);
+				}
+			});
+	
+	}
+
 		
 </script>
 

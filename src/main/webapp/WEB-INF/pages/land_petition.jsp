@@ -316,7 +316,7 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:input type="text" id="courtName" maxlength="50"
-															placeholder=" Court name " 
+															 
 															class="form-control" path="courtName" tabindex="4" />
 													</div>
 												</div><div class="col-md-offset-2 form-group " style="color: red;">
@@ -392,7 +392,7 @@ margin-right: 10px;
 													<div
 														class="col-md-3">
 														<form:input type="text"
-															placeholder=" Type case number" path="caseNo"
+															 path="caseNo"
 															class="form-control" maxlength="30" tabindex="8"/>
 													</div>
 												</div><div class="col-md-offset-2 form-group " style="color: red;">
@@ -426,7 +426,7 @@ margin-right: 10px;
                     <div class="col-sm-7 col-md-offset-2 form-group">
                     <label class="col-md-6">Upload the Court Orders</label>
                     <div class="col-md-6">
-                    <input name="courtorders" placeholder="" class="form-control" type="file" tabindex="10">
+                    <input name="courtorders"  class="form-control" type="file" tabindex="10">
                     </div>
                     </div>
                     

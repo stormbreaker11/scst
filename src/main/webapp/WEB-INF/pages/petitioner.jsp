@@ -39,29 +39,20 @@ response.setDateHeader("Expires", 0);
 <script src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/script.js"></script>
+
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+<script src="${pageContext.request.contextPath}/static/js/petitionervalidations.js"></script>
 <style>
 .panel-body
-
- 
-
 .btn
-
-
 :not
-
- 
-
 (
 .btn-block
-
- 
 
 )
 {
@@ -278,14 +269,15 @@ px
 			Petitioner Details
 		</h1></div>
 		<div align="left" style="background: #2d3990; color: white; height: 30px; vertical-align: middle; padding-top: 5px; padding-left: 20px; ">
-													<b>Petitioner Details</b>
+													<b>Petitioner - Entry</b>
 													
 												</div>
-												<div align="center"><h3>${error}</h3></div>
+											
 		<br>
 		<form:form modelAttribute="register" name="register"
 			enctype="multipart/form-data">
 			
+			<c:if test="${ empty error }">
 			<div class="row">
 				<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">&nbsp;&nbsp;Are You the <span
@@ -303,21 +295,8 @@ px
 						</label>
 					</div>
 				</div>
-			</div>
-			<%-- <div class="row">
-				<div class="col-sm-7 col-md-offset-2 form-group">
-					<label class="col-md-6">Are You The Applicant/Petitioner <span
-						class="star">*</span></label>
-					<div class="col-md-6">
-						<form:select class="form-control SelectStyle" id="Applicant"
-							path="isPetitioner">
-							<form:option value="0">--Select--</form:option>
-							<form:option value="Y">YES</form:option>
-							<form:option value="N">NO</form:option>
-						</form:select>
-					</div>
-				</div>
-			</div> --%>
+			</div></c:if>
+		<div align="center" ><h3><font color="red">${error}</font></h3></div>
 			<div class="applicantpetitioner" id="yes" style="display: none;">
 				<!-- <h5 class="subhead">
 						<b>PETITIONER DETAILS</b>
@@ -331,7 +310,7 @@ px
 							</label>
 							<div class="col-md-6">
 								<form:input type="text" class="form-control"
-									placeholder=" Full Name" path="petionerName" id="petionerName" />
+									 path="petionerName" id="petionerName" maxlength="100" />
 							</div>
 						</div>
 					</div><div class="row">
@@ -354,7 +333,7 @@ px
 							</label>
 							<div class="col-md-6">
 								<form:input type="text" class="form-control"
-									placeholder=" Relation name " path="relationName" id="relationName" />
+									 path="relationName" id="relationName" maxlength="100" />
 							</div>
 						</div>
 					</div>
@@ -364,7 +343,7 @@ px
 								class="star">*</span>
 							</label>
 							<div class="col-md-2">
-								<form:input type="text" class="form-control" id="age" placeholder="Age"  maxlength="3"
+								<form:input type="text" class="form-control" id="age"   maxlength="3"
 									path="age" />
 							</div>
 						</div>
@@ -374,7 +353,7 @@ px
 					<div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Gender <span class="star">*</span></label>
-							<div class="col-md-2">
+							<div class="col-md-3">
 								<form:select class="form-control SelectStyle" id="gender"
 									path="gender">
 									<form:option value="0">--Select--</form:option>
@@ -390,7 +369,7 @@ px
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Address </label>
 							<div class="col-md-6">
-								<form:textarea cols="40" rows="7" id="address" path="address"></form:textarea>
+								<form:textarea cols="40" rows="7" id="address" path="address" maxlength="200"></form:textarea>
 							</div>
 						</div>
 					</div>
@@ -399,12 +378,12 @@ px
 					<div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Select Caste <span class="star">*</span></label>
-							<div class="col-md-3">
+							<div class="col-md-4">
 								<form:select class="form-control SelectStyle" id="prcaste"
 									path="caste">
 									<form:option value="0">--Select--</form:option>
-									<form:option value="1">SC</form:option>
-									<form:option value="2">ST</form:option>
+									<form:option value="1">Schedule Caste (SC)</form:option>
+									<form:option value="2">Schedule Tribe (ST)</form:option>
 								</form:select>
 							</div>
 						</div>
@@ -470,7 +449,7 @@ px
 							</label>
 							<div class="col-md-4">
 								<form:select class="form-control SelectStyle" id="district"
-									path="district">
+									path="district" onchange="getMandals('district', 'mandal')">
 									<form:option value="0">--Select--</form:option>
 									<c:forEach var="alt" items="${district }">
 									<form:option value="${alt.distCode}">${alt.distName}</form:option>
@@ -481,15 +460,12 @@ px
 					</div>
 					<div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
-							<label class="col-md-6">Mandal <span class="star">*</span>
+							<label class="col-md-6">Select Mandal <span class="star">*</span>
 							</label>
 							<div class="col-md-4">
-								<form:select class="form-control" path="mandal" id="mandal" namxmlns="mandal">
+								<form:select class="form-control" path="mandal" id="mandal" >
 								<form:option value="0">--Select--</form:option>
-								<form:option value="1">Kuravi</form:option>
-								<form:option value="2">Mahabubabad</form:option>
-								<form:option value="2">Kukatpally</form:option>
-								<form:option value="2">Ameerpet</form:option>
+								
 								</form:select>
 							</div>
 						</div>
@@ -499,7 +475,7 @@ px
 							<label class="col-md-6">Village <span class="star">*</span>
 							</label>
 							<div class="col-md-4">
-								<form:input class="form-control" path="village" id="village" namxmlns="village"/>
+								<form:input class="form-control" path="village" id="village" maxlength="100"/>
 							</div>
 						</div>
 					</div>
@@ -516,7 +492,7 @@ px
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Alternate Mobile Number </label>
 							<div class="col-md-3">
-								<form:input type="text" path="prMobile" id="prMobile" class="form-control" maxlength="12" />
+								<form:input type="text" path="prMobile" id="prMobile" class="form-control" maxlength="10" />
 							</div>
 						</div>
 					</div>
@@ -554,10 +530,10 @@ px
 					<div class="identitytype22" id="otherid" style="display: none;">
 						<div class="row">
 							<div class="col-sm-7 col-md-offset-2 form-group">
-								<label class="col-md-6">Other Identity type : </label>
+								<label class="col-md-6">Other Identity type</label>
 								<div class="col-md-6">
 									<form:input type="text" class="form-control"
-										placeholder=" Type Identity Name " path="prOtherid" id="prOtherid" />
+										 path="prOtherid" id="prOtherid" maxlength="50" />
 								</div>
 							</div>
 						</div>
@@ -570,8 +546,7 @@ px
 									class="star">*</span>
 								</label>
 								<div class="col-md-3">
-									<form:input type="text" class="form-control"
-										placeholder=" Identity no. " path="prProofId" id="prProofId" />
+									<form:input type="text" class="form-control" path="prProofId" id="prProofId" maxlength="35" />
 								</div>
 							</div>
 						</div>
@@ -580,8 +555,8 @@ px
 								<div class="col-sm-7 col-md-offset-2 form-group">
 									<label class="col-md-6">Upload the Identity document</label>
 									<div class="col-md-6">
-										<input name="prdoc" id="prdoc" placeholder="" class="form-control"
-											type="file" />
+										<input name="prdoc" id="prdoc" class="form-control"
+											type="file" onchange="validDoc('prdoc')" />
 									</div>
 										
 								</div>
@@ -604,25 +579,25 @@ px
 							Photograph<span class="star">*</span>
 						</label>
 						<div class="col-md-6">
-							<input type="file" name="photo" id="photo" placeholder="" class="form-control"
-								>
+							<input type="file" name="photo" id="photo"  class="form-control"
+								onchange="validPhoto('photo')">
 						</div>
 					</div>
 					<div class="col-md-offset-2 form-group " style="color: red;">
-							 allowed .jpg/jpeg of 1 mb size
+							 allowed .jpg/jpeg of 200 kb size
 							</div>
 				</div>
 					<div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
-							<label class="col-md-6"> Upload signature of Petitioner <span
+							<label class="col-md-6"> Upload Petitioner Signature <span
 								class="star">*</span>
 							</label>
 							<div class="col-md-6">
-								<input type="file" name="signature" id="signature" placeholder="" class="form-control"
-									>
+								<input type="file" name="signature" id="signature" class="form-control"
+								onchange="validSign('signature')"	>
 							</div>
 						</div>
-						<div class="col-md-offset-2 form-group " style="color: red;">allowed .jpg/jpeg of 1 mb size
+						<div class="col-md-offset-2 form-group " style="color: red;">allowed .jpg/jpeg of 100 kb size
 							</div>
 					</div>
 				
@@ -649,6 +624,7 @@ px
 			</div>
 	
 
+<!-- on behalf -->
 	<div class="applicantpetitioner2" id="no" style="display: none;">
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
@@ -657,7 +633,7 @@ px
 				</label>
 				<div class="col-md-6">
 					<form:input type="text" class="form-control"
-						placeholder="  Full Name " path="bprName" id="bprName"  />
+						 path="bprName" id="bprName" maxlength="100" />
 				</div>
 			</div>
 		</div>
@@ -667,7 +643,7 @@ px
 					class="star">*</span></label>
 				<div class="col-md-3">
 					<form:input type="text" class="form-control"
-						placeholder="Profession" path="bprProfession" id="bprProfession" />
+					 path="bprProfession" id="bprProfession" maxlength="50" />
 				</div>
 			</div>
 		</div>
@@ -675,7 +651,7 @@ px
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Address </label>
 				<div class="col-md-6">
-					<form:textarea cols="45" rows="4" path="bprAddress" id="bprAddress"  placeholder=""></form:textarea>
+					<form:textarea cols="45" rows="4" path="bprAddress" id="bprAddress" maxlength="200" placeholder=""></form:textarea>
 				</div>
 			</div>
 		</div>
@@ -684,7 +660,7 @@ px
 				<label class="col-md-6"> Mobile Number</label>
 				<div class="col-md-3">
 					<form:input type="text" class="form-control"
-						placeholder="mobile no" path="bprMobile" maxlength="12" />
+						 path="bprMobile" maxlength="10" />
 				</div>
 			</div>
 		</div>
@@ -694,7 +670,7 @@ px
 				<label class="col-md-6">E-mail ID</label>
 				<div class="col-md-4">
 					<form:input type="text" class="form-control"
-						placeholder="e-Mail ID" path="bprMail" maxlength="50" />
+						 path="bprMail" maxlength="50" />
 				</div>
 			</div>
 		</div>
@@ -702,8 +678,8 @@ px
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Identity Type <span class="star">*</span></label>
 				<div class="col-md-3">
-					<form:select class="form-control SelectStyle" id="Identitypeno"
-						path="bprProofId" id="bprProofId">
+					<form:select class="form-control SelectStyle"  id="Identitypeno"
+						path="bprProofId" >
 						<form:option value="0">--Select--</form:option>
 									<c:forEach items="${identities}" var="alt" >
 									<form:option value="${alt.idcode}">${alt.idname}</form:option>
@@ -720,7 +696,7 @@ px
 					</label>
 					<div class="col-md-6">
 						<form:input type="text" class="form-control"
-							placeholder=" Type Identity Name " path="bprotherid" id="bprotherid"/>
+							 path="bprotherid" id="bprotherid" maxlength="50"/>
 					</div>
 				</div>
 			</div>
@@ -732,7 +708,7 @@ px
 					</label>
 					<div class="col-md-3">
 						<form:input type="text" class="form-control"
-							placeholder=" Identity no. " path="bprProofNo" id="bprProofNo" />
+							 path="bprProofNo" id="bprProofNo" maxlength="35" />
 					</div>
 				</div>
 			</div>
@@ -741,7 +717,7 @@ px
 					<div class="col-sm-7 col-md-offset-2 form-group">
 						<label class="col-md-6">Upload the Identity document </label>
 						<div class="col-md-6">
-							<input type="file" name="bid" id="bid" placeholder="" class="form-control" >
+							<input type="file" name="bid" id="bid" placeholder="" class="form-control" onchange="validDoc('bid')" >
 						</div>
 					</div>
 <div class="col-md-offset-2 form-group " style="color: red;">
@@ -759,12 +735,12 @@ px
 					applying on behalf of the petitioner<span class="star">*</span>
 				</label>
 				<div class="col-md-6">
-					<input type="file" name="bSign" id="bSign" placeholder="" class="form-control" ><div style="color: red;">
+					<input type="file" name="bSign" id="bSign" class="form-control" onchange="validSign('bSign')" ><div style="color: red;">
 			</div>
 				</div> 
 			</div>
 				<div class="col-md-offset-2 form-group " style="color: red;">
-				allowed .pdf of 1 mb size</div>
+				allowed .jpg/.jpeg of 100 kb size</div>
 		</div>
 		
 
@@ -782,7 +758,7 @@ px
 				</label>
 				<div class="col-md-6">
 					<form:input type="text" class="form-control"
-						placeholder=" Full Name" path="bprpetionerName" id="bprpetionerName" />
+						 path="bprpetionerName" id="bprpetionerName" maxlength="100" />
 				</div>
 			</div>
 		</div>
@@ -806,7 +782,7 @@ px
 				</label>
 				<div class="col-md-4">
 					<form:input type="text" class="form-control" value=""
-						placeholder=" Relation name " path="bprrelationName" id="bprrelationName" />
+						 path="bprrelationName" id="bprrelationName" maxlength="100" />
 				</div>
 			</div>
 		</div>
@@ -817,7 +793,7 @@ px
 				</label>
 				<div class="col-md-2">
 					<form:input type="text" class="form-control" maxlength="3"
-						placeholder=" Age " path="bprage" id="bprage"/>
+						 path="bprage" id="bprage"/>
 				</div>
 			</div>
 		</div>
@@ -826,7 +802,7 @@ px
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Gender <span class="star">*</span></label>
-				<div class="col-md-2">
+				<div class="col-md-3">
 					<form:select class="form-control SelectStyle" id="bprgender" path="bprgender">
 						<form:option value="0">--Select--</form:option>
 						<form:option value="M">Male</form:option>
@@ -841,7 +817,7 @@ px
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Address </label>
 				<div class="col-md-6">
-					<form:textarea cols="51"  rows="7" id="bpraddress" path="bpraddress"></form:textarea>
+					<form:textarea cols="51"  rows="7" id="bpraddress" path="bpraddress" maxlength="200"></form:textarea>
 				</div>
 			</div>
 		</div>
@@ -850,12 +826,12 @@ px
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Select Caste <span class="star">*</span></label>
-				<div class="col-md-3">
+				<div class="col-md-4">
 					<form:select class="form-control SelectStyle" id="bprcaste"
 						path="bprcaste">
 						<form:option value="0">--Select--</form:option>
-						<form:option value="1">SC</form:option>
-						<form:option value="2">ST</form:option>
+						<form:option value="1">Schedule Caste (SC)</form:option>
+						<form:option value="2">Schedule Tribe (ST)</form:option>
 					</form:select>
 				</div>
 			</div>
@@ -877,10 +853,10 @@ px
 				<label class="col-md-6">Select District <span class="star">*</span>
 				</label>
 				<div class="col-md-4">
-					<form:select class="form-control SelectStyle" id="bprdistrict" path="bprdistrict">
+					<form:select class="form-control SelectStyle" id="bprdistrict" path="bprdistrict" onchange="getMandals('bprdistrict','bprmandal' )" >
 								<form:option value="0">--Select--</form:option>
 								<c:forEach var="alt" items="${district }">
-									<form:option value="${alt.distCode}">${alt.distName}</form:option>
+									<form:option style="text-transform:capitalize" value="${alt.distCode}">${alt.distName}</form:option>
 								</c:forEach>
 							</form:select>
 				</div>
@@ -947,19 +923,22 @@ px
 						</div> -->
 			<div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
-							<label class="col-md-6">Mandal <span class="star">*</span>
+							<label class="col-md-6">Select Mandal <span class="star">*</span>
 							</label>
 							<div class="col-md-4">
-								<form:input class="form-control" path="bprmandal" id="bprmandal" namxmlns="mandal"/>
+								<form:select class="form-control" path="bprmandal" id="bprmandal" >
+								<form:option value="0">--Select--</form:option>
+								</form:select>
+							</div>
 							</div>
 						</div>
-					</div>
+					
 					<div class="row">
 						<div class="col-sm-7 col-md-offset-2 form-group">
 							<label class="col-md-6">Village <span class="star">*</span>
 							</label>
 							<div class="col-md-4">
-								<form:input class="form-control" path="bprvillage" id="bprvillage" namxmlns="village"/>
+								<form:input class="form-control" path="bprvillage" id="bprvillage" maxlength="100"/>
 							</div>
 						</div>
 					</div>
@@ -976,7 +955,7 @@ px
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">Alternate Mobile Number </label>
 				<div class="col-md-3">
-					<form:input type="text" path="bprprMobile" path="bprprMobile" class="form-control" size="10" maxlength="10" />
+					<form:input type="text" path="bprprMobile" id="bprprMobile" class="form-control" size="10" maxlength="10" />
 				</div>
 			</div>
 		</div>
@@ -985,7 +964,7 @@ px
 			<div class="col-sm-7 col-md-offset-2 form-group">
 				<label class="col-md-6">E-Mail ID </label>
 				<div class="col-md-4">
-					<form:input type="text" class="form-control" value="" path="bprprMail" id="bprprMail"/>
+					<form:input type="text" class="form-control" value="" path="bprprMail" id="bprprMail" maxlength="50"/>
 				</div>
 			</div>
 		</div>
@@ -994,7 +973,7 @@ px
 				<label class="col-md-6">Identity Type <span class="star">*</span></label>
 				<div class="col-md-3">
 					<form:select class="form-control SelectStyle" id="brIdentitype"
-						path="bprprProofType" id="bprprProofType">
+						path="bprprProofType" >
 						<form:option value="0">--Select--</form:option>
 									<c:forEach items="${identities}" var="alt" >
 									<form:option value="${alt.idcode}">${alt.idname}</form:option>
@@ -1003,13 +982,13 @@ px
 				</div>
 			</div>
 		</div>
-		<div id="bprotherid" style="display: none;">
+		<div id="behalfother" style="display: none;">
 			<div class="row">
 				<div class="col-sm-7 col-md-offset-2 form-group">
 					<label class="col-md-6">Other Identity type : </label>
 					<div class="col-md-6">
 						<form:input type="text" class="form-control"
-							placeholder=" Type Identity Name " path="bprprProofType" id="bprprProofType" />
+							 path="bprprOtherProofType" id="bprprProofType" />
 					</div>
 				</div>
 			</div>
@@ -1021,7 +1000,7 @@ px
 					<label class="col-md-6">Identity Number<span class="star">*</span>
 					</label>
 					<div class="col-md-3">
-						<form:input type="text" class="form-control" value="" placeholder=" Identity no. " path="bprprProofId" id="bprprProofId" />
+						<form:input type="text" class="form-control" value=""  path="bprprProofId" id="bprprProofId" />
 					</div>
 				</div>
 			</div>
@@ -1030,7 +1009,7 @@ px
 							<div class="col-sm-7 col-md-offset-2 form-group">
 								<label class="col-md-6">Upload the Identity document</label>
 								<div class="col-md-6">
-									<input type="file" name="bprpetitiondoc" placeholder=""
+									<input type="file" id="bprpetitiondoc" name="bprpetitiondoc" placeholder=""
 										class="form-control" />
 								</div>
 							</div>
@@ -1049,26 +1028,26 @@ px
 					Photograph<span class="star">*</span>
 				</label>
 				<div class="col-md-6">
-					<input type="file" name="bprpetitonphoto" placeholder="" class="form-control"
-						>
+					<input type="file" id ="bprpetitonphoto" name="bprpetitonphoto" placeholder="" class="form-control"
+						onchange="validPhoto('bprpetitonphoto')">
 				</div>
 			</div>
 			<div class="col-md-offset-2 form-group " style="color: red;">
-				allowed .jpg/jpeg of 1 mb size</div>
+				allowed .jpg/jpeg of 200 kb size</div>
 		</div>
 		<div class="select_upload" id="upload">
 			<div class="row">
 				<div class="col-sm-7 col-md-offset-2 form-group">
-					<label class="col-md-6">Upload signature of Petitioner <span
+					<label class="col-md-6">Upload Petitioner Signature <span
 						class="star">*</span>
 					</label>
 					<div class="col-md-6">
-						<input type="file" name="bprpetitionsign" placeholder="" class="form-control"
-							>
+						<input type="file" id="bprpetitionsign" name="bprpetitionsign" placeholder="" class="form-control"
+							onchange="validSign('bprpetitionsign')">
 					</div>
 				</div>
 				<div class="col-md-offset-2 form-group " style="color: red;">
-				allowed .jpg/jpeg of 1 mb size</div>
+				allowed .jpg/jpeg of 100 kb size</div>
 			</div>
 			
 		</div>
@@ -1098,93 +1077,30 @@ px
 </body>
 
 	<script>
-	$(document).ready(function() {
-		$('#otherid2').hide();
-	});
-	$(document).ready(function() {
-		$('#otherid').DataTable();
-	});
-</script>
-	<script>
-	$(document).ready(function() {
-		$('[data-toggle="tooltip"]').tooltip();
-	});
-</script>
-	<script>
-	$('#subcaste').on('change', function() {
-		if ($(this).val() === "stsub") {
-			$(".castesub1").show();
-		} else {
-			$(".castesub1").hide();
-		}
-	});
-</script>
-	<script>
-	$('#subcaste').on('change', function() {
-		if ($(this).val() === "scsub") {
-			$(".castesub2").show();
-		} else {
-			$(".castesub2").hide();
-		}
-	});
-</script>
 
-	<script>
-	$('#caste_scst').on('change', function() {
-		if ($(this).val() === "st") {
-			$(".caste_st").show();
-		} else {
-			$(".caste_st").hide();
-		}
-	});
-</script>
-	<script>
-	$('#caste_scst').on('change', function() {
-		if ($(this).val() === "sc") {
-			$(".caste_sc").show();
-		} else {
-			$(".caste_sc").hide();
-		}
-	});
-</script>
-	<script>
-	$('#Applicant').on('change', function() {
-		
-		if ($(this).val() === "Y") {
-			
-			$(".applicantpetitioner").show();
-		} else {
-			$(".applicantpetitioner").hide();
-		} 
-	});
 
-	
-</script>
-
-	<script>
+	//radio button switching script
 	$('#check2').on('click', function() {
 		if ($(this).val() === "Y") {
 			
-			$(".applicantpetitioner").show();
-			$(".applicantpetitioner2").hide();
+			$(".applicantpetitioner").show(); //petitioner self
+			$(".applicantpetitioner2").hide(); //on behalf
 		} 
 	});
 
-	
+	//radio button switching script
 	$('#check3').on('click', function() {
 		
 		if ($(this).val() === "N") {
 		
-			$(".applicantpetitioner2").show();
-			$(".applicantpetitioner").hide();
+			$(".applicantpetitioner2").show(); //on behalf
+			$(".applicantpetitioner").hide(); //petitioner self
 		} 
 	});
 
 
-	
-</script>
 
-	<script>
+	//Other id text box script 
 	$('#Identitype').on('change', function() {
 		if ($(this).val() === "O") {
 			$("#otherid").show();
@@ -1194,81 +1110,23 @@ px
 	});
 	
 	$('#brIdentitype').on('change', function() {
+	
 		if ($(this).val() === "O") {
-			$("#bprotherid").show();
+			$("#behalfother").show();
 		} else {
-			$("#bprotherid").hide();
+			$("#behalfother").hide();
 		}
 	});
-
 	
-</script>
-
-	
-	<script>
 	$('#Identitypeno').on('change', function() {
-		if ($(this).val() === "6") {
+	
+		if ($(this).val() === "O") {
 			$("#otherid2").show();
 		} else {
 			$("#otherid2").hide();
 		}
 	});
-</script>
-
-	<script>
-	$('#Identityperesp').on('change', function() {
-		if ($(this).val() === "identiID") {
-			$(".identitytypeRespondent").show();
-		} else {
-			$(".identitytypeRespondent").hide();
-		}
-	});
-</script>
-	<script>
-  $('#Identityperesp').on('change',function(){
-    if( $(this).val()==="OtherRes"){
-    $(".otheridentitytype").show();
-    }
-    else{
-    $(".otheridentitytype").hide();
-    }
-});
-  </script>
-
-	<script>
-	$('#cspg').on('change',function(){
-    if( $(this).val()==="csp"){
-    $(".cspgov").show();
-    }
-    else{
-    $(".cspgov").hide();
-    }
-});
-	</script>
-	<script>
-	$('#cspg').on('change',function(){
-    if( $(this).val()==="deemed"){
-    $(".deem").show();
-    }
-    else{
-    $(".deem").hide();
-    }
-});
-	</script>
-
-
-	<script>
-
-
-	function savePetition(){
-
-		document.register.method="POST";
-		document.register.action="savePetition.htm";
-		document.register.submit();
-		}
-
-
-
+	
 	//fetching subcaste onchange caste select option 
 	$(document)
 	.ready(
@@ -1298,7 +1156,7 @@ px
 															.parse(result);
 													var s = '';
 													for (var i = 0; i < result.length; i++) {
-														s += '<option value="'+result[i].ccode+'">'
+														s += '<option style="text-transform:capitalize"; value="'+result[i].ccode+'">'
 																+ result[i].cname
 																+ '</option>';
 													}
@@ -1316,18 +1174,6 @@ px
 
 
 
-
-$('#Applicant').on('change', function() {
-		
-		if ($(this).val() === "Y") {
-
-			
-			$(".applicantpetitioner").show();
-		} else {
-			$(".applicantpetitioner").hide();
-		} 
-	});
-	
 	//fetching subcaste onchange caste select option 
 	$(document)
 	.ready(
@@ -1357,7 +1203,7 @@ $('#Applicant').on('change', function() {
 															.parse(result);
 													var s = '';
 													for (var i = 0; i < result.length; i++) {
-														s += '<option value="'+result[i].ccode+'">'
+														s += '<option style="text-transform:capitalize"; value="'+result[i].ccode+'">'
 																+ result[i].cname
 																+ '</option>';
 													}
@@ -1368,26 +1214,39 @@ $('#Applicant').on('change', function() {
 								});
 
 			});
+	//fetch mandals onchange 
+	function getMandals(ditrict,mandal){
+		var district = $('#'+ditrict+'').val();
+		//var dist = $('#dist').val();
+		$
+				.ajax({
+					type : 'GET',
+					url : '/scst/loadmandal/'
+							+ district,
+					success : function(
+							result) {
+
+						
+						$('#'+mandal+'').html('');
+						$('#'+mandal+'').append(new Option("--Select--", "0"));
+						var result = JSON
+								.parse(result);
+						var s = '';
+						for (var i = 0; i < result.length; i++) {
+							s += '<option style="text-transform:capitalize"; value="'+result[i].mcode+'">'
+									+ result[i].mname
+									+ '</option>';
+						}
+						$('#'+mandal+'')
+								.append(s);
+					}
+				});
+		
+		}
+	
+	
+	
 	</script>
 
 
-	<script>
-$(document).ready(function() {
-    $('#example').DataTable();
-} );
-  </script>
-	<script> 
-        function printDiv() { 
-            var divContents = document.getElementById("GFG").innerHTML; 
-            var a = window.open(); 
-            a.document.write('<html>'); 
-            a.document.write('<body>'); 
-            a.document.write('<table><tbody><tr><td></td></tr></tbody></table>'); 
-			a.document.write(divContents); 
-            a.document.write('</body></html>'); 
-            a.document.close(); 
-            a.print(); 
-        } 
-		
-    </script>
 </html>

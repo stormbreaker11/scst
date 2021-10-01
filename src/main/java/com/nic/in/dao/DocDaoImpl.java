@@ -94,7 +94,7 @@ public class DocDaoImpl implements DocDao {
 		//	String query = "SELECT coalesce(max(row_id),0) from evidence";
 			int maxid = 0;
 			try {
-				int id = jdbcTemplate.queryForObject(query, Integer.class);
+				int id = jdbcTemplate.queryForObject(query, new Object[] {String.valueOf(year)}, Integer.class);
 				if (id == 0) {
 					maxid = Integer.parseInt(year+"0001");
 				} else {
