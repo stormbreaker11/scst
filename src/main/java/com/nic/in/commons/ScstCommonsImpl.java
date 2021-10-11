@@ -2,9 +2,6 @@ package com.nic.in.commons;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -20,7 +17,6 @@ import com.nic.in.model.District;
 import com.nic.in.model.Identity;
 import com.nic.in.model.Land;
 import com.nic.in.model.Mandal;
-import com.nic.in.model.Petition;
 import com.nic.in.model.Relation;
 import com.nic.in.model.State;
 
@@ -52,6 +48,7 @@ public class ScstCommonsImpl implements ScstCommons {
 		String query = "select dcode, dname from district where scode=? order by dname ";
 
 		List<District> dlist = jdbcTemplate.query(query, new Object[] {Integer.parseInt(scode)} ,new RowMapper<District>() {
+			@SuppressWarnings("deprecation")
 			public District mapRow(ResultSet rs, int rownumber) throws SQLException {
 				District d = new District();
 				d.setDistCode(rs.getString("dcode"));

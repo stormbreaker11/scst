@@ -326,7 +326,7 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="off_district"
-															id="off_district" onchange="getMandals('off_district','off_mandal')">
+															id="off_district" value="${updateatrocity.off_district}"  onchange="getMandals('off_district','off_mandal', '${updateatrocity.off_mandal}')">
 															<form:option value="0">--Select--
 															</form:option>
 															<c:forEach items="${district}" var="alt">
@@ -347,16 +347,9 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="off_mandal"                
-															id="off_mandal" tabindex="3">
-															<form:option value="26">--Select--
+															id="off_mandal" tabindex="3" >
+															<form:option value="0">--Select--
 															</form:option>
-															<form:option value="27">Mandal-1
-															</form:option>
-															<form:option value="28">Mandal-2
-															</form:option>
-															<form:option value="29">Mandal-3
-															</form:option>
-
 														</form:select>
 													</div>
 												</div>
@@ -416,15 +409,13 @@ margin-right: 10px;
 													<div
 														class="col-md-6">
 														<form:select class="form-control SelectStyle" path="ps_district"
-															id="ps_district" tabindex="6">
+															id="ps_district" tabindex="6" onchange="getMandals('ps_district','ps_mandal', '${updateatrocity.ps_mandal}')">
 															<form:option value="0">--Select--
 															</form:option>
 															<c:forEach items="${district}" var="alt">
 														<form:option value="${alt.distCode }">${alt.distName}
 														</form:option>
 														</c:forEach>
-														
-															
 														</form:select>
 													</div>
 												</div>
@@ -438,15 +429,10 @@ margin-right: 10px;
 													<div
 														class="col-md-6">
 														<form:select class="form-control SelectStyle" path="ps_mandal"
-															id="ps_mandal" tabindex="7">
-															<form:option value="52">--Select--
+															id="ps_mandal" tabindex="7" >
+															<form:option value="0">--Select--
 															</form:option>
-															<form:option value="53">Mandal-1
-															</form:option>
-															<form:option value="54">Mandal-2
-															</form:option>
-															<form:option value="55">Mandal-3
-															</form:option>
+															
 
 														</form:select>
 													</div>
@@ -1043,7 +1029,7 @@ margin-right: 10px;
 								<div role="group" aria-label="group button">
 
 									<input type="button" class="btn btn-primary"
-										id="updateRespondent" data-dismiss="modal" value="Update"
+										id="updateRespondent"  value="Update"
 										role="button" /> <input type="button" class="btn btn-danger"
 										data-dismiss="modal" value="Close" role="button" />
 
@@ -1068,6 +1054,20 @@ margin-right: 10px;
 
 
 
+
+
+
+$('#ps_complaint').on('change', function () {
+
+
+	
+	if ($(this).val() === "1") {
+		$(".PoliceComplaint").show();
+	}
+	else {
+		$(".PoliceComplaint").hide();
+	}
+});
 
 
 
@@ -1116,7 +1116,13 @@ $(document).on('click','#update', function() {
 		<script>
 
 function proceed(){
-	
+	var table=$("#uploadTable tr").length;
+	if(table<1){
+				alert("Add atleast one document/evidence");
+				$('#docDesc').focus();
+				return false;				
+		}
+		
 	document.upload.method="POST";
 	document.upload.action="/scst/petition/atrocity/submitpetition.htm";
 	document.upload.submit();
@@ -1128,6 +1134,7 @@ function proceed(){
 var k=0;
 
 $(document).ready(function(){
+	
 
 	var court=$("#court").val();
 	
@@ -1138,6 +1145,24 @@ $(document).ready(function(){
 	$(".courtpetione").hide();
 			}
 }); 
+
+
+
+$(document).ready(function() {
+
+	
+	
+	if ($("#ps_complaint").val() === "1") {
+		$(".PoliceComplaint").show();
+	}
+	else {
+		$(".PoliceComplaint").hide();
+	}
+});
+
+
+
+
 
 $("#service_type").change(function(){
 
@@ -1153,6 +1178,21 @@ $("#service_type").change(function(){
 
 
 $(document).ready(function(){
+
+	var dist=$("#off_district").val();
+	var psdist=$("#ps_district").val();
+	
+	$("#off_district").val(dist).change();
+	$("#ps_district").val(psdist).change();
+
+	
+}); 
+
+
+
+$(document).ready(function(){
+
+
 	var casestatus=$("#Casestatus").val();
 	if(casestatus=="D"){
 	$("#uploaddoc").show();
@@ -1546,6 +1586,7 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 						success : function(response) {
 
 							if (response == "Y") {
+								alert("Respondent details updated")
 								getRespondentList();
 							} else {
 								alert("Respondent details updation failed");
@@ -1627,7 +1668,9 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 		}
 
 		//fetch mandals onchange 
-		function getMandals(ditrict,mandal){
+		function getMandals(ditrict,mandal, mdl){
+
+			
 			var district = $('#'+ditrict+'').val();
 			//var dist = $('#dist').val();
 			$
@@ -1651,6 +1694,8 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 							}
 							$('#'+mandal+'')
 									.append(s);
+
+							$('#'+mandal+'').val(mdl)
 						}
 					});
 			

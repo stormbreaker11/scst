@@ -54,6 +54,9 @@ public class GeneralController {
 	public String viewPetitionstatus(HttpServletRequest httpServletRequest, Model mode) {
 
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		List<Petitioner> petitions = petitionerdao.getPetitions(login.getCompid());
 		mode.addAttribute("petitions", petitions);
 		mode.addAttribute("type", "G");
@@ -62,7 +65,10 @@ public class GeneralController {
 	 @RequestMapping(value="/saveGeneral", method = RequestMethod.POST)    
 	    public String saveGeneralPetition(@ModelAttribute("general") General general, Model model,HttpServletRequest httpServletRequest,  @RequestParam String type, @RequestParam String category)
 	 {    
-			Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		 Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+			if (login == null) {
+				return "redirect:sessexp";
+			}
 			String petitionID = (String) httpServletRequest.getSession().getAttribute("petitionID");
 	        int saveGeneralPetition = generaldao.saveGeneralPetition(general,login,petitionID);
 	        
@@ -103,6 +109,11 @@ public class GeneralController {
 
 		@RequestMapping(value = "/submitpetition.htm" , method = RequestMethod.POST)
 		public String submitPetition(HttpServletRequest httpServletRequest, @RequestParam String pid, @RequestParam String type, Model model,  @RequestParam String category   ) {
+			
+			Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+			if (login == null) {
+				return "redirect:sessexp";
+			}
 			String petid = (String) httpServletRequest.getSession().getAttribute("petitionID");
 			Petition petition=generaldao.getPetition(pid, petid);
 			List<Petition> petitionEvidence=petitiondao.getEvedince(pid, petid);

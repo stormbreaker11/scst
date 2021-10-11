@@ -342,7 +342,7 @@ px
 										<td>2</td>
 										<td><b> <span>Name of the district</span>
 										</b></td>
-										<td ><b> <span> Hyderabad </span>
+										<td ><b> <span> ${petition.district} </span>
 										</b></td>
 									</tr>
 									<tr>
@@ -373,7 +373,7 @@ px
 										<td>6</td>
 										<td><b> <span>Address</span>
 										</b></td>
-										<td   ><b> <span> Hyderabad , <br>${petition.mandal},<br>
+										<td   ><b> <span> ${petition.district} , <br>${petition.mandal},<br>
 													${petition.village}
 											</span>
 										</b></td>
@@ -396,7 +396,13 @@ px
 										<td>9</td>
 										<td><b> <span>Caste of the petitioner</span>
 										</b></td>
-										<td   ><b> <span>${petition.village}</span>
+										<td   ><b> <span>
+										
+										<c:if test="${petition.caste=='1 '}">Schedule Caste (SC)</c:if>
+										<c:if test="${petition.caste=='2 '}">Schedule Tribe (ST)</c:if>
+										
+										
+										</span>
 										</b></td>
 									</tr>
 									<tr>
@@ -411,7 +417,7 @@ px
 										<td>11</td>
 										<td><b> <span>Respondent </span>
 										</b></td>
-										<td   ><b> <span>Private/Individual</span>
+										<td   ><b> <span>-</span>
 										</b></td>
 									</tr>
 									<tr>

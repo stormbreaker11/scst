@@ -43,7 +43,16 @@ public class PetitionerController {
 
 	// petition registration page request mapper
 	@RequestMapping(value = "/registrtation.htm")
-	public String registrtation(Model model) {
+	public String registrtation(Model model, HttpServletRequest httpServletRequest) {
+		
+		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		
+		
+		if (login == null) {
+
+			return "redirect:sessexp";
+		}
+
 		Petitioner petitioner = new Petitioner();
 		List<Identity> identities = scstcommons.getIdentities();
 		model.addAttribute("identities", identities);
@@ -67,6 +76,14 @@ public class PetitionerController {
 			@RequestParam("bprpetitiondoc") MultipartFile bprpetitiondocfile,
 			@RequestParam("bprpetitionsign") MultipartFile bprpetitionsignFile,
 			@RequestParam("bprpetitonphoto") MultipartFile bprpetitonphotofile, HttpServletRequest httpServletRequest) {
+		
+Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		
+		
+		if (login == null) {
+
+			return "redirect:sessexp";
+		}
 		try {
 			// byte[] bytes = IOUtils.toByteArray(prdocfile.getInputStream());
 			byte[] bytes = IOUtils.toByteArray(prdocfile.getInputStream());
@@ -88,7 +105,7 @@ public class PetitionerController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		
 		String compid = login.getCompid();
 		int savePetiton = petitiondao.savePetiton(petitioner, compid);
 		if (savePetiton == 1) {
@@ -104,7 +121,13 @@ public class PetitionerController {
 
 	@RequestMapping(value = "filepetion.htm")
 	public String filepetion(HttpServletRequest httpServletRequest, Model model, @RequestParam String pid) {
+Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		
+		
+		if (login == null) {
 
+			return "redirect:sessexp";
+		}
 		model.addAttribute("petition", new Petition());
 
 		List<Category> categories = scstcommons.getCategories();
@@ -122,7 +145,13 @@ public class PetitionerController {
 			OutputStream out = response.getOutputStream();
 			response.setContentType("image/jpeg");
 			// IOUtils.copy(photoById.getIpsPhoto().getBinaryStream(), out);
-			IOUtils.copy(new ByteArrayInputStream(petition.getPrPhoto()), out);
+			
+			if(petition.getPrPhoto()!=null) {
+				
+				IOUtils.copy(new ByteArrayInputStream(petition.getPrPhoto()), out);
+				
+			}
+			
 			out.flush();
 			out.close();
 
@@ -140,7 +169,12 @@ public class PetitionerController {
 			OutputStream out = response.getOutputStream();
 			response.setContentType("image/jpeg");
 			// IOUtils.copy(photoById.getIpsPhoto().getBinaryStream(), out);
-			IOUtils.copy(new ByteArrayInputStream(petition.getPrSign()), out);
+			
+			if(petition.getPrSign()!=null) {
+				
+				IOUtils.copy(new ByteArrayInputStream(petition.getPrSign()), out);
+				
+			}
 			out.flush();
 			out.close();
 

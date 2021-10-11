@@ -312,7 +312,7 @@ px
 														class="col-md-6">Upload Document</label>
 													<div
 														class="col-md-4">
-														<input type="file" name="file" id="file">
+														<input type="file" name="file" id="file" >
 													</div>
 												</div>
 													<div class="col-md-offset-2 form-group " style="color: red;">allowed .pdf of size 1 mb
@@ -355,8 +355,8 @@ px
 											
 											
 										</table>
-				  <div align="center">
-            <input type="button" class="btn btn-primary" onclick="proceed()"  value="Save And Continue">
+				  <div align="center" id="savebtn" style="display: none;">
+            <input type="button"  class="btn btn-primary" onclick="proceed()"  value="Save And Continue">
             </div>				
             </div></div>
             
@@ -434,6 +434,7 @@ $(document).on('click','#btn-remove', function() {
 
 $(function(){
     $('#addDoc').on('click', function(){ 
+        
 
     	var petitionID=$("#petitionId").val();
 		var doctext=$('#docDesc').val();
@@ -499,11 +500,8 @@ $(function(){
 						$("#uploadTable").show();
 						$("#docdiv").show();
 						$("#proceed").show();
-
-
 						fileInput.value = '';
 						$('#docDesc').val('');
-					
 					}
 				else{
 						alert("Document upload failed, try again");
@@ -539,6 +537,16 @@ window.open("/scst/petition/land/pdfViewPointExport?pid="+pid+"&docno="+response
 function focus(){
 	document.getElementById("docDesc").focus();
 }
+
+
+$(document).ready(function(){
+
+	var table=$("#uploadTable tr").length;
+	if(table>1){
+				$("#savebtn").show();
+		}
+
+}); 
 
 </script>
 	

@@ -110,8 +110,8 @@ if (pname.length == 0) {
 		document.getElementById("gender").focus();
 		return false;
 	}
-	var newaddregex = /^[ A-Za-z0-9_@.,/#&+-]*$/;
-	if (address.length == 0) {
+	var newaddregex = /^[a-zA-Z0-9/(),+\-_.\s]+$/;
+	if (address.length == 0) { 
 		document.getElementById("address").focus();
 		alert("Address is required");
 		return false;
@@ -127,12 +127,15 @@ if (pname.length == 0) {
 		alert("Select Caste");
 		return false;
 	}
-
+	
+	if (prcaste != "0") {
 	if (prsubcaste == "0") {
 		document.getElementById("prsubcaste").focus();
 		alert("Select Sub Caste");
 		return false;
 	}
+	}
+
 	if (district == "0") {
 		document.getElementById("district").focus();
 		alert("Select Ditrict");
@@ -231,6 +234,8 @@ if (pname.length == 0) {
 	}
 
 }
+
+
 //behalf
 	if(check=="N"){
 
@@ -257,7 +262,6 @@ if (pname.length == 0) {
 		return false;
 	}
 
-	var newaddregex = /^[ A-Za-z0-9_@.,/#&+-]*$/;
 	if (bprAddress.length == 0) {
 		document.getElementById("bprAddress").focus();
 		alert("Address is required");
@@ -375,7 +379,10 @@ if (bprpetionerName.length == 0) {
 		document.getElementById("bprgender").focus();
 		return false;
 	}
-	var newaddregex = /^[ A-Za-z0-9_@.,/#&+-]*$/;
+	
+
+	
+	
 	if (bpraddress.length == 0) {
 		document.getElementById("bpraddress").focus();
 		alert("Address is required");

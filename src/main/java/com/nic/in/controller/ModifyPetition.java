@@ -25,6 +25,7 @@ import com.nic.in.model.District;
 import com.nic.in.model.Documents;
 import com.nic.in.model.General;
 import com.nic.in.model.Land;
+import com.nic.in.model.Login;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Petitioner;
 import com.nic.in.model.Petitition_Land;
@@ -67,7 +68,10 @@ public class ModifyPetition {
 			@PathVariable String type, @PathVariable String cat, @PathVariable String petitioner  ) {
 	
 		String view="";
-		
+		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		
 		model.addAttribute("type", type);
 		model.addAttribute("petId", petition);

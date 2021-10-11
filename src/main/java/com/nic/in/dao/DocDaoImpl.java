@@ -109,12 +109,13 @@ public class DocDaoImpl implements DocDao {
 		@Override
 		public List<Documents> getUploadedDocsByPid(String petition) {
 			
-			String query = "select doc_srno, doc_desc, petitioner_id, petition_id from evidence where petition_id=?" ;
+			String query = "select doc_srno, doc_desc, doc_pdf, petitioner_id, petition_id from evidence where petition_id=?" ;
 			List<Documents> documents = jdbcTemplate.query(query, new Object[] {petition}, new RowMapper<Documents>() {
 				public Documents mapRow(ResultSet rs, int rownumber) throws SQLException {
 					Documents documents = new Documents();
 					documents.setDocNo(rs.getString("doc_srno"));
 					documents.setDocDesc(rs.getString("doc_desc"));
+					documents.setDocContent(rs.getBytes("doc_pdf"));
 					documents.setPetitionerId(rs.getString("petitioner_id"));
 					documents.setPetitionId(rs.getString("petition_id"));
 					return documents;

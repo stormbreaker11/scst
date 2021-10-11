@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.nic.in.dao.LoginDao;
 import com.nic.in.model.Login;
@@ -42,4 +43,28 @@ public class LoginController {
 			return "redirect:home.htm";
 		}
 	}
+	
+	
+	@RequestMapping(value = "logout.htm")
+	public String logout (HttpServletRequest request) {
+		HttpSession httpSession = request.getSession();
+		httpSession.invalidate();
+		return "index";
+	
+	}
+
+	
+	//session expiring page
+	@RequestMapping(value = "/sessexp", method = RequestMethod.GET)
+	public String sesexp(HttpServletRequest request, SessionStatus status) {
+		HttpSession session = request.getSession(false);
+
+		if (session != null) {
+			session.removeAttribute("login"); //clearing login session
+			session.invalidate();
+		}
+		
+		return "sessionexp";
+	}
+	
 }

@@ -23,6 +23,8 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.nic.in.model.Documents;
 import com.nic.in.model.Petition;
 import com.nic.in.model.Petitioner;
@@ -41,6 +43,11 @@ public class PDFViewPoint {
 		baos = new ByteArrayOutputStream();
 		bos = new BufferedOutputStream(baos);
 		baos.reset();
+		
+		/* WebColors.getRGBColor("#988dfc"); */
+
+		PdfWriter instance2 = PdfWriter.getInstance(doc, baos);
+
 		
 		Paragraph bottom = new Paragraph();
 		bottom.add(Chunk.NEWLINE);
@@ -241,10 +248,10 @@ public class PDFViewPoint {
 		
 		String petitionerCaste = petition.getCaste();
 		if(petitionerCaste.trim().equals("1")) {
-			petitionerCaste = "ST";
+			petitionerCaste = "Schedule Caste (SC)";
 		}
 		if(petitionerCaste.trim().equals("2")) {
-			petitionerCaste = "SC";
+			petitionerCaste = "Schedule Tribe (ST)";
 		}
 		c9 = new PdfPCell(new Phrase(petitionerCaste,  font));
 		c9.setVerticalAlignment(Element.ALIGN_CENTER);
@@ -287,7 +294,7 @@ public class PDFViewPoint {
 		table.addCell(c11);
 		
 	
-		c11 = new PdfPCell(new Phrase("",  font));
+		c11 = new PdfPCell(new Phrase("-",  font));
 		c11.setVerticalAlignment(Element.ALIGN_CENTER);
 		c11.setPaddingBottom(12f);
 		table.addCell(c11); 

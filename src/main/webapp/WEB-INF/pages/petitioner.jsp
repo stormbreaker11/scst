@@ -269,7 +269,7 @@ px
 			Petitioner Details
 		</h1></div>
 		<div align="left" style="background: #2d3990; color: white; height: 30px; vertical-align: middle; padding-top: 5px; padding-left: 20px; ">
-													<b>Petitioner - Entry</b>
+													<b>Petitioner Details</b>
 													
 												</div>
 											

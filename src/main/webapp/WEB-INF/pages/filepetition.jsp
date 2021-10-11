@@ -45,11 +45,111 @@ response.setDateHeader("Expires", 0);
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/petitionervalidations.js"></script>
 <script type="text/javascript">
 
 
 function proceed(){
 
+
+	
+  var typeofpetition=$("#typeofpetition").val();
+  var groupName=$("#groupName").val().trim();
+  var nodalName=$("#nodalName").val().trim();
+  var nodalDesign=$("#nodalDesign").val().trim();
+  var nodalMobile=$("#nodalMobile").val().trim();
+  var nodalEmail=$("#nodalEmail").val().trim();
+  var petitionCat=$("#petitionCat").val().trim();
+  var file=document.getElementById("file");
+
+
+    var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  	var regex = /^[a-zA-Z]+(\s+[a-zA-Z]+)*$/;
+  	var phoneRegex = /^[6-9]\d{9}$/;
+  	
+
+  if (typeofpetition == 0) {
+  		document.getElementById("typeofpetition").focus();
+  		alert("Type of Petition is required");
+  		return false;
+  	}
+
+	if(typeofpetition=="G"){
+
+		if (groupName == "") {
+	  		document.getElementById("groupName").focus();
+	  		alert("Name of the Organization/Group is required");
+	  		return false;
+	  	}
+	  	if (regex.test(groupName) == false) {
+	  		document.getElementById("groupName").focus();
+	  		alert("Invalid Name of the Organization/Group");
+	  		return false;
+	  	}
+	  	if (nodalName == "") {
+	  		document.getElementById("nodalName").focus();
+	  		alert("Name of the nodal person is required");
+	  		return false;
+	  	}
+	  	if (regex.test(nodalName) == false) {
+	  		document.getElementById("nodalName").focus();
+	  		alert("Invalid Name of the nodal person");
+	  		return false;
+	  	}
+	  	if (nodalDesign == "") {
+	  		document.getElementById("nodalDesign").focus();
+	  		alert("Designation/Profession is required");
+	  		return false;
+	  	}
+	  	if (regex.test(nodalDesign) == false) {
+	  		document.getElementById("nodalDesign").focus();
+	  		alert("Invalid Designation/Profession");
+	  		return false;
+	  	}
+
+	  	if(file.value==""){
+	  		document.getElementById("file").focus();
+	  		alert("Upload Signature of the nodal person ");
+	  		return false;0
+	  	  	}
+
+		if (nodalMobile.length == 0) {
+			alert("Nodal Mobile  Number is required");
+			document.getElementById("nodalMobile").focus();
+			return false;
+		}
+
+		if (phoneRegex.test(nodalMobile) == false) {
+			alert("Not a valid mobile number");
+			document.getElementById("nodalMobile").focus();
+			return false;
+		}
+
+		
+		if (nodalEmail.length == 0) {
+			alert("Email is required");
+			document.getElementById("nodalEmail").focus();
+			return false;
+		}
+
+		if (emailRegex.test(nodalEmail) == false) {
+			alert("Enter a valid Email");
+			document.getElementById("nodalEmail").focus();
+			return false;
+		}
+
+		
+		
+		}
+  
+	if (petitionCat == "0") {
+		alert("Category of Petition is required");
+		document.getElementById("petitionCat").focus();
+		return false;
+	}
+
+	
+	
 	document.petition.method="POST";
 	document.petition.action="/scst/petition/petitiondetails.htm";
 	document.petition.submit();
@@ -225,7 +325,7 @@ margin-right: 10px;
 	
 					<h1 align="center" style="color:  #2d3990;">Petition - Entry</h1>
     <div class="title1"  >
-													<b style="padding-left: 5px;">Petition - Entry</b>
+													<b style="padding-left: 5px;">Petition Entry</b>
 													
 												</div>
 				<form:form modelAttribute="petition" name="petition"  enctype="multipart/form-data">
@@ -253,7 +353,7 @@ margin-right: 10px;
 									class="star">*</span></label>
 								<div class="col-md-4">
 									<form:input  type="text" class="form-control SelectStyle" id="groupName" path="groupName"
-										name="groupName" />
+										name="groupName" maxlength="50" />
 										
 								</div>
 							</div>
@@ -264,7 +364,7 @@ margin-right: 10px;
 									class="star">*</span></label>
 								<div class="col-md-6">
 									<form:input  type="text" class="form-control SelectStyle" id="nodalName" path="nodalName"
-										name="nodalName" />
+										name="nodalName" maxlength="50"  />
 										
 								</div>
 							</div>
@@ -275,7 +375,7 @@ margin-right: 10px;
 									class="star">*</span></label>
 								<div class="col-md-4">
 									<form:input type="text" class="form-control SelectStyle" id="nodalDesign" path="nodalDesign"
-										name="nodalDesign" />
+										name="nodalDesign" maxlength="50" />
 										
 								</div>
 							</div>
@@ -287,7 +387,7 @@ margin-right: 10px;
 									class="star">*</span></label>
 								<div class="col-md-4">
 									<input type=file class="form-control SelectStyle" id="file" 
-										name="file">
+										name="file" onchange="validSign('file')">
 								</div>
 							</div><div class="col-md-offset-2 form-group " style="color: red;">allowed .jpg/jpeg of 100 kb size
 							</div>
@@ -299,7 +399,7 @@ margin-right: 10px;
 									class="star">*</span></label>
 								<div class="col-md-4">
 									<form:input type="text" class="form-control SelectStyle" id="nodalMobile" path="nodalMobile"
-										name="nodalMobile" />
+										name="nodalMobile" maxlength="10"  />
 										
 								</div>
 							</div>
@@ -310,7 +410,7 @@ margin-right: 10px;
 									class="star">*</span></label>
 								<div class="col-md-4">
 									<form:input type="text" class="form-control SelectStyle" id="nodalEmail" path="nodalEmail"
-										name="nodalEmail" />
+										name="nodalEmail" maxlength="100"  />
 										
 								</div>
 							</div>
@@ -323,7 +423,7 @@ margin-right: 10px;
 								<label class="col-md-6">Category of Petition<span
 									class="star">*</span></label>
 								<div class="col-md-4">
-									<form:select class="form-control SelectStyle"  name="category"
+									<form:select class="form-control SelectStyle"  name="category" id="petitionCat"
 										 required="required" path="petitionCat">
 										<form:option value="0" >--Select--</form:option>
 										<c:forEach var="alt" items="${categories}">
@@ -362,7 +462,18 @@ margin-right: 10px;
 	    $(".nodal").hide();
 	    }
 	});
-		
+
+	$(document).ready(function(){
+	    if( $("#typeofpetition").val()==="G"){
+		    alert($("#typeofpetition").val())
+	    $(".nodal").show();
+	    }
+	    else{
+	    $(".nodal").hide();
+	    }
+	});
+
+	
 	</script>
 
 	</body>

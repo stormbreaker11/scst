@@ -40,6 +40,8 @@ response.setDateHeader("Expires", 0);
 	src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/script.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/respondent.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/petitionervalidations.js"></script>
 
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -412,7 +414,7 @@ margin-right: 10px;
 													Lodged Complaint
 													in any
 													court <span class="star">*</span></label>
-												<div class="col-md-2">
+												<div class="col-md-3">
 													<form:select class="form-control SelectStyle"
 														id="court" path="courtComp" > 
 														<%-- <form:option value="0" >--Select--
@@ -515,7 +517,7 @@ margin-right: 10px;
 													class="col-sm-7 col-md-offset-2 form-group">
 													<label
 														class="col-md-6">
-														Select Mandal</label>
+														 Mandal</label>
 													<div
 														class="col-md-4">
 														<form:input id="courtMandal" class="form-control SelectStyle"
@@ -534,7 +536,7 @@ margin-right: 10px;
 													<div
 														class="col-md-3">
 														<form:input type="text"
-															placeholder=" Type case number" path="caseNo"
+															placeholder=" Type case number" path="caseNo" id="caseNo"
 															class="form-control" value="${landAppeal.caseNo}" maxlength="30"/>
 													</div>
 												</div>
@@ -646,16 +648,19 @@ margin-right: 10px;
 						<div class="col-md-4">
 							<input type="file" 
 								class="form-control" id="file" name="file"
-								/>
+								onchange="validSign('file')"/>
 						</div>
 					</div>
 						<div class="col-md-offset-2 form-group " style="color: red;">
+					<div class="col-md-offset-2 form-group " style="color: red;">allowed
+						.jpg/jpeg of 100 kb size</div>
+				</div>
+				</div>
+				
+<div align="center">
 						<div class="btn btn-md btn-primary" onclick="addpetitioners()">
 							+ Add more</div>
 					</div>
-				</div>
-				
-
 			</form:form>
 
 			
@@ -776,7 +781,7 @@ margin-right: 10px;
 						</label>
 						<div class="col-md-4">
 							<form:select class="form-control SelectStyle" path="landDistrict"
-								id="landDistrict" name="landDistrict" onchange="getMandals('landDistrict','landmandal')">
+								id="landDistrict" name="landDistrict" onchange="getMandals('landDistrict','landmandal', '')">
 								<form:option value="0">--Select--</form:option>
 								<c:forEach items="${district}" var="alt">
 												<form:option value="${alt.distCode}" >${alt.distName}</form:option>
@@ -1356,7 +1361,7 @@ margin-right: 10px;
 										</label>
 										<div class="col-md-6">
 											<select class="form-control SelectStyle"
-												id="landDistrict" name="landDistrict">
+												id="landDistrictedit" name="landDistrict" onchange="getMandals('landDistrictedit', 'landmandaledit', '')">
 												<option value="0">--Select--</option>
 												<c:forEach items="${district}" var="alt">
 												<option value="${alt.distCode }" >${alt.distName }</option>
@@ -1373,9 +1378,8 @@ margin-right: 10px;
 										</label>
 										<div class="col-md-6">
 											<select class="form-control SelectStyle" 
-												id="landmandal" name="landmandal">
+												id="landmandaledit" name="landmandal">
 												<option value="0">--Select--</option>
-												<option value="1">Mandal-1</option>
 
 
 
@@ -1447,7 +1451,7 @@ margin-right: 10px;
 										<div role="group" aria-label="group button">
 
 											<input type="button" class="btn btn-primary" id="updateLand"
-												data-dismiss="modal" value="Update" role="button"  /> <input
+												 value="Update" role="button"  /> <input
 												type="button" class="btn btn-danger" data-dismiss="modal"
 												value="Close" role="button" />
 
@@ -1589,7 +1593,7 @@ margin-right: 10px;
 								<div role="group" aria-label="group button">
 
 									<input type="button" class="btn btn-primary"
-										id="updateRespondent" data-dismiss="modal" value="Update"
+										id="updateRespondent"  value="Update"
 										role="button" /> <input type="button" class="btn btn-danger"
 										data-dismiss="modal" value="Close" role="button" />
 
@@ -1631,6 +1635,7 @@ $('#pitition1').on('change', function () {
 //adding land details dynamically
 function addLand(){
 
+	
 	
 	var landkind = $("#landdetails #landKind").val();
 	var landkindText = $("#landdetails #landKind option:selected").text();
@@ -1707,7 +1712,8 @@ function addLand(){
 					$('#passbookNo').val('');
 					$('#surveyNo').val('');
 					$('#extentOfLand').val('');
-					 $("#units").val('');
+					
+					 $('#units').prop('selectedIndex',0);
 					
 				}
 		}
@@ -1719,6 +1725,80 @@ function addLand(){
 
 //update nodal onclick
 $(document).on('click','#updateNodal', function() {
+
+
+	
+	  var groupName=$("#groupName").val().trim();
+	  var nodalName=$("#nodalName").val().trim();
+	  var nodalDesign=$("#nodalDesign").val().trim();
+	  var nodalMobile=$("#nodalMobile").val().trim();
+	  var nodalEmail=$("#nodalEmail").val().trim();
+	  var petitionCat=$("#petitionCat").val().trim();
+	  var file=document.getElementById("file");
+		
+
+	if (groupName == "") {
+  		document.getElementById("groupName").focus();
+  		alert("Name of the Organization/Group is required");
+  		return false;
+  	}
+  	if (regex.test(groupName) == false) {
+  		document.getElementById("groupName").focus();
+  		alert("Invalid Name of the Organization/Group");
+  		return false;
+  	}
+  	if (nodalName == "") {
+  		document.getElementById("nodalName").focus();
+  		alert("Name of the nodal person is required");
+  		return false;
+  	}
+  	if (regex.test(nodalName) == false) {
+  		document.getElementById("nodalName").focus();
+  		alert("Invalid Name of the nodal person");
+  		return false;
+  	}
+  	if (nodalDesign == "") {
+  		document.getElementById("nodalDesign").focus();
+  		alert("Designation/Profession is required");
+  		return false;
+  	}
+  	if (regex.test(nodalDesign) == false) {
+  		document.getElementById("nodalDesign").focus();
+  		alert("Invalid Designation/Profession");
+  		return false;
+  	}
+
+  	if(file.value==""){
+  		document.getElementById("file").focus();
+  		alert("Upload Signature of the nodal person ");
+  		return false;0
+  	  	}
+
+	if (nodalMobile.length == 0) {
+		alert("Nodal Mobile  Number is required");
+		document.getElementById("nodalMobile").focus();
+		return false;
+	}
+
+	if (phoneRegex.test(nodalMobile) == false) {
+		alert("Not a valid mobile number");
+		document.getElementById("nodalMobile").focus();
+		return false;
+	}
+
+	
+	if (nodalEmail.length == 0) {
+		alert("Email is required");
+		document.getElementById("nodalEmail").focus();
+		return false;
+	}
+
+	if (emailRegex.test(nodalEmail) == false) {
+		alert("Enter a valid Email");
+		document.getElementById("nodalEmail").focus();
+		return false;
+	}
+
 
 	
 	var form = $('#petition')[0];
@@ -1746,6 +1826,94 @@ $(document).on('click','#updateNodal', function() {
 
 //update land appeal onclick
 $(document).on('click','#updateAppeal', function() {
+
+
+
+
+
+	var appeal=$("#appeal").val().trim();
+	
+	var pet_detail=$("#pet_detail").val().trim();
+	var court=$("#court").val();
+	var courtName=$("#courtName").val().trim();
+	var courtState=$("#courtState").val();
+	var courtDist=$("#courtDist").val();
+	var courtMandal=$("#courtMandal").val();
+	var caseNo=$("#caseNo").val().trim();
+	var casestatus=$("#Casestatus").val().trim();
+	var courtorders=document.getElementById("filecourt");
+	var regex = /^[a-zA-Z]+(\s+[a-zA-Z]+)*$/;
+	if (appeal.length == 0) {
+			document.getElementById("appeal").focus();
+			alert("Appeal/prayer of the petitioner is required");
+			return false;
+		}
+	if (regex.test(appeal) == false) {
+		document.getElementById("appeal").focus();
+		alert("Invalid Appeal/prayer of the petitioner");
+		return false;
+	}
+	if (pet_detail.length == 0) {
+		document.getElementById("pet_detail").focus();
+		alert("Petition in Detail is required");
+		return false;
+	}
+	if (regex.test(pet_detail) == false) {
+		document.getElementById("pet_detail").focus();
+		alert("Invalid Petition in Detail");
+		return false;
+	}
+	if (court == "0") {
+		document.getElementById("court").focus();
+		alert("Has the Petitioner Lodged Complaint in any court?");
+		return false;
+	}
+	if(court=="Y"){
+		if (courtName == "") {
+			document.getElementById("courtName").focus();
+			alert("Name of the Court");
+			return false;
+		}
+		if (regex.test(courtName) == false) {
+			document.getElementById("courtName").focus();
+			alert("Invalid Court Name");
+			return false;
+		}
+		if (courtState == "0") {
+			document.getElementById("courtState").focus();
+			alert("Select State");
+			return false;
+		}
+		if (courtDist == "0") {
+			document.getElementById("courtDist").focus();
+			alert("Select District");
+			return false;
+		}
+		if (courtMandal == "") {
+			document.getElementById("courtMandal").focus();
+			alert("Mandal is required");
+			return false;
+		}
+		
+		if (casestatus == "0") {
+			document.getElementById("Casestatus").focus();
+			alert("Select Status of Case");
+			return false;
+		}
+		if(casestatus=="D"){
+			if (courtorders.value == "") {
+				alert("Upload Court Orders");
+				document.getElementById("filecourt").focus();
+				return false;
+			}
+		}
+	}
+	
+	
+
+
+
+	
 	var form = $('#petitionland')[0];
 	var fdata = new FormData(form);
 	$("#message").empty();
@@ -1831,7 +1999,7 @@ $(document).on('click','#landTable  #edit', function() {
 			},
 			success : function(response) {
 				 var obj = JSON.parse(response);
-				
+			
 				$("#exampleModal #extentOfLand").val(obj.extentOfLand);
 				$("#exampleModal #passbookNo").val(obj.passbookNo);
 				$("#exampleModal #surveyNo").val(obj.surveyNo);
@@ -1840,10 +2008,10 @@ $(document).on('click','#landTable  #edit', function() {
 				//$('#exampleModal #landKind option[value=+'obj.landKind+']').attr('selected','selected');
 				$('#exampleModal #landKind').val(obj.landKind).change();
 				$('#exampleModal #pitition1').val(obj.landType).change();
-				$('#exampleModal #landDistrict').val(obj.landDistrict).change();
+				$('#exampleModal #landDistrictedit').val(obj.landDistrict).change();
 				//$('#exampleModal #castevalue').val(obj.landDistrict).change();
 
-				$('#exampleModal #landmandal').val(obj.landmandal).change();
+				$('#exampleModal #landmandaledit').val(obj.landmandal).change();
 				$('#exampleModal #units').val(obj.units).change();
 
 			
@@ -1859,6 +2027,109 @@ $(document).on('click','#landTable  #edit', function() {
 
 $(document).on('click','#exampleModal #updateLand', function() {
 
+
+
+
+	var landKind = $("#exampleModal #landKind").val();
+	var pitition1 = $("#exampleModal #pitition1").val();
+	var olandtext = $("#exampleModal #olandtext").val();
+	var landDistrict = $("#exampleModal #landDistrictedit").val();
+	var landmandal = $("#exampleModal #landmandaledit").val();
+	var landvillage = $("#exampleModal #landvillage").val().trim();
+	var passbookNo = $("#exampleModal #passbookNo").val().trim();
+	var surveyNo = $("#exampleModal #surveyNo").val().trim();
+	var extentOfLand = $("#exampleModal #extentOfLand").val().trim();
+	var units = $("#exampleModal #units").val().trim();
+
+   var regex=/^[a-zA-z]+([\s][a-zA-Z]+)*$/;
+
+
+	if (landKind == "0") {
+		$("#exampleModal #landKind").focus();
+		alert("Select Kind of Land");
+		return false;
+	}
+
+	
+	if (pitition1 == "0") {
+		alert("Select Type of Land");
+		$("#exampleModal #pitition1").focus();
+		return false;
+	}
+	if (pitition1 == "O") {
+		$("#exampleModal #olandtext").focus();
+		alert("Other land is required");
+		return false;
+	}
+
+	if (landDistrict == "0") {
+		$("#exampleModal #landDistrictedit").focus();
+		alert("Select District");
+		return false;
+	}
+
+	if (landmandal == "0") {
+		$("#exampleModal #landmandaledit").focus();
+		alert("Select Mandal");
+		return false;
+	}
+
+	if (landvillage.length == 0) {
+		$("#exampleModal #landvillage").focus();
+		alert("Village is required");
+		return false;
+	}
+	if (regex.test(landvillage) == false) {
+		alert("Invalid Village");
+		$("#exampleModal #landvillage").focus();
+		return false;
+	}
+	if (passbookNo.length == 0) {
+		$("#exampleModal #passbookNo").focus();
+		alert("Patta Passbook number is required");
+		return false;
+	}
+
+	var bankregex = /^[a-zA-Z0-9]*$/;
+	if (bankregex.test(passbookNo) == false) {
+		alert("Enter a valid Patta Passbook number");
+		$("#exampleModal #passbookNo").focus();
+		return false;
+	}
+
+   if (surveyNo.length == 0) {
+	   $("#exampleModal #surveyNo").focus();
+		alert("Survey number is required");
+		return false;
+	}
+
+	var bankregex = /^[a-zA-Z0-9]*$/;
+	if (bankregex.test(surveyNo) == false) {
+		alert("Enter a valid Survey number");
+		$("#exampleModal #surveyNo").focus();
+		return false;
+	}
+	
+
+	var decimalregex = /^[0-9]+\.?[0-9]*$/;
+	
+	 if (extentOfLand.length == 0) {
+		 $("#exampleModal #extentOfLand").focus();
+		alert("Extend of land is required");
+		return false;
+	}
+
+	if (decimalregex.test(extentOfLand) == false) {
+		alert("Invalid Extend of land");
+		$("#exampleModal #extentOfLand").focus();
+		return false;
+	}
+	if (units == "0") {
+		$("#exampleModal #units").focus();
+		alert("Select Units");
+		return false;
+	}
+	
 		
 	var frm = $('#editland').serialize();
 	$.ajax({
@@ -1867,6 +2138,7 @@ $(document).on('click','#exampleModal #updateLand', function() {
 		data : frm,
 		success : function(response) {
 		if(response=="Y"){
+			alert("Land Details Updated")
 			getLandList();
 			}
 		else{
@@ -1932,6 +2204,14 @@ function getLandList(){
 		<script>
 
 function proceed(){
+
+	var table=$("#uploadTable tr").length;
+	if(table<1){
+				alert("Add atleast one document/evidence");
+				$('#docDesc').focus();
+				return false;				
+		}
+		
 	document.landdetails.method="POST";
 	document.landdetails.action="/scst/petition/land/submitpetition.htm";
 	document.landdetails.submit();
@@ -2137,7 +2417,6 @@ $(document).on('click','#edit', function() {
 			},
 			success : function(response) {
 				 var obj = JSON.parse(response);
-				
 				$("#exampleModal #extentOfLand").val(obj.extentOfLand);
 				$("#exampleModal #passbookNo").val(obj.passbookNo);
 				$("#exampleModal #surveyNo").val(obj.surveyNo);
@@ -2146,11 +2425,11 @@ $(document).on('click','#edit', function() {
 				//$('#exampleModal #landKind option[value=+'obj.landKind+']').attr('selected','selected');
 				$('#exampleModal #landKind').val(obj.landKind).change();
 				$('#exampleModal #pitition1').val(obj.landType).change();
-				$('#exampleModal #landDistrict').val(obj.landDistrict).change();
+				$('#exampleModal #landDistrictedit').val(obj.landDistrict).change();
 
-				$('#exampleModal #landmandal').val(obj.landmandal).change();
+			
 				$('#exampleModal #units').val(obj.units).change();
-
+				getMandals('landDistrictedit','landmandaledit', obj.landmandal);
 				
 			}
 		});
@@ -2165,6 +2444,13 @@ $(document).on('click','#edit', function() {
 	var rowText;
 		//adding respondent details dynamically
 		function addRespondent(){
+
+
+			var status=respondentValidation();
+
+			if(status==false){
+					return false;
+				}
 			
 			var respondentdetails = $("#respondentdetails").val();
 			var respondentdetailsText = $("#respondentdetails option:selected").text();
@@ -2372,6 +2658,106 @@ $(document).on('click','#edit', function() {
 				'#updateRespondent',
 				function() {
 
+
+					var regex = /^[a-zA-z]+([\s][a-zA-Z]+)*$/;
+					var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+					var phoneRegex = /^[6-9]\d{9}$/;
+					
+					var name = $("#exampleModal1 #respName").val();
+					var address = $("#exampleModal1 #address").val();
+					var mobile = $("#exampleModal1 #mobile").val();
+					var email = $("#exampleModal1 #email").val();
+					var district = $('#exampleModal1 #district').val();
+					var respondentdetails = $(
+							'#exampleModal1 #respondentdetails').val();
+					var respProffesion = $('#exampleModal1 #respProffesion')
+							.val();
+					var castevalue = $('#exampleModal1 #castevalue').val();
+					var petId = $('#petId').val();
+
+
+
+					if (respondentdetails == "0") {
+						$(
+						'#exampleModal1 #respondentdetails').focus();
+						alert("Select Type of Respondent");
+						return false;
+					}
+					if (name.length == 0) {
+						$(
+						'#exampleModal1 #respName').focus();
+						alert("Name of the respondent is required");
+						return false;
+					}
+					if (regex.test(name) == false) {
+						$(
+						'#exampleModal1 #respName').focus();
+						alert("Invalid name of the respondent");
+						return false;
+					}
+
+					if (respondentdetails == "P") {
+						if (castevalue == "0") {
+							alert("Select Caste");
+							$('#exampleModal1 #castevalue').focus();
+							return false;
+						}
+					}
+					if (respProffesion.length == 0) {
+						$('#exampleModal1 #respProffesion').focus();
+						alert("Designation/Profession is required");
+						return false;
+					}
+					if (regex.test(respProffesion) == false) {
+						$('#exampleModal1 #respProffesion').focus();
+						alert("Invalid Designation/Profession");
+						return false;
+					}
+
+					if (district == "0") {
+						$('#exampleModal1 #district').focus();
+						alert("Select District");
+						return false;
+					}
+
+					var newaddregex = /^[a-zA-Z0-9/(),+\-_.\s]+$/;
+					if (address.length == 0) {
+						
+						$('#exampleModal1 #address').focus();
+						alert("Address is required");
+						return false;
+					}
+
+					if (newaddregex.test(address) == false) {
+						$('#exampleModal1 #address').focus();
+						alert("Invalid Address");
+						return false;
+					}
+
+					if (mobile.length == 0) {
+						alert("Mobile  Number is required");
+						$('#exampleModal1 #mobile').focus();
+						return false;
+					}
+
+					if (phoneRegex.test(mobile) == false) {
+						alert("Not a valid mobile number");
+						$('#exampleModal1 #mobile').focus();
+						return false;
+					}
+
+
+					if (email.length == 0) {
+						alert("Email is required");
+						$('#exampleModal1 #email').focus();
+						return false;
+					}
+
+					if (emailRegex.test(email) == false) {
+						alert("Enter a valid Email");
+						$('#exampleModal1 #email').focus();
+						return false;
+					}
 					
 					var name = $("#exampleModal1 #respName").val();
 					var address = $("#exampleModal1 #address").val();
@@ -2403,6 +2789,7 @@ $(document).on('click','#edit', function() {
 						success : function(response) {
 							
 							if (response == "Y") {
+								alert("Respondent Details Updated")
 								getRespondentList();
 							} else {
 								alert("Respondent details updation failed");
@@ -2535,6 +2922,7 @@ $(document).on('click','#edit', function() {
 
 		//adding joint-petitioner details dynamically
 		function addpetitioners(){
+
 			
 			var name = $("#petionerName").val();
 			var petionerId = $("#petionerId").val();
@@ -2543,7 +2931,19 @@ $(document).on('click','#edit', function() {
 
 			  fdata.append('name', name);
 				fdata.append('petid', petionerId);
-			
+
+				if(name==""){
+					alert("Petitioner name is required")
+					$("#petionerName").focus();
+return false;
+					}
+					if( $("#tab7primary #file").val()=="")
+				{
+						alert("Petitoner Signature is required");
+						$("#tab7primary #file").focus();
+						return false;
+						}
+				
 			   var k=0;
 				$.ajax({
 					url : '/scst/addjointpetitioner.htm',
@@ -2564,6 +2964,9 @@ $(document).on('click','#edit', function() {
 								if (row == 1) {
 									k = 0;
 								}
+								if (isNaN(k)) {
+									k = 0;
+								}
 								k = $(
 										'.table-bordered tr:last-child td:nth-child(2)')
 										
@@ -2573,9 +2976,7 @@ $(document).on('click','#edit', function() {
 											 $('#petitionerdiv').show();
 											}
 									
-								if (isNaN(k)) {
-									k = 0;
-								}
+								
 								var s = '<tr ><td align="center" style="display: none;" id="hiddencode">'
 										+ response
 										+ '</td><td align="center">'
@@ -2584,7 +2985,10 @@ $(document).on('click','#edit', function() {
 										+ name
 										+ '</td><td style="text-align: center;"    ><img height="22px" onclick="openRequestedPopup('+response+')" data-toggle="tooltip" title="Click to view Sign" id="edit" src="${pageContext.request.contextPath}/static/images/imageview.png"></img></td></td> <td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td></tr>'
 										$("#PetitionerTable").append($(s));
-							}
+
+								$("#petionerName").val('');
+								 $('#jointpetitioner #file').val()			
+				}
 
 						}
 
@@ -2630,8 +3034,11 @@ $(document).on('click','#edit', function() {
 		});
 		
 		//fetch mandals onchange 
-		function getMandals(ditrict,mandal){
+		function getMandals(ditrict,mandal,mandalvalue){
+			
 			var district = $('#'+ditrict+'').val();
+
+			
 			//var dist = $('#dist').val();
 			$
 					.ajax({
@@ -2640,7 +3047,6 @@ $(document).on('click','#edit', function() {
 								+ district,
 						success : function(
 								result) {
-
 							
 							$('#'+mandal+'').html('');
 							$('#'+mandal+'').append(new Option("--Select--", "0"));
@@ -2648,18 +3054,27 @@ $(document).on('click','#edit', function() {
 									.parse(result);
 							var s = '';
 							for (var i = 0; i < result.length; i++) {
-								s += '<option style="text-transform:capitalize"; value="'+result[i].mcode+'">'
+
+										s += '<option style="text-transform:capitalize"; value="'+result[i].mcode+'">'
 										+ result[i].mname
 										+ '</option>';
-							}
+								}
+					
 							$('#'+mandal+'')
-									.append(s);
-						}
+							.append(s);
+
+							if(mandalvalue!=''){
+								$("#landmandaledit").val(mandalvalue);	
+								}
+							
+							}
 					});
 			
 			}
 
 				
+		
+
 </script>
 
 

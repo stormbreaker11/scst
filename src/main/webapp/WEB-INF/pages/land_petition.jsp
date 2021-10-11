@@ -39,6 +39,7 @@ response.setDateHeader("Expires", 0);
 <script src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/script.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/landpetition.js"></script>
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
@@ -807,12 +808,97 @@ margin-right: 10px;
 
 		function submitDetails(){
 
+
+
+			var appeal=$("#appeal").val().trim();
+			
+			var pet_detail=$("#pet_detail").val().trim();
+			var court=$("#court").val();
+			var courtName=$("#courtName").val().trim();
+			var courtState=$("#courtState").val();
+			var courtDist=$("#courtDist").val();
+			var courtMandal=$("#courtMandal").val();
+			var caseNo=$("#caseNo").val().trim();
+			var casestatus=$("#casestatus").val().trim();
+			var courtorders=document.getElementById("courtorders");
+			var regex = /^[a-zA-Z]+(\s+[a-zA-Z]+)*$/;
+			if (appeal.length == 0) {
+					document.getElementById("appeal").focus();
+					alert("Appeal/prayer of the petitioner is required");
+					return false;
+				}
+			if (regex.test(appeal) == false) {
+				document.getElementById("appeal").focus();
+				alert("Invalid Appeal/prayer of the petitioner");
+				return false;
+			}
+			if (pet_detail.length == 0) {
+				document.getElementById("pet_detail").focus();
+				alert("Petition in Detail is required");
+				return false;
+			}
+			if (regex.test(pet_detail) == false) {
+				document.getElementById("pet_detail").focus();
+				alert("Invalid Petition in Detail");
+				return false;
+			}
+			if (court == "0") {
+				document.getElementById("court").focus();
+				alert("Has the Petitioner Lodged Complaint in any court?");
+				return false;
+			}
+			if(court=="Y"){
+				if (courtName == "") {
+					document.getElementById("courtName").focus();
+					alert("Name of the Court");
+					return false;
+				}
+				if (regex.test(courtName) == false) {
+					document.getElementById("courtName").focus();
+					alert("Invalid Court Name");
+					return false;
+				}
+				if (courtState == "0") {
+					document.getElementById("courtState").focus();
+					alert("Select State");
+					return false;
+				}
+				if (courtDist == "0") {
+					document.getElementById("courtDist").focus();
+					alert("Select District");
+					return false;
+				}
+				if (courtMandal == "") {
+					document.getElementById("courtMandal").focus();
+					alert("Mandal is required");
+					return false;
+				}
+				
+				if (casestatus == "0") {
+					document.getElementById("casestatus").focus();
+					alert("Select Status of Case");
+					return false;
+				}
+				if(casestatus=="D"){
+					if (courtorders.value == "") {
+						alert("Upload Court Orders");
+						document.getElementById('courtorders').focus();
+						return false;
+					}
+				}
+			}
+			
+			
+
+
+			
+
 			document.petition.method="POST";
 			document.petition.action="/scst/petition/land/savepetitiondetails.htm";
 			document.petition.submit();
 
 			}
-
+ 
 		//fetching districts onchange state select option 
 		$(document)
 		.ready(

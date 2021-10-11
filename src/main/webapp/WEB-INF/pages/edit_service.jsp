@@ -899,7 +899,7 @@ margin-right: 10px;
 								<div role="group" aria-label="group button">
 
 									<input type="button" class="btn btn-primary"
-										id="updateRespondent" data-dismiss="modal" value="Update"
+										id="updateRespondent"  value="Update"
 										role="button" /> <input type="button" class="btn btn-danger"
 										data-dismiss="modal" value="Close" role="button" />
 
@@ -967,6 +967,13 @@ $(document).on('click','#update', function() {
 		<script>
 
 function proceed(){
+
+	var table=$("#uploadTable tr").length;
+	if(table<1){
+				alert("Add atleast one document/evidence");
+				$('#docDesc').focus();
+				return false;				
+		}
 	
 	document.upload.method="POST";
 	document.upload.action="/scst/petition/service/submitpetition.htm";
@@ -1402,6 +1409,7 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 
 						
 							if (response == "Y") {
+								alert("Respondent details updated")
 								getRespondentList();
 							} else {
 								alert("Respondent details updation failed");

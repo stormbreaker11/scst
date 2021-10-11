@@ -1015,29 +1015,29 @@ out.print("Pkk"+ username);
 
 							<input type="text" id="mobile" class="fadeIn second"
 								style="border-bottom: 2px solid #00BCD4;" name="mobile"
-								placeholder="Mobile Numer" class="form-control">
+								placeholder="Mobile Numer" maxlength="10" class="form-control">
 
 							<div class="input-group">
 
 								<span class=" " class="groupbtn">
 									<button id="getotp" style="text-align: left;" class="btn btn-primary btn-sm"
 										type="button">Get OTP</button>
-									<button class="btn btn-primary btn-sm"  style="text-align: right;"  type="button">Re-Send
+									<button class="btn btn-primary btn-sm"  style="text-align: right; display: none;" id="resend" type="button">Re-Send
 										OTP</button>
 								</span>
 							</div>
 
 							<input type="text" id="enterotp"
 								style="border-bottom: 2px solid #00BCD4;" class="fadeIn third"
-								name="enterotp" placeholder="Enter OTP" class="form-control">
+								name="enterotp" placeholder="Enter OTP" maxlength="6" class="form-control">
 							<div class="captcha"  >
 							<img
 									src="${pageContext.request.contextPath}/getcaptcha.htm" alt="captcha"
-									style="width: 120px;" id="captcha_image" class="fadeIn third" >
+									style="width: 110px;" id="captcha_image" class="fadeIn third" >
 									<img
 									src="${pageContext.request.contextPath}/static/images/refresh_blue.png"
 									alt="" title="refresh" id="reload_captcha" class="fadeIn third" > <input type="text" id="captcha"
-									name="captcha" class="fadeIn third" style="border-bottom: 2px solid #00BCD4;" placeholder="Enter Captcha">
+									name="captcha" class="fadeIn third" maxlength="6" style="border-bottom: 2px solid #00BCD4; width: 200px;" placeholder="Enter Captcha">
 							</div>
 							
 							
@@ -1209,7 +1209,20 @@ out.print("Pkk"+ username);
         $("#getotp").click(function(){
 
 var mobile=$("#mobile").val();
-        	$
+
+if (mobile == "") {
+	alert("Mobile Number is required");
+	$("#mobile").focus();
+	return false;
+}
+
+var phoneRegex = /^[6-9]\d{9}$/;
+if (phoneRegex.test(mobile)== false) {
+	alert("Mobile Number is Invalid");
+	$("#mobile").focus();
+	return false;
+}
+      	$
 			.ajax({
 				url : 'getotp.htm',
 				type : "GET",
@@ -1218,6 +1231,7 @@ var mobile=$("#mobile").val();
 					document.getElementById('serverotp').value=response;
 					$("#enterotp").val(response);
 					$("#enterotp").css("font-size", "bold");
+					$("#resend").show();
 				}
 				
 			});
@@ -1242,12 +1256,18 @@ $(document).ready(function() {
 
 				$("#submitbtn").click(function() {
 
-					var enterotp = $("#enterotp").val();
-					var serverotp = $("#serverotp").val();
+					var mobile = $("#mobile").val().trim();
+					var enterotp = $("#enterotp").val().trim();
+					var serverotp = $("#serverotp").val().trim();
 					getcaptcha();
 					var servercaptcha= $("#servercaptcha").val();
 					var captcha= $("#captcha").val();
-					
+					resend
+					if (mobile == "") {
+						alert("Mobile Number is required");
+						$("#mobile").focus();
+						return false;
+					}
 					if (enterotp != serverotp) {
 						alert("OTP is incorrect, Re-enter OTP");
 						$("#enterotp").focus();

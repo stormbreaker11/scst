@@ -108,7 +108,7 @@ document.addEventListener("keydown", my_onkeydown_handler);
 						class="fas fa-user"></i> Profile</a></li> -->
 						<li class="nav-item" ><a  style="color: white;" class="nav-link"  href="#"><i
 						class="fas fa-user"></i> User : ${login.mobile }</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<li class="nav-item" ><a  style="color: white;" class="nav-link" target="_top" href="home"><i
+				<li class="nav-item" ><a  style="color: white;" class="nav-link" target="_top" href="logout.htm"><i
 						class="fas fa-key"></i> Logout</a></li>
 			</ul>
 		</div>

@@ -1,10 +1,7 @@
 package com.nic.in.controller;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,6 +55,9 @@ public class AtrocityPetitionController {
 			@RequestParam("fir_pdfUpload") MultipartFile fir_pdfFile, HttpServletRequest httpServletRequest, @RequestParam String type, @RequestParam String category) throws IOException {
 		
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		String petitionID = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		
 			byte[] bytes = IOUtils.toByteArray(fir_pdfFile.getInputStream());
@@ -101,6 +101,9 @@ public class AtrocityPetitionController {
 	public String viewPetitionstatus(HttpServletRequest httpServletRequest, Model mode) {
 
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		List<Petitioner> petitions = petitionerdao.getPetitions(login.getCompid());
 		mode.addAttribute("petitions", petitions);
 		mode.addAttribute("type", "A");
@@ -109,6 +112,12 @@ public class AtrocityPetitionController {
 
 	@RequestMapping(value = "submitpetition.htm" , method = RequestMethod.POST)
 	public String submitPetition(HttpServletRequest httpServletRequest, @RequestParam String pid, @RequestParam String type, Model model,  @RequestParam String category   ) {
+		
+		
+		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		String petid = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		Petition petition=dao.getPetition(pid, petid);
 		List<Petition> petitionEvidence=petitiondao.getEvedince(pid, petid);
@@ -128,6 +137,8 @@ public class AtrocityPetitionController {
 			@ModelAttribute("updateatrocity") Atrocity updateatrocity, Model model,
 			@RequestParam("fir_pdfUpload") MultipartFile fir_pdfFile) throws IOException 
 	{
+		
+		
 		byte[] bytes = IOUtils.toByteArray(fir_pdfFile.getInputStream());
 		updateatrocity.setFir_pdf(bytes);
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");

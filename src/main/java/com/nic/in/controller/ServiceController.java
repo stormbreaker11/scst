@@ -55,6 +55,9 @@ public class ServiceController {
 	public String viewPetitionstatus(HttpServletRequest httpServletRequest, Model mode) {
 
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		List<Petitioner> petitions = petitionerdao.getPetitions(login.getCompid());
 		mode.addAttribute("petitions", petitions);
 		mode.addAttribute("type", "S");
@@ -66,7 +69,10 @@ public class ServiceController {
 	 {    
 		 
 
-			Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		 Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+			if (login == null) {
+				return "redirect:sessexp";
+			}
 			String petitionID = (String) httpServletRequest.getSession().getAttribute("petitionID");
 	        int saveServicePetition = servicedao.saveServicePetition(service,login,petitionID);
 	        List<District> districts = commons.getDistrict("36");
@@ -101,6 +107,11 @@ public class ServiceController {
 	 
 		@RequestMapping(value = "submitpetition.htm" , method = RequestMethod.POST)
 		public String submitPetition(HttpServletRequest httpServletRequest, @RequestParam String pid, @RequestParam String type, Model model,  @RequestParam String category   ) {
+			
+			Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+			if (login == null) {
+				return "redirect:sessexp";
+			}
 			String petid = (String) httpServletRequest.getSession().getAttribute("petitionID");
 			Petition petition=servicedao.getPetition(pid, petid);
 			List<Petition> petitionEvidence=petitiondao.getEvedince(pid, petid);

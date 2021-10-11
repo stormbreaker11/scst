@@ -1,10 +1,7 @@
 package com.nic.in.controller;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +28,7 @@ import com.nic.in.dao.DocDao;
 import com.nic.in.dao.LandDao;
 import com.nic.in.dao.PetitionDao;
 import com.nic.in.dao.PetitionerDao;
+import com.nic.in.model.Category;
 import com.nic.in.model.District;
 import com.nic.in.model.Documents;
 import com.nic.in.model.Land;
@@ -63,6 +61,9 @@ public class LandPetitionController {
 		
 		
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		String petitionId = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		model.addAttribute("type", type);
 		List<District> district = commons.getDistrict("36");
@@ -87,7 +88,8 @@ public class LandPetitionController {
 			return "land_details";
 		}
 		model.addAttribute("error", "Error : Filing Petition failed, try again");
-	
+		List<Category> categories = commons.getCategories();
+		model.addAttribute("categories", categories);
 		model.addAttribute("petition", new Petition());
 		return "filepetition";
 		
@@ -95,6 +97,12 @@ public class LandPetitionController {
 
 	@RequestMapping(value = "petitionlanddetails.htm/{pid}/{type}") //pid petitioner id
 	public String landDetails(HttpServletRequest httpServletRequest, Model model, @PathVariable("pid") String petitionerId, @PathVariable("type") String type ) {
+		
+		
+		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		model.addAttribute("landdetails", new Land());
 		model.addAttribute("petitionerId", petitionerId);
 		model.addAttribute("type", type);
@@ -146,6 +154,11 @@ public class LandPetitionController {
 	@RequestMapping(value = "submitpetition.htm" , method = RequestMethod.POST)
 	public String submitPetition(HttpServletRequest httpServletRequest, @RequestParam String pid, @RequestParam String type, 
 			@RequestParam String category, Model model ) throws ParseException {
+		
+		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		String petid = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		Petition petition=landdao.getPetition(pid, petid);
 		List<Petition> petitionEvidence=petitiondao.getEvedince(pid, petid);
@@ -214,6 +227,9 @@ public class LandPetitionController {
 	@RequestMapping(value = "/viewpetitionDetails.htm")
 	public String viewPetitionstatus(HttpServletRequest httpServletRequest, Model mode) {
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		List<Petitioner> petitions = prDao.getPetitions(login.getCompid());
 		mode.addAttribute("petitions", petitions);
 		mode.addAttribute("type", "L");

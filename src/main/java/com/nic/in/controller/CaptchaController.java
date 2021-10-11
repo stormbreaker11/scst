@@ -30,6 +30,9 @@ public class CaptchaController {
 	@RequestMapping("getcaptcha")
     public void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("image/jpg");
+		
+		HttpSession session = request.getSession(false);
+		session.removeAttribute("captcha_security");
 		int iTotalChars = 6;
 		int iHeight = 40;
 		int iWidth = 150;
@@ -54,7 +57,6 @@ public class CaptchaController {
 		OutputStream osImage = response.getOutputStream();
 		ImageIO.write(biImage, "jpeg", osImage);
 		g2dImage.dispose();
-		HttpSession session = request.getSession();
 		session.setAttribute("captcha_security", sImageCode);
 		
 	}

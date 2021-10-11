@@ -13,7 +13,6 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,13 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.nic.in.commons.ScstCommons;
 import com.nic.in.dao.JointPetitionerDao;
-import com.nic.in.dao.RespondentDao;
 import com.nic.in.model.Atrocity;
 import com.nic.in.model.District;
 import com.nic.in.model.General;
-import com.nic.in.model.Land;
 import com.nic.in.model.Login;
-import com.nic.in.model.Petition;
 import com.nic.in.model.Petitioner;
 import com.nic.in.model.Petitition_Land;
 import com.nic.in.model.Service;
@@ -51,7 +47,10 @@ public class JointpetitionController {
 
 		
 		String view="";
-		
+		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		String petitionID = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		model.addAttribute("type", type);
 		model.addAttribute("category", category);

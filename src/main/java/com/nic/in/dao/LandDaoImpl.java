@@ -349,12 +349,12 @@ public class LandDaoImpl implements LandDao {
 	public Petition getPetition(String petitionerId, String pid) {
 		
 		String sql="SELECT pm.petition_id, pm.petitioner_id,  pm.submit_date, pr.pr_name, pr.pr_caste, pr.address, pr.pr_photo,  pr.pr_signature, "
-				+ "	pr.pr_mobile, pr.pr_email, pr.mandal, d.dname, pr.village, "
+				+ "	pr.pr_mobile, pr.pr_email, md.mname, d.dname, pr.village, "
 				+ "	pm.petition_type, pm.petition_category, pm.submit_date, "
 				+ "	la.appeal,la.pet_detail from petitioner  pr, district d, "
-				+ "	petition_master pm, land_appeal la "
+				+ "	petition_master pm, land_appeal la, mandal md "
 				+ "	where pr.petitioner_id=? and pr.petitioner_id=la.petitioner_id "
-				+ " and la.petition_id=pm.petition_id and d.dcode=pr.district "
+				+ " and la.petition_id=pm.petition_id and d.dcode=pr.district and md.mcode=pr.mandal "
 				+ "	and pm.petition_id=?";
 
 		Petition pl= new Petition();
@@ -371,7 +371,7 @@ public class LandDaoImpl implements LandDao {
 					pl.setMobile(rs.getString("pr_mobile"));
 					pl.setEmail(rs.getString("pr_email"));
 					pl.setDistrict(rs.getString("dname"));
-					pl.setMandal(rs.getString("mandal"));
+					pl.setMandal(rs.getString("mname"));
 					pl.setVillage(rs.getString("village"));
 					pl.setAppeal(rs.getString("appeal"));
 					pl.setCourtPet(rs.getString("pet_detail"));

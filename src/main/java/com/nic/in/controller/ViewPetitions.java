@@ -24,6 +24,9 @@ public class ViewPetitions {
 		public String viewPetitionstatus(HttpServletRequest httpServletRequest, Model mode) {
 			
 			Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+			if (login == null) {
+				return "redirect:sessexp";
+			}
 			List<Petition> petitions = petitiondao.getSubmittedPetition(login.getCompid());
 			mode.addAttribute("petitions", petitions);
 			return "viewPetition";
@@ -33,6 +36,9 @@ public class ViewPetitions {
 		public String viewSubmittedpetition(HttpServletRequest httpServletRequest, Model model) {
 			
 			Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+			if (login == null) {
+				return "redirect:sessexp";
+			}
 			List<Petition> petitions = petitiondao.getSubmittedPetition(login.getCompid());
 			List<Petition> collectFinalSubmit = petitions.stream().filter(x->x.getFinalsubmit().equals("Y")).collect(Collectors.toList());
 			model.addAttribute("petitions", collectFinalSubmit);

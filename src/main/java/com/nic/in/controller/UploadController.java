@@ -13,7 +13,6 @@ import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +35,7 @@ public class UploadController {
 	private DocDao doc;
 	@RequestMapping("uploaddocs.htm/{pid}/{type}/{category}")
 	public String uploaddocs(HttpServletRequest request, Model model, @PathVariable String pid, @PathVariable String type, @PathVariable String category) {
-		
+	
 		String petitionID = (String) request.getSession().getAttribute("petitionID");
 		model.addAttribute("petitionID", petitionID);
 		model.addAttribute("petitionerID", pid);

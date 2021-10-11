@@ -48,7 +48,12 @@ public class PetitionController {
 			@RequestParam("file") MultipartFile nodalSign, Model model, @RequestParam String pid) throws IOException {
 
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		String petitionId = petitiondao.createPetitionId(pid, petition.getPetitionType());
+		
+		
 		if (!petitionId.equals("")) {
 
 			model.addAttribute("type", petition.getPetitionType());
@@ -113,7 +118,7 @@ public class PetitionController {
 				}
 			} else {
 				model.addAttribute("error",
-						"Error : Petition is already filed or failed to file a new petition, try again");
+						"Error : Petition is already filed against Petitioner Id "+pid+", try again");
 				return "filepetition";
 			}
 		}
@@ -124,6 +129,10 @@ public class PetitionController {
 	@RequestMapping(value = "/finalsubmit.htm", method = RequestMethod.POST)
 	public String finalSubmit(HttpServletRequest httpServletRequest, @RequestParam String petitionerId,
 			@RequestParam String category, @RequestParam String type, Model model) {
+		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		String pid = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		int submit = petitiondao.submitPetition(petitionerId, pid);
 		model.addAttribute("pid", pid);
@@ -155,8 +164,12 @@ public class PetitionController {
 	 */
 
 	@RequestMapping(value = "/viewpetitionDetails.htm")
+	
 	public String viewPetitionstatus(HttpServletRequest httpServletRequest, Model mode) {
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
+		if (login == null) {
+			return "redirect:sessexp";
+		}
 		List<Petitioner> petitions = petitionerdao.getPetitions(login.getCompid());
 		mode.addAttribute("petitions", petitions);
 

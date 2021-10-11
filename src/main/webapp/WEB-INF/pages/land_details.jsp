@@ -57,6 +57,7 @@ response.setDateHeader("Expires", 0);
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/landdetails.js"></script>
 </head>
 <style>
 
@@ -249,7 +250,7 @@ border-color: black;
 						</label>
 						<div class="col-md-4">
 							<form:select class="form-control SelectStyle" path="landDistrict"
-								id="landDistrict" name="landDistrict" tabindex="4" onchange="getMandals('landDistrict','landmandal')">
+								id="landDistrict" name="landDistrict" tabindex="4" onchange="getMandals('landDistrict','landmandal', '')">
 								<form:option value="0">--Select--</form:option>
 								<c:forEach items="${district}" var="alt">
 												<form:option value="${alt.distCode }" >${alt.distName }</form:option>
@@ -485,7 +486,7 @@ border-color: black;
 										</label>
 										<div class="col-md-6">
 											<select class="form-control SelectStyle"
-												id="landDistrict" name="landDistrict">
+												id="landDistrictedit" name="landDistrict" onchange="getMandals('landDistrictedit','landmandaledit', '')"> 
 												<option value="0">--Select--</option>
 												<c:forEach items="${district}" var="alt">
 												<option value="${alt.distCode }" >${alt.distName }</option>
@@ -501,9 +502,9 @@ border-color: black;
 										</label>
 										<div class="col-md-6">
 											<select class="form-control SelectStyle" 
-												id="landmandal" name="landmandal">
+												id="landmandaledit" name="landmandal" >
 												<option value="0">--Select--</option>
-												<option value="1">Mandal-1</option>
+												
 
 
 
@@ -575,7 +576,7 @@ border-color: black;
 										<div role="group" aria-label="group button">
 
 											<input type="button" class="btn btn-primary" id="updateLand"
-												data-dismiss="modal" value="Update" role="button"  /> <input
+												 value="Update" role="button"  /> <input
 												type="button" class="btn btn-danger" data-dismiss="modal"
 												value="Close" role="button" />
 
@@ -595,6 +596,7 @@ border-color: black;
 
 
 			</div>
+		</div>
 		</div>
 </body>
 
@@ -780,7 +782,14 @@ $(function() {
 
 //adding land details dynamically
 function addLand(){
-	
+
+
+    var status=landpetition();
+
+if(status==false){
+return false;
+}
+
 	var landkind = $("#landKind").val();
 	var landkindText = $("#landKind option:selected").text();
 	
@@ -852,12 +861,14 @@ function addLand(){
 					$('#passbookNo').val('');
 					$('#surveyNo').val('');
 					$('#extentOfLand').val('');
-					 $("#units").val('');
+					$('#units').prop('selectedIndex',0);
 					
 				}
 		}
 
 });
+
+		
 }
 
 
@@ -927,15 +938,13 @@ $(document).on('click','#edit', function() {
 				$("#squarespaceModal #surveyNo").val(obj.surveyNo);
 				$("#squarespaceModal #landvillage").val(obj.landvillage);
 
-				//$('#squarespaceModal #landKind option[value=+'obj.landKind+']').attr('selected','selected');
 				$('#squarespaceModal #landKind').val(obj.landKind).change();
 				$('#squarespaceModal #pitition1').val(obj.landType).change();
-				$('#squarespaceModal #landDistrict').val(obj.landDistrict).change();
-
-				$('#squarespaceModal #landmandal').val(obj.landmandal).change();
+				$('#squarespaceModal #landDistrictedit').val(obj.landDistrict).change();
+				$('#squarespaceModal #landmandaledit').val(obj.landmandal).change();
 				$('#squarespaceModal #units').val(obj.units).change();
 
-				
+				getMandals('landDistrictedit','landmandaledit',obj.landmandal);
 			}
 		});
 
@@ -947,6 +956,112 @@ $(document).on('click','#edit', function() {
 
 $(document).on('click','#updateLand', function() {
 
+
+
+
+	var landKind = $("#squarespaceModal #landKind").val();
+	var pitition1 = $("#squarespaceModal #pitition1").val();
+	var olandtext = $("#squarespaceModal #olandtext").val();
+	var landDistrict = $("#squarespaceModal #landDistrictedit").val();
+	var landmandal = $("#squarespaceModal #landmandaledit").val();
+	var landvillage = $("#squarespaceModal #landvillage").val().trim();
+	var passbookNo = $("#squarespaceModal #passbookNo").val().trim();
+	var surveyNo = $("#squarespaceModal #surveyNo").val().trim();
+	var extentOfLand = $("#squarespaceModal #extentOfLand").val().trim();
+	var units = $("#squarespaceModal #units").val().trim();
+
+   var regex=/^[a-zA-z]+([\s][a-zA-Z]+)*$/;
+
+
+	if (landKind == "0") {
+		$("#squarespaceModal #landKind").focus();
+		alert("Select Kind of Land");
+		return false;
+	}
+
+	
+	if (pitition1 == "0") {
+		alert("Select Type of Land");
+		$("#squarespaceModal #pitition1").focus();
+		return false;
+	}
+	if (pitition1 == "O") {
+		$("#squarespaceModal #olandtext").focus();
+		alert("Other land is required");
+		return false;
+	}
+
+	if (landDistrict == "0") {
+		$("#squarespaceModal #landDistrictedit").focus();
+		alert("Select District");
+		return false;
+	}
+
+	if (landmandal == "0") {
+		$("#squarespaceModal #landmandaledit").focus();
+		alert("Select Mandal");
+		return false;
+	}
+
+	if (landvillage.length == 0) {
+		$("#squarespaceModal #landvillage").focus();
+		alert("Village is required");
+		return false;
+	}
+	if (regex.test(landvillage) == false) {
+		alert("Invalid Village");
+		$("#squarespaceModal #landvillage").focus();
+		return false;
+	}
+	if (passbookNo.length == 0) {
+		$("#squarespaceModal #passbookNo").focus();
+		alert("Patta Passbook number is required");
+		return false;
+	}
+
+	var bankregex = /^[a-zA-Z0-9]*$/;
+	if (bankregex.test(passbookNo) == false) {
+		alert("Enter a valid Patta Passbook number");
+		$("#squarespaceModal #passbookNo").focus();
+		return false;
+	}
+
+   if (surveyNo.length == 0) {
+	   $("#squarespaceModal #surveyNo").focus();
+		alert("Survey number is required");
+		return false;
+	}
+
+	var bankregex = /^[a-zA-Z0-9]*$/;
+	if (bankregex.test(surveyNo) == false) {
+		alert("Enter a valid Survey number");
+		$("#squarespaceModal #surveyNo").focus();
+		return false;
+	}
+	
+
+	var decimalregex = /^[0-9]+\.?[0-9]*$/;
+	
+	 if (extentOfLand.length == 0) {
+		 $("#squarespaceModal #extentOfLand").focus();
+		alert("Extend of land is required");
+		return false;
+	}
+
+	if (decimalregex.test(extentOfLand) == false) {
+		alert("Invalid Extend of land");
+		$("#squarespaceModal #extentOfLand").focus();
+		return false;
+	}
+	if (units == "0") {
+		$("#squarespaceModal #units").focus();
+		alert("Select Units");
+		return false;
+	}
+
+	
+
+	
 	   var $row = $("#edit").closest("tr"); // Find the row
 		var landcode = $row.find("#hiddencode").text();
 	var frm = $('#editland').serialize();
@@ -956,6 +1071,7 @@ $(document).on('click','#updateLand', function() {
 		data : frm,
 		success : function(response) {
 		if(response=="Y"){
+			alert("Land details updated");
 			getLandList();
 			}
 		else{
@@ -1021,9 +1137,14 @@ function getLandList(){
 function focus(){
 	document.getElementById("landKind").focus();
 	}
+
+
 //fetch mandals onchange 
-function getMandals(ditrict,mandal){
+function getMandals(ditrict,mandal,mandalvalue){
+	
 	var district = $('#'+ditrict+'').val();
+
+	
 	//var dist = $('#dist').val();
 	$
 			.ajax({
@@ -1032,7 +1153,6 @@ function getMandals(ditrict,mandal){
 						+ district,
 				success : function(
 						result) {
-
 					
 					$('#'+mandal+'').html('');
 					$('#'+mandal+'').append(new Option("--Select--", "0"));
@@ -1040,17 +1160,27 @@ function getMandals(ditrict,mandal){
 							.parse(result);
 					var s = '';
 					for (var i = 0; i < result.length; i++) {
-						s += '<option style="text-transform:capitalize"; value="'+result[i].mcode+'">'
+
+								s += '<option style="text-transform:capitalize"; value="'+result[i].mcode+'">'
 								+ result[i].mname
 								+ '</option>';
-					}
+						}
+			
 					$('#'+mandal+'')
-							.append(s);
-				}
+					.append(s);
+
+					if(mandalvalue!=''){
+						$("#landmandaledit").val(mandalvalue);	
+						}
+					
+					}
 			});
 	
 	}
 
+		
+
+		
 
 </script>
 </html>

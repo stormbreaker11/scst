@@ -57,7 +57,7 @@ response.setDateHeader("Expires", 0);
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+<script src="${pageContext.request.contextPath}/static/js/respondent.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 <!------ Include the above in your HEAD tag ---------->
 <style>
@@ -220,7 +220,7 @@ response.setDateHeader("Expires", 0);
 						<label class="col-md-6"> Select Caste <span class="star">*</span></label>
 
 						<div class="col-md-3">
-							<form:select class="form-control SelectStyle" path="caste" tabindex="4"
+							<form:select class="form-control SelectStyle"  path="caste" tabindex="4"
 								id="castevalue">
 								<form:option value="0">--Select--
 															</form:option>
@@ -435,7 +435,7 @@ response.setDateHeader("Expires", 0);
 								<div role="group" aria-label="group button">
 
 									<input type="button" class="btn btn-primary"
-										id="updateRespondent" data-dismiss="modal" value="Update"
+										id="updateRespondent"  value="Update"
 										role="button" /> <input type="button" class="btn btn-danger"
 										data-dismiss="modal" value="Close" role="button" />
 
@@ -570,7 +570,10 @@ response.setDateHeader("Expires", 0);
 
 		//adding respondent details dynamically
 		function addRespondent(){
-			
+			var status = respondentValidation();
+			if(status==false){
+				return false;
+				}
 			var respondentdetails = $("#respondentdetails").val();
 			var respondentdetailsText = $("#respondentdetails option:selected").text();
 			var respName = $("#respName").val();
@@ -767,7 +770,94 @@ response.setDateHeader("Expires", 0);
 							.val();
 					var castevalue = $('#squarespaceModal #castevalue').val();
 					var petId = $('#petId').val();
-				
+
+					var regex = /^[a-zA-z]+([\s][a-zA-Z]+)*$/;
+
+					var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+					var phoneRegex = /^[6-9]\d{9}$/;
+
+					if (respondentdetails == "0") {
+						$(
+						'#squarespaceModal #respondentdetails').val();
+						alert("Select Type of Respondent");
+						return false;
+					}
+
+					if (name.length == 0) {
+						$("#squarespaceModal #respName").val();
+						alert("Name of the respondent is required");
+						return false;
+					}
+					if (regex.test(name) == false) {
+						$("#squarespaceModal #respName").val();
+						alert("Invalid name of the respondent");
+						return false;
+					}
+
+					if (respondentdetails == "P") {
+						if (castevalue == "0") {
+							alert("Select Caste");
+							$('#squarespaceModal #castevalue').val();
+							return false;
+						}
+					}
+					if (respProffesion.length == 0) {
+						$('#squarespaceModal #respProffesion')
+						.val();
+						alert("Designation/Profession is required");
+						return false;
+					}
+					if (regex.test(respProffesion) == false) {
+						$('#squarespaceModal #respProffesion')
+						.val();
+						alert("Invalid Designation/Profession");
+						return false;
+					}
+
+					if (district == "0") {
+						 $('#squarespaceModal #district').val();
+						alert("Select District");
+						return false;
+					}
+
+					var newaddregex = /^[ A-Za-z0-9_@.,#&+-]*$/;
+					if (address.length == 0) {
+						$("#squarespaceModal #address").val();
+						alert("Address is required");
+						return false;
+					}
+
+					if (newaddregex.test(address) == false) {
+						$("#squarespaceModal #address").val();
+						alert("Invalid Address");
+						return false;
+					}
+
+					if (mobile.length == 0) {
+						alert("Mobile  Number is required");
+						$("#squarespaceModal #mobile").val();
+						return false;
+					}
+
+					if (phoneRegex.test(mobile) == false) {
+						alert("Not a valid mobile number");
+						$("#squarespaceModal #mobile").val();
+						return false;
+					}
+
+
+					if (email.length == 0) {
+						alert("Email is required");
+						$("#squarespaceModal #email").val();
+						return false;
+					}
+
+					if (emailRegex.test(email) == false) {
+						alert("Enter a valid Email");
+						$("#squarespaceModal #email").val();
+						return false;
+					}
+								
 					$.ajax({
 						url : '/scst/petition/respondent/updaterespondent.htm/'
 								+ rowText,
@@ -785,7 +875,7 @@ response.setDateHeader("Expires", 0);
 						},
 						success : function(response) {
 							if (response == "Y") {
-							
+							alert("Respondent details updated")
 								getRespondentList();
 							} else {
 								alert("Respondent details updation failed");
@@ -863,7 +953,7 @@ response.setDateHeader("Expires", 0);
 		}
 
 		function focus() {
-			document.getElementById("appeal").focus();
+			document.getElementById("respondentdetails").focus();
 		}
 	</script>
 
