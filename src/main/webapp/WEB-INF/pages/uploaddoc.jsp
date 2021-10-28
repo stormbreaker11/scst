@@ -381,20 +381,6 @@ function proceed(){
 
 
 var k=0;
-
-
-/* $(document).ready(function(){
-	var rowCount = $('#uploadTable tr').length;
-	if(rowCount==1){
-		$("#docdiv").hide();
-		$("#proceed").show();
-		}
-	else{
-		$("#docdiv").show();
-		$("#proceed").hide();
-		}
-}); */
-
 $(document).on('click','#btn-remove', function() {
 
 	    var petitionID=$("#petitionId").val();
@@ -486,6 +472,7 @@ $(function(){
 				
 				if(response!="N"){
 					 k=$('#uploadTable tr:last-child td:nth-child(2)').html();
+					
 					 if(isNaN(k)){
 						 k=0;
 						 }
@@ -500,8 +487,10 @@ $(function(){
 						$("#uploadTable").show();
 						$("#docdiv").show();
 						$("#proceed").show();
+						$("#savebtn").show();
 						fileInput.value = '';
 						$('#docDesc').val('');
+						
 					}
 				else{
 						alert("Document upload failed, try again");

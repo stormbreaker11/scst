@@ -235,12 +235,12 @@ margin-right: 10px;
 												class="col-sm-7 col-md-offset-2 form-group" >
 												<label class="col-md-6">Petition
 													in Detail
-													(500 words)
+													(1000 words)
 												<span class="star">*</span></label>
 												<div class="col-md-6">
 													<textarea
 														cols=39
-														rows=7></textarea>
+														rows=7 maxlength="1000"></textarea>
 												</div>
 											</div>
 										</div>

@@ -50,7 +50,7 @@ response.setDateHeader("Expires", 0);
 <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/script.js"></script>
 <script
-	src="${pageContext.request.contextPath}/static/js/petitionervalidations.js"></script>
+	src="${pageContext.request.contextPath}/static/js/validations/petitionervalidations.js"></script>
 <link
 	href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
 	rel="stylesheet" id="bootstrap-css">
@@ -283,6 +283,25 @@ response.setDateHeader("Expires", 0);
 			var petionerId = $("#petionerId").val();
 			var filesign=document.getElementById('file');
 			var filepath = filesign.value;
+			var allowedExtensions = /(\.jpg)$/i;
+
+			if(name==""){
+				$("#petionerName").focus();
+				alert("Joint Petitioner Name is required");
+				return false;
+				}
+			if (filepath == "") {
+				alert("File is required");
+				document.getElementById('file').focus();
+				return false;
+			}
+			if (!allowedExtensions.exec(filepath)) {
+				alert('Invalid file type');
+				fileInput.value = '';
+				return false;
+			}
+			
+			
 			  var form1 = $('#jointpetitioner')[0];
 			  var fdata = new FormData(form1);
 
@@ -310,7 +329,7 @@ response.setDateHeader("Expires", 0);
 									k = 0;
 								}
 								k = $(
-										'.table-bordered tr:last-child td:nth-child(2)')
+										'.table-bordered tr:last-child td:nth-child(2)').html();
 										
 										
 										if(row==1){
@@ -329,8 +348,8 @@ response.setDateHeader("Expires", 0);
 										+ name
 										+ '</td><td style="text-align: center;"    ><img height="22px" onclick="openRequestedPopup('+response+')" data-toggle="tooltip" title="Click to view Sign" id="edit" src="${pageContext.request.contextPath}/static/images/imageview.png"></img></td></td> <td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td></tr>'
 										$("#PetitionerTable").append($(s));
-										$("#petionerName").val(' ')
-										filepath.value='';
+										$("#petionerName").val('')
+										filesign.value='';
 								
 							}
 

@@ -21,11 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.nic.in.dao.DocDao;
 import com.nic.in.model.Documents;
 import com.nic.in.model.Login;
-
-
 
 @Controller
 @RequestMapping("/petition/documents/")
@@ -33,61 +32,60 @@ public class UploadController {
 
 	@Autowired
 	private DocDao doc;
+
 	@RequestMapping("uploaddocs.htm/{pid}/{type}/{category}")
-	public String uploaddocs(HttpServletRequest request, Model model, @PathVariable String pid, @PathVariable String type, @PathVariable String category) {
-	
+	public String uploaddocs(HttpServletRequest request, Model model, @PathVariable String pid,
+			@PathVariable String type, @PathVariable String category) {
+
 		String petitionID = (String) request.getSession().getAttribute("petitionID");
 		model.addAttribute("petitionID", petitionID);
 		model.addAttribute("petitionerID", pid);
 		model.addAttribute("type", type);
 		model.addAttribute("category", category);
 		model.addAttribute("upload", new Documents());
-		
+
 		List<Documents> uploadedDocsByPid = doc.getUploadedDocsByPid(petitionID);
 		model.addAttribute("uploadedDocsByPid", uploadedDocsByPid);
 		return "uploaddoc";
-		
+
 	}
 
 	@ResponseBody
 	@RequestMapping(value = { "savedoc.htm" }, method = RequestMethod.POST)
-	public String save(HttpServletRequest request, @ModelAttribute("upload") Documents documents, @RequestParam("file") MultipartFile file) throws IOException, ParseException, PSQLException {
-		
-		String response="N";
-		Login login= (Login) request.getSession().getAttribute("login");
+	public String save(HttpServletRequest request, @ModelAttribute("upload") Documents documents,
+			@RequestParam("file") MultipartFile file) throws IOException, ParseException, PSQLException {
+
+		String response = "N";
+		Login login = (Login) request.getSession().getAttribute("login");
 		byte[] docbytes = IOUtils.toByteArray(file.getInputStream());
 		documents.setDocContent(docbytes);
 		int saveDoc = doc.saveDoc(documents, login);
-		if(saveDoc!=0) {
-			response=""+saveDoc;
+		if (saveDoc != 0) {
+			response = "" + saveDoc;
 		}
 		return response;
-		
-
 
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = { "deletedoc.htm" }, method = RequestMethod.POST)
 	public String deleteDoc(HttpServletRequest request, @RequestParam String docid, @RequestParam String pid) {
-		
-		String delete="N";
-		
-		int deletePage=doc.deleteDocument(docid, pid);
-		if(deletePage==1) {
-			delete="Y";
+
+		String delete = "N";
+
+		int deletePage = doc.deleteDocument(docid, pid);
+		if (deletePage == 1) {
+			delete = "Y";
 		}
 		return delete;
-		
-		
-		
+
 	}
 
-
 	@RequestMapping(value = { "/viewdoc" })
-	public void viewDoc(HttpServletRequest request, HttpServletResponse response, @RequestParam String pid, @RequestParam String docno ) {
+	public void viewDoc(HttpServletRequest request, HttpServletResponse response, @RequestParam String pid,
+			@RequestParam String docno) {
 
-		Documents document= doc.getDocumentById(pid,docno);
+		Documents document = doc.getDocumentById(pid, docno);
 		try {
 			ServletOutputStream sos;
 			response.setContentType("application/pdf");
@@ -100,5 +98,13 @@ public class UploadController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-}
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "getdocsbyid.htm", method = RequestMethod.GET)
+	public String getUploadeddocs(HttpServletRequest request, Model model, @RequestParam String pid) {
+
+		List<Documents> uploadedDocsByPid = doc.getUploadedDocsByPid(pid);
+		return new Gson().toJson(uploadedDocsByPid);
+	}
 }

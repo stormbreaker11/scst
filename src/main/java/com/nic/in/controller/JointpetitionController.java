@@ -49,7 +49,7 @@ public class JointpetitionController {
 		String view="";
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		String petitionID = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		model.addAttribute("type", type);

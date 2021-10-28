@@ -33,7 +33,6 @@
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <style>
-
 .groupbtn {
 	margin-left: 150px;
 }
@@ -177,26 +176,20 @@ input[type=text]:placeholder, input[type=password]:placeholder {
 	transform: translate3d(0, -100%, 0);
 }
 
-100%
+100
+%
 {
 opacity
 :
- 
 1;
 -webkit-transform
 :
- 
 none
 ;
-
-    
 transform
 :
- 
 none
 ;
-
-  
 }
 }
 @
@@ -206,26 +199,20 @@ keyframes fadeInDown { 0% {
 	transform: translate3d(0, -100%, 0);
 }
 
-100%
+100
+%
 {
 opacity
 :
- 
 1;
 -webkit-transform
 :
- 
 none
 ;
-
-    
 transform
 :
- 
 none
 ;
-
-  
 }
 }
 
@@ -470,9 +457,10 @@ to {
 		width: 100%;
 	}
 }
+
 label {
-  display: inline-block;
-  display: flex;
+	display: inline-block;
+	display: flex;
 }
 </style>
 
@@ -482,210 +470,197 @@ label {
 	<!--==========================
   Header
   ============================-->
-		<div class="container-fluid">
-		 <h1 align="center" style="color:  #2d3990;">View Petition</h1>
+	<div class="container-fluid">
+		<h1 align="center" style="color: #2d3990;">View Petition</h1>
 		<form name="modify">
-		
-		<c:if test="${empty petitions }">
-		<br>
-		<br>
-		<br>
-		<h4 align="center" style="color:  red;">Data Not Found</h4>
-		</c:if>
-			<c:if test="${not empty petitions }">
-			<table class="table table-bordered" >
-		<tr style="    background: #2d3990;
-    background-image: linear-gradient(to left, #6b59cabf, #05246b00 20%, #e91e1e00 82%, #6858c8b8); color: white;" >
-		<th style="text-align: center;"  >S.No</th>
-		<th style="text-align: center;" >Petiotion ID</th>
-		<th style="text-align: center;" >Petiotioner ID</th>
-		<th >Petition Type</th>
-		<th >Petition Category</th>
-		<th  style="text-align: center;" >Submitted Date</th>
-		<th  style="text-align: center;" >Petition Status</th>
-		<th  style="text-align: center;"  >Action</th>
-		</tr>
-		<tbody>
-		<c:forEach var="alt" varStatus="counter" items="${petitions }">
-		
-		<tr>
-		<td style="text-align: center;">${counter.count }</td>
-		<td style="text-align: center;">${alt.petitionId }</td>
-		<td style="text-align: center;">${alt.petitionerId }</td>
-		<c:choose>
-		<c:when test="${alt.petitionType=='I'}">
-		<td>Individual</td>
-		</c:when>
-		<c:otherwise>
-		<td>Group</td>
-		</c:otherwise>
-		</c:choose>
-		
-		<c:if test="${alt.petitionCat=='L'}"><td>Land</td></c:if>
-		<c:if test="${alt.petitionCat=='A'}"><td>Atrocity</td></c:if>
-		<c:if test="${alt.petitionCat=='G'}"><td>General</td></c:if>
-		<c:if test="${alt.petitionCat=='S'}"><td>Service</td></c:if>
-		
-		
-		
-	
-		<td style="text-align: center;">${alt.submit }</td>
-		<td align="center" ><a class="btn btn-primary btn-sm" onclick="printDiv('${alt.petitionCat}', '${alt.petitionId }', '${alt.petitionerId }' )" href="#" target="content">View Petition</a></td>
-		<td style="text-align: center;">${alt.status }</td>
-		</tr>
-		</c:forEach>
-		</tbody>
-		</table>
 
-		</c:if>
+			<c:if test="${empty petitions }">
+				<br>
+				<br>
+				<br>
+				<h4 align="center" style="color: red;">Data Not Found</h4>
+			</c:if>
+			<c:if test="${not empty petitions }">
+				<table class="table table-bordered">
+					<tr
+						style="background: #2d3990; background-image: linear-gradient(to left, #6b59cabf, #05246b00 20%, #e91e1e00 82%, #6858c8b8); color: white;">
+						<th style="text-align: center;">S.No</th>
+						<th style="text-align: center;">Petition ID</th>
+						<th style="text-align: center;">Petitioner ID</th>
+						<th>Petition Type</th>
+						<th>Petition Category</th>
+						<th style="text-align: center;">Submitted Date</th>
+						<th style="text-align: center;">Petition Status</th>
+						<th style="text-align: center;">Petition Documents</th>
+
+						<th style="text-align: center;">Action</th>
+					</tr>
+					<tbody>
+						<c:forEach var="alt" varStatus="counter" items="${petitions }">
+
+							<tr>
+								<td style="text-align: center;">${counter.count }</td>
+								<td style="text-align: center;">${alt.petitionFormat }</td>
+								<td style="text-align: center;">${alt.petitionerId }</td>
+								<c:choose>
+									<c:when test="${alt.petitionType=='I'}">
+										<td>Individual</td>
+									</c:when>
+									<c:otherwise>
+										<td>Group</td>
+									</c:otherwise>
+								</c:choose>
+
+								<c:if test="${alt.petitionCat=='L'}">
+									<td>Land</td>
+								</c:if>
+								<c:if test="${alt.petitionCat=='A'}">
+									<td>Atrocity</td>
+								</c:if>
+								<c:if test="${alt.petitionCat=='G'}">
+									<td>General</td>
+								</c:if>
+								<c:if test="${alt.petitionCat=='S'}">
+									<td>Service</td>
+								</c:if>
+
+
+
+
+								<td style="text-align: center;">${alt.submit }</td>
+								<td align="center"><a class="btn btn-primary btn-sm"
+									onclick="printDiv('${alt.petitionCat}', '${alt.petitionId }', '${alt.petitionerId }' )"
+									href="#" target="content">View Petition</a></td>
+								<td align="center"><a class="btn btn-primary btn-sm"
+									onclick="printDoc('${alt.petitionId}')" href="#"
+									target="content">View Documents</a></td>
+								<td style="text-align: center;">${alt.status }</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+
+			</c:if>
 
 		</form>
-</div>
+	</div>
 
-			<!-- JavaScript Libraries -->
+	<div id="docdiv" style="display: none;">
+		<div class="container-fluid">
+			<h3 align="center" style="color: #2d3990;">Uploaded
+				documents/Evidence</h3>
 
-			<script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
-			<script type="text/javascript" src="static/vendor/js/pdfview.js"></script>
-			<script type="text/javascript" src="static/vendor/js/lan.js"></script>
-			<script src="static/vendor/js/easy-ticker.js" type="text/javascript"></script>
-			<script type="text/javascript" src="static/vendor/js/ticker.js"></script>
+			<table id="uploadTable" class="table table-bordered">
+				<thead>
+					<tr
+						style="background: #2d3990; background-image: linear-gradient(to left, #6b59cabf, #05246b00 20%, #e91e1e00 82%, #6858c8b8); color: white;">
+						<th style="text-align: center;">S.No</th>
+						<th style="text-align: center;">Petition ID</th>
+						<th style="text-align: center;">Document description</th>
+						<th style="text-align: center;">View Document</th>
+					</tr>
+				</thead>
+				<tbody id="myTable">
+					<c:forEach items="${uploadedDocsByPid }" var="alt"
+						varStatus="counter">
+						<tr>
+							<td style="display: none; text-align: center;" id="hiddencode">${alt.docNo}</td>
+							<td style="text-align: center;">${counter.count}</td>
+							<td style="display: none; text-align: center;" id="hiddencode">${alt.petitionId}</td>
+							<td>${alt.docDesc}</td>
+							<td style="text-align: center;" onclick="openRequestedPopup('${alt.petitionId}', '${alt.docNo}')">
+								<a href="#" data-toggle="tooltip" title="Click to view"> 
+								<img height="22px" src="${pageContext.request.contextPath}/static/images/pdf-32.png"></img></a></td>          
+						</tr>
+					</c:forEach>
+				</tbody>
 
-			<script src="static/lib/jquery/jquery-migrate.min.js"></script>
-			<script src="static/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-			<script src="static/lib/easing/easing.min.js"></script>
-			<script src="static/lib/mobile-nav/mobile-nav.js"></script>
-			<script src="static/lib/waypoints/waypoints.min.js"></script>
-			<script src="static/js/jquery.modern-ticker.min.js"></script>
-			<script src="static/lib/counterup/counterup.min.js"></script>
-			<script src="static/lib/owlcarousel/owl.carousel.min.js"></script>
-			<script src="static/lib/isotope/isotope.pkgd.min.js"></script>
-			<script src="static/lib/lightbox/js/lightbox.min.js"></script>
-			<script type="text/javascript"
-				src="static/js/pignose.calendar.full.min.js"></script>
-			<script src="static/lib/wow/wow.min.js"></script>
-			<script src="static/js/main.js"></script>
-
-
-			<script>
-        function blinker() {
-            $('.blink_me').fadeOut(500);
-            $('.blink_me').fadeIn(500);
-        }
-        setInterval(blinker, 1000);
-    </script>
-
-			<script type="text/javascript">
-                                                function googleTranslateElementInit() {
-                                                    new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL}, 'google_translate_element');
-                                                }
-    </script>
-			<script>
-        function myFunctionmap() {
-            document.getElementById("navMap").submit();
-        }
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
-			<SCRIPT LANGUAGE="JavaScript">
-        function button_click()
-        {
-            if (document.getElementById('b1').value == "Start") {
-                document.getElementById('b1').value = "Stop";
-                document.getElementById('scroll_news4').start();
-            } else {
-                document.getElementById('b1').value = "Start";
-                document.getElementById('scroll_news4').stop();
-            }
-        }
-    </script>
-
-			<script type="text/javascript">
-        $(document).ready(function () {
-            $('#linkIncrease').click(function () {
-                modifyFontSize('increase');
-            });
-
-            $('#linkDecrease').click(function () {
-                modifyFontSize('decrease');
-            });
-
-            $('#linkReset').click(function () {
-                modifyFontSize('reset');
-            })
-
-            function modifyFontSize(flag) {
-                var divElement = $('#divContent');
-                var currentFontSize = parseInt(divElement.css('font-size'));
-
-                if (flag == 'increase')
-                    currentFontSize += 3;
-                else if (flag == 'decrease')
-                    currentFontSize -= 3;
-                else
-                    currentFontSize = 16;
-
-                divElement.css('font-size', currentFontSize);
-            }
-        });
+			</table>
+		</div>
+	</div>
 
 
-        $("#getotp").click(function(){
+	<!-- JavaScript Libraries -->
 
-var mobile=$("#mobile").val();
-        	$
-			.ajax({
-				url : 'getotp.htm',
-				type : "GET",
-				success : function(response) {
-					alert(response + " is your OTP to register");
-					document.getElementById('serverotp').value=response;
+	<script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="static/vendor/js/pdfview.js"></script>
+	<script type="text/javascript" src="static/vendor/js/lan.js"></script>
+	<script src="static/vendor/js/easy-ticker.js" type="text/javascript"></script>
+	<script type="text/javascript" src="static/vendor/js/ticker.js"></script>
+
+	<script src="static/lib/jquery/jquery-migrate.min.js"></script>
+	<script src="static/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="static/lib/easing/easing.min.js"></script>
+	<script src="static/lib/mobile-nav/mobile-nav.js"></script>
+	<script src="static/lib/waypoints/waypoints.min.js"></script>
+	<script src="static/js/jquery.modern-ticker.min.js"></script>
+	<script src="static/lib/counterup/counterup.min.js"></script>
+	<script src="static/lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="static/lib/isotope/isotope.pkgd.min.js"></script>
+	<script src="static/lib/lightbox/js/lightbox.min.js"></script>
+	<script type="text/javascript"
+		src="static/js/pignose.calendar.full.min.js"></script>
+	<script src="static/lib/wow/wow.min.js"></script>
+	<script src="static/js/main.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script> 
+function printDoc(pid) { 
+	//var petid=$("#petitionId").val();
+	$("#myTable").empty();
+	 $("#docdiv").show();
+
+		$.ajax({
+			url : '/scst/petition/documents/getdocsbyid.htm',
+			type : "GET",
+			data : {"pid" : pid },
+			success : function(response) {
+				var result = JSON.parse(response);
+				for (var i = 0; i < response.length; i++) {  
+
+			
+				var s = '<tr><td  align="center">'
+					+ result[i].docNo
+					+ '</td><td  align="center">'
+					+ result[i].petitionId
+					+ '</td><td  align="center">'
+					+ result[i].docDesc
+					+ '</td><td style="text-align: center;" onclick="openRequestedPopup()"  ><a href="#" data-toggle="tooltip" title="Click to view" > <img height="22px"  src="${pageContext.request.contextPath}/static/images/pdf-32.png"></img></a></td></tr>'
+
+					$("#uploadTable").append($(s));
+											
+				$("#uploadTable").show();	
+				$("#docdiv").show();
 				}
 				
-			});
-    	
-        	});
-    </script>
+				}
+		});
+}
+//popup window
 
-			<script>
-$(document).ready(function() {
-    var interval = setInterval(function() {
-        var momentNow = moment();
-        $('#date-part').html(momentNow.format('DD-MMMM-YYYY,') + ' '
-                            + momentNow.format('dddd')
-                             .substring(0,10).toUpperCase());
-        $('#time-part').html(momentNow.format('hh:mm:ss A'));
-    }, 100);
-    
-    $('#stop-interval').on('click', function() {
-        clearInterval(interval);
-    });
-});
+function openRequestedPopup() {  
+	var pid = $('#uploadTable tr:last-child td:nth-child(2)').html();
+	
+	var docno = $('#uploadTable tr:last-child td:nth-child(1)')
+	.html();
 
+	let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
+		width=1000,height=600,left=250,top=150`;
+	
+window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+docno, 'test', params);
+	
+}
 
+</script>
 
-				$("#submitbtn").click(function() {
+	
+	
 
-					var enterotp = $("#enterotp").val();
-					var serverotp = $("#serverotp").val();
+	<script>
+			
 
-					if (enterotp != serverotp) {
-						alert("OTP is incorrect, Re-enter OTP");
-						$("#enterotp").focus();
-						return false;
-					}
-					document.home.method = "POST";
-					document.home.action = "login.htm";
-					document.home.submit();
-
-				});
-
-				$("#reload_captcha")
-						.click(
-								function() {
-
-									document.getElementById("captcha_image").src = "${pageContext.request.contextPath}/getcaptcha.htm";
-								});
 
 
 				//Pdf pop up 
@@ -714,10 +689,8 @@ $(document).ready(function() {
 		    	
 				}
 			</script>
-			<script type="text/javascript">
-$(function(){$(".ticker1").modernTicker({effect:"scroll",scrollType:"continuous",scrollStart:"inside",scrollInterval:20,transitionTime:500,autoplay:true});
-$(".ticker2").modernTicker({effect:"fade",displayTime:4e3,transitionTime:300,autoplay:true});$(".ticker3").modernTicker({effect:"type",typeInterval:10,displayTime:4e3,transitionTime:300,autoplay:true});$(".ticker4").modernTicker({effect:"slide",slideDistance:100,displayTime:4e3,transitionTime:350,autoplay:true})})
-</script>
+	
+
 
 
 </body>

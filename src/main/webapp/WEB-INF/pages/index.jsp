@@ -472,7 +472,7 @@ label {
 
 </head>
 
-<body>
+<body onload="getcaptcha()" >
 	<!--==========================
   Header
   ============================-->
@@ -1031,14 +1031,16 @@ out.print("Pkk"+ username);
 								style="border-bottom: 2px solid #00BCD4;" class="fadeIn third"
 								name="enterotp" placeholder="Enter OTP" maxlength="6" class="form-control">
 							<div class="captcha"  >
-							<img
-									src="${pageContext.request.contextPath}/getcaptcha.htm" alt="captcha"
-									style="width: 110px;" id="captcha_image" class="fadeIn third" >
-									<img
-									src="${pageContext.request.contextPath}/static/images/refresh_blue.png"
-									alt="" title="refresh" id="reload_captcha" class="fadeIn third" > <input type="text" id="captcha"
-									name="captcha" class="fadeIn third" maxlength="6" style="border-bottom: 2px solid #00BCD4; width: 200px;" placeholder="Enter Captcha">
-							</div>
+							
+							<img src="${pageContext.request.contextPath}/getcaptcha.htm" alt="captcha"
+							style="width: 110px;" id="captcha_image" class="fadeIn third" >
+									
+							<img src="${pageContext.request.contextPath}/static/images/refresh_blue.png"
+							alt="" title="refresh" id="reload_captcha" class="fadeIn third" > 
+									
+							<input type="text" id="captcha" name="captcha" class="fadeIn third" maxlength="6" 
+							style="border-bottom: 2px solid #00BCD4; width: 200px;" placeholder="Enter Captcha">
+						</div>
 							
 							
 							
@@ -1254,13 +1256,50 @@ $(document).ready(function() {
     });
 });
 
+
+
+				//fetches captcha code 
+				function getcaptcha() {  
+
+				        $.ajax({
+							url : '${pageContext.request.contextPath}/getcaptchacode',
+							type : "GET",
+							success : function(response) {
+								
+							$("#servercaptcha").val(response);
+							}
+						});
+
+				        //relaod captcha image 
+				        $(document).ready(function(e) {
+				      	  $('#reload_captcha').on('click', function() {
+				      		  d = new Date();
+				            $('#captcha_image').attr('src', '${pageContext.request.contextPath}/getcaptcha.htm?'+d.getTime());
+				          
+				      	  });
+				      	});
+						//get captcha code on load		
+				        $(document).ready(function(e) {
+							 
+					        getcaptcha();
+						
+						});
+				      
+				        
+					};
+					
+					
+
+
+
+
 				$("#submitbtn").click(function() {
 
 					var mobile = $("#mobile").val().trim();
 					var enterotp = $("#enterotp").val().trim();
 					var serverotp = $("#serverotp").val().trim();
 					getcaptcha();
-					var servercaptcha= $("#servercaptcha").val();
+					var servercaptchaa = $("#servercaptcha").val();
 					var captcha= $("#captcha").val();
 					resend
 					if (mobile == "") {
@@ -1273,11 +1312,12 @@ $(document).ready(function() {
 						$("#enterotp").focus();
 						return false;
 					}
-					if(servercaptcha != captcha){
+					if(servercaptchaa != captcha){
 						alert("Invalid Captcha");
 						$("#captcha").focus();
 						return false;
 						}
+					
 					if($('input[type=checkbox]:checked').length == 0)
 					{
 					    alert ( "Must check checkbox before sign in" );
@@ -1297,32 +1337,7 @@ $(document).ready(function() {
 									document.getElementById("captcha_image").src = "${pageContext.request.contextPath}/getcaptcha.htm";
 								}); */
 
-				$(document).ready(function(e) {
-					  $('#reload_captcha').on('click', function() {
-						  d = new Date();
-				        $('#captcha_image').attr('src', '${pageContext.request.contextPath}/getcaptcha.htm?'+d.getTime());
-				      
-					  });
-					});
-								function getcaptcha() {
-
-								        $.ajax({
-											url : '${pageContext.request.contextPath}/getcaptchacode',
-											type : "GET",
-											success : function(response) {
-												
-											$("#servercaptcha").val(response);
-											}
-										});
-								      
-								        
-									};
-									$(document).ready(function(e) {
-										 
-									        getcaptcha();
-										
-										});
-									
+				
 
 				
 			</script>

@@ -57,7 +57,7 @@ response.setDateHeader("Expires", 0);
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="${pageContext.request.contextPath}/static/js/landdetails.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/landdetails.js"></script>
 </head>
 <style>
 
@@ -575,7 +575,7 @@ border-color: black;
 									<center>
 										<div role="group" aria-label="group button">
 
-											<input type="button" class="btn btn-primary" id="updateLand"
+											<input type="button" class="btn btn-primary" id="updateLand" 
 												 value="Update" role="button"  /> <input
 												type="button" class="btn btn-danger" data-dismiss="modal"
 												value="Close" role="button" />
@@ -1072,6 +1072,7 @@ $(document).on('click','#updateLand', function() {
 		success : function(response) {
 		if(response=="Y"){
 			alert("Land details updated");
+			$("#squarespaceModal").modal('hide');
 			getLandList();
 			}
 		else{

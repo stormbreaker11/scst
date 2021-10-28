@@ -56,7 +56,7 @@ public class ServiceController {
 
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		List<Petitioner> petitions = petitionerdao.getPetitions(login.getCompid());
 		mode.addAttribute("petitions", petitions);
@@ -71,7 +71,7 @@ public class ServiceController {
 
 		 Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 			if (login == null) {
-				return "redirect:sessexp";
+				return "redirect:sesexp";
 			}
 			String petitionID = (String) httpServletRequest.getSession().getAttribute("petitionID");
 	        int saveServicePetition = servicedao.saveServicePetition(service,login,petitionID);
@@ -110,7 +110,7 @@ public class ServiceController {
 			
 			Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 			if (login == null) {
-				return "redirect:sessexp";
+				return "redirect:sesexp";
 			}
 			String petid = (String) httpServletRequest.getSession().getAttribute("petitionID");
 			Petition petition=servicedao.getPetition(pid, petid);
@@ -147,7 +147,7 @@ public class ServiceController {
 		
 		//	String petid = (String) request.getSession().getAttribute("petitionID");
 			String headerKey = "Content-Disposition";
-			String headerValue = "inline; filename=Atrocity" + petid + ".pdf";
+			String headerValue = "inline; filename=" + petid + ".pdf";
 			response.setHeader(headerKey, headerValue);
 
 			Petition petition = servicedao.getPetition(petitionerId, petid);

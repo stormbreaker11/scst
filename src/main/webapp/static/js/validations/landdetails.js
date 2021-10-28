@@ -16,8 +16,7 @@ function landpetition() {
 	var extentOfLand = $("#extentOfLand").val().trim();
 	var units = $("#units").val().trim();
 
- var regex=/^[a-zA-z]+([\s][a-zA-Z]+)*$/;
-
+    var regex=/^[a-zA-z]+([\s][a-zA-Z]+)*$/;
 
 	if (landKind == "0") {
 		document.getElementById("landKind").focus();

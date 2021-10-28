@@ -21,9 +21,10 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.ColumnText;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.nic.in.model.Documents;
 import com.nic.in.model.Petition;
@@ -64,7 +65,7 @@ public class PDFViewPoint {
 		
 		table.setWidths(new float[] { 1.5f, 15.0f, 10.0f });
 		Paragraph heading = new Paragraph();
-
+	
 		Font mainHeadingFont = FontFactory.getFont(FontFactory.defaultEncoding, 13, Font.BOLD);
 		Font small = FontFactory.getFont(FontFactory.defaultEncoding, 10, Font.NORMAL);
 		Font small1 = FontFactory.getFont(FontFactory.defaultEncoding, 11, Font.NORMAL);
@@ -344,7 +345,7 @@ public class PDFViewPoint {
 		int k = 0;
 		for (Documents d : gettingDocsByPid) {
 			s.append(++k + ". " + d.getDocDesc());
-			s.append("\n");
+			s.append("\n"); //beaking lines 
 			
 		}
 		table.addCell(s.toString());
@@ -353,10 +354,7 @@ public class PDFViewPoint {
 	
 		
 		doc.add(table);
-		doc.add(Chunk.NEWLINE);
-		doc.add(Chunk.NEWLINE);
-		doc.add(Chunk.NEWLINE);
-		doc.add(new Chunk("Signature of Petitioner ", small1));
+		
 		
 		//----For Image-01----
 		//final String realPath1 = request.getSession().getServletContext().getRealPath("/getsign/"+petition.getPetitionerId());
@@ -373,18 +371,30 @@ public class PDFViewPoint {
 			photoPR.setAbsolutePosition(470, 660);
 			doc.add(photoPR);
 		}
-		if(prSign!=null) {
+	
+	
+	if(prSign!=null) {
 			
 			Image signpr = Image.getInstance(prSign); //sign
 			signpr.scaleToFit(100,80);
-			signpr.setAbsolutePosition(20, 240);
+			signpr.setAbsolutePosition(20, 30);
 			doc.add(signpr);
+			
 		}
+
+		PdfContentByte cbq = new PdfContentByte(instance2);
+	
+	
+		//doc.add(new Chunk("Signature of Petitioner ", small1));
 		Image tslogo = Image.getInstance(readAllBytes); //ts logo
 		tslogo.scaleToFit(90,70);
 		tslogo.setAbsolutePosition(25, 730);
 		doc.add(tslogo);
-
+		
+		
+		Phrase phrase = new Phrase("Signature of the petitioner", new Font());
+		PdfContentByte canvas = instance2.getDirectContent();
+		ColumnText.showTextAligned(canvas, Element.ALIGN_BOTTOM, phrase, 20, 20, 0);
 		//doc.add(instance1);
 		
 		ServletOutputStream os = response.getOutputStream();

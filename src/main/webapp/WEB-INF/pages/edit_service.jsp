@@ -42,6 +42,8 @@ response.setDateHeader("Expires", 0);
 	src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/script.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/respondent.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/servicepetition.js"></script>
 
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -374,13 +376,13 @@ margin-right: 10px;
 												class="col-sm-7 col-md-offset-2 form-group" >
 												<label class="col-md-6">Petition
 													in Detail
-													(500 words)
+													(1000 words)
 												<span class="star">*</span></label>
 												<div class="col-md-6">
 													<form:textarea
 														path="pet_detail"
 														id="pet_detail"
-														cols="39"
+														cols="39" maxlength="1000"
 														rows="7" value="${service.pet_detail }"></form:textarea>
 												</div>
 											</div>
@@ -521,7 +523,7 @@ margin-right: 10px;
 														class="col-md-4">
 														<form:input type="text"
 															placeholder=" Mobile No "
-															class="form-control"
+															class="form-control" maxlength="10"
 														 id="mobile" path="mobile" />
 													</div>
 												</div>
@@ -535,7 +537,7 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:input type="text"
-															placeholder=" e-mail "
+															placeholder=" e-mail " maxlength="50"
 															class="form-control"  id="email"   path="email" />
 													</div>
 												</div>
@@ -754,7 +756,7 @@ margin-right: 10px;
 												<input type="hidden" value="${type}"  name="type">
 												<input type="hidden" value="${category}"  name="category">
 											</div>
-											<div align="center"><input type="button" class="btn btn-md btn-primary" value="Continue" onclick="proceed()"></div></form:form>				
+											<div align="center"><input type="button" class="btn btn-md btn-primary" id="savebtn" style="display: none;" value="Continue" onclick="proceed()"></div></form:form>				
 											
 </div>
                         </div>
@@ -871,7 +873,7 @@ margin-right: 10px;
 									<div class="col-sm-7 col-md-offset-2 form-group">
 										<label class="col-md-6">Mobile No </label>
 										<div class="col-md-6">
-											<input type="text" placeholder=" Mobile No "
+											<input type="text" placeholder=" Mobile No " maxlength="10"
 												class="form-control" id="mobile" name="mobile" />
 										</div>
 									</div>
@@ -880,7 +882,7 @@ margin-right: 10px;
 									<div class="col-sm-7 col-md-offset-2 form-group">
 										<label class="col-md-6">E-Mail ID</label>
 										<div class="col-md-6">
-											<input type="text" placeholder=" e-mail "
+											<input type="text" placeholder=" e-mail " maxlength="50"
 												class="form-control" id="email" name="email" />
 										</div>
 									</div>
@@ -899,7 +901,7 @@ margin-right: 10px;
 								<div role="group" aria-label="group button">
 
 									<input type="button" class="btn btn-primary"
-										id="updateRespondent"  value="Update"
+										id="updateRespondent"  value="Update" 
 										role="button" /> <input type="button" class="btn btn-danger"
 										data-dismiss="modal" value="Close" role="button" />
 
@@ -943,6 +945,12 @@ $(document).on('click','#update', function() {
 
 	 $("#message").empty();
 	 $("#warning").empty();
+
+	 var status=servicepetition();
+
+	 if(status==false){
+			return false;
+		 }
 	var form = $('#service').serialize();
 		$.ajax({
 			url : '/scst/petition/service/serviceAppeal.htm',
@@ -969,7 +977,7 @@ $(document).on('click','#update', function() {
 function proceed(){
 
 	var table=$("#uploadTable tr").length;
-	if(table<1){
+	if(table==1){
 				alert("Add atleast one document/evidence");
 				$('#docDesc').focus();
 				return false;				
@@ -1054,7 +1062,7 @@ $(document).on('click','#docdiv #btn-remove', function() {
 						var rowCount = $('#uploadTable tr').length;
 
 						if(rowCount==1){
-							document.getElementById("docdiv").style.display="none";
+							document.getElementById("savebtn").style.display="none";
 					}
 						(" Document deleted succesfully");
 						}
@@ -1135,8 +1143,11 @@ $(function(){
 						+ '</td><td style="text-align: center;" onclick="openRequestedPopup('+response+')"  ><a href="#" data-toggle="tooltip" title="Click to view" > <img height="22px"  src="${pageContext.request.contextPath}/static/images/pdf-32.png"></img></a></td><td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td></tr>'
 						$("#uploadTable").append($(s));
 						$("#uploadTable").show();
+						$("#savebtn").show();
 						$("#docdiv").show();
 						$("#proceed").show();
+						$('#docDesc').val('');
+						fileInput.value = '';
 					alert("Document added successfully")
 					}
 				else{
@@ -1171,6 +1182,14 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 	var rowText;
 		//adding respondent details dynamically
 		function addRespondent(){
+
+			var status=respondentValidation();
+
+			if(status==false){
+					return false;
+				}
+			
+
 			
 			var respondentdetails = $("#respondentdetails").val();
 			var respondentdetailsText = $("#respondentdetails option:selected").text();
@@ -1378,6 +1397,7 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 				'#updateRespondent',
 				function() {
 
+
 					var name = $("#exampleModal1 #respName").val();
 					var address = $("#exampleModal1 #address").val();
 					var mobile = $("#exampleModal1 #mobile").val();
@@ -1389,7 +1409,97 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 							.val();
 					var castevalue = $('#exampleModal1 #castevalue').val();
 					var petId = $('#petId').val();
-			
+
+					var regex = /^[a-zA-z]+([\s][a-zA-Z]+)*$/;
+
+					var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+					var phoneRegex = /^[6-9]\d{9}$/;
+
+					if (respondentdetails == "0") {
+						$(
+						'#exampleModal1 #respondentdetails').focus();
+						alert("Select Type of Respondent");
+						return false;
+					}
+
+					if (name.length == 0) {
+						$("#exampleModal1 #respName").focus();
+						alert("Name of the respondent is required");
+						return false;
+					}
+					if (regex.test(name) == false) {
+						$("#exampleModal1 #respName").focus();
+						alert("Invalid name of the respondent");
+						return false;
+					}
+
+					if (respondentdetails == "P") {
+						if (castevalue == "0") {
+							alert("Select Caste");
+							$('#exampleModal1 #castevalue').focus();
+							return false;
+						}
+					}
+					if (respProffesion.length == 0) {
+						$('#exampleModal1 #respProffesion')
+						.val();
+						$('#exampleModal1 #respProffesion')
+						.focus();
+						alert("Designation/Profession is required");
+						return false;
+					}
+					if (regex.test(respProffesion) == false) {
+						$('#exampleModal1 #respProffesion').focus();
+						alert("Invalid Designation/Profession");
+						return false;
+					}
+
+					if (district == "0") {
+						 $('#exampleModal1 #district').focus();
+						alert("Select District");
+						return false;
+					}
+
+					var newaddregex = /^[a-zA-Z0-9/(),+\-_.\s]+$/;
+					if (address.length == 0) {
+						$("#exampleModal1 #address").focus();
+						alert("Address is required");
+						return false;
+					}
+
+					if (newaddregex.test(address) == false) {
+						$("#exampleModal1 #address").focus();
+						alert("Invalid Address");
+						return false;
+					}
+
+					if (mobile.length == 0) {
+						alert("Mobile  Number is required");
+						$("#exampleModal1 #mobile").focus();
+
+						
+						return false;
+					}
+
+					if (phoneRegex.test(mobile) == false) {
+						alert("Not a valid mobile number");
+						$("#exampleModal1 #mobile").focus();
+						return false;
+					}
+
+
+					if (email.length == 0) {
+						alert("Email is required");
+						$("#exampleModal1 #email").focus();
+						return false;
+					}
+
+					if (emailRegex.test(email) == false) {
+						alert("Enter a valid Email");
+						$("#exampleModal1 #email").focus();
+						return false;
+					}
+						
 					$.ajax({
 						url : '/scst/petition/respondent/updaterespondent.htm/'
 								+ rowText,
@@ -1409,8 +1519,9 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 
 						
 							if (response == "Y") {
-								alert("Respondent details updated")
+								alert("Respondent details updated");
 								getRespondentList();
+								$("#exampleModal1").modal('hide');
 							} else {
 								alert("Respondent details updation failed");
 							}
@@ -1489,6 +1600,21 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 		function focus() {
 			document.getElementById("service_type").focus();
 		}
+
+//hiding continue button onload
+		$(document).ready(function(){
+
+			var table=$("#uploadTable tr").length;
+
+			if(table==1){
+				$("#savebtn").hide();
+				}else
+					{
+					$("#savebtn").show();
+					}		
+		}); 
+
+				
 </script>
 
 

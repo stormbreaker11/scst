@@ -56,7 +56,7 @@ public class AtrocityPetitionController {
 		
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		String petitionID = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		
@@ -102,7 +102,7 @@ public class AtrocityPetitionController {
 
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		List<Petitioner> petitions = petitionerdao.getPetitions(login.getCompid());
 		mode.addAttribute("petitions", petitions);
@@ -116,7 +116,7 @@ public class AtrocityPetitionController {
 		
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		String petid = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		Petition petition=dao.getPetition(pid, petid);
@@ -156,7 +156,7 @@ public class AtrocityPetitionController {
 		
 		//String petid = (String) request.getSession().getAttribute("petitionID");
 		String headerKey = "Content-Disposition";
-		String headerValue = "inline; filename=Atrocity" + petid + ".pdf";
+		String headerValue = "inline; filename=" + petid + ".pdf";
 		response.setHeader(headerKey, headerValue);
 
 		Petition petition = dao.getPetition(petitionerId, petid);

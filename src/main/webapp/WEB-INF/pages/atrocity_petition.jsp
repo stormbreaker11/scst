@@ -39,6 +39,7 @@ response.setDateHeader("Expires", 0);
 <script src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/script.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/atrocitypetition.js"></script>
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
@@ -50,9 +51,17 @@ response.setDateHeader("Expires", 0);
 
 function proceed(){
 
-	document.filepetition.method="POST";
-	document.filepetition.action="/scst/petition/atrocity/saveAtrocity";
-	document.filepetition.submit();
+	var method = atrocitypetition();
+	if(method==true)
+		{
+			document.filepetition.method="POST";
+			document.filepetition.action="/scst/petition/atrocity/saveAtrocity";
+			document.filepetition.submit();
+		}
+	else
+		{
+			return false;
+		}
 	
 }
 </script>
@@ -398,7 +407,7 @@ margin-right: 10px;
 													<div
 														class="col-md-6">
 														<form:select class="form-control SelectStyle" path="ps_district"
-															id="ps_district" tabindex="8">
+															id="ps_district" tabindex="8" onchange="getMandals('ps_district','ps_mandal')" >
 															<form:option value="0">--Select--
 															</form:option>
 															<c:forEach items="${district}" var="alt">
@@ -424,12 +433,7 @@ margin-right: 10px;
 															id="ps_mandal" tabindex="9">
 															<form:option value="52">--Select--
 															</form:option>
-															<form:option value="53">Mandal-1
-															</form:option>
-															<form:option value="54">Mandal-2
-															</form:option>
-															<form:option value="55">Mandal-3
-															</form:option>
+															
 
 														</form:select>
 													</div>
@@ -502,13 +506,13 @@ margin-right: 10px;
 												class="col-sm-7 col-md-offset-2 form-group" >
 												<label class="col-md-6">Petition
 													in Detail
-													(500 words)
+													(1000 words)
 												<span class="star">*</span></label>
 												<div class="col-md-6">
 													<form:textarea
 														path="pet_detail"
 														id="pet_detail"
-														cols="39" tabindex="14" 
+														cols="39" tabindex="14"  maxlength="1000"
 														rows="7"></form:textarea>
 												</div>
 											</div><div class="col-md-offset-2 form-group " style="color: red;">

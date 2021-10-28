@@ -70,7 +70,7 @@ public class ModifyPetition {
 		String view="";
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		
 		model.addAttribute("type", type);

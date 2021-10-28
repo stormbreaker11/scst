@@ -42,6 +42,8 @@ response.setDateHeader("Expires", 0);
 	src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/script.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/respondent.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/atrocitypetition.js"></script>
 
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -505,13 +507,13 @@ margin-right: 10px;
 												class="col-sm-7 col-md-offset-2 form-group" >
 												<label class="col-md-6">Petition
 													in Detail
-													(500 words)
+													(1000 words)
 												<span class="star">*</span></label>
 												<div class="col-md-6">
 													<form:textarea
 														path="pet_detail"
 														id="pet_detail"
-														cols="39" tabindex="12"  maxlength="500" 
+														cols="39" tabindex="12"  maxlength="1000" 
 														rows="7"></form:textarea>
 												</div>
 											</div>
@@ -1001,7 +1003,7 @@ margin-right: 10px;
 									<div class="col-sm-7 col-md-offset-2 form-group">
 										<label class="col-md-6">Mobile No </label>
 										<div class="col-md-6">
-											<input type="text" placeholder=" Mobile No "
+											<input type="text" placeholder=" Mobile No " maxlength="10"
 												class="form-control" id="mobile" name="mobile" />
 										</div>
 									</div>
@@ -1011,7 +1013,7 @@ margin-right: 10px;
 										<label class="col-md-6">E-Mail ID</label>
 										<div class="col-md-6">
 											<input type="text" placeholder=" e-mail "
-												class="form-control" id="email" name="email" />
+												class="form-control" id="email" name="email" maxlength="50" />
 										</div>
 									</div>
 
@@ -1029,7 +1031,7 @@ margin-right: 10px;
 								<div role="group" aria-label="group button">
 
 									<input type="button" class="btn btn-primary"
-										id="updateRespondent"  value="Update"
+										id="updateRespondent"  value="Update" 
 										role="button" /> <input type="button" class="btn btn-danger"
 										data-dismiss="modal" value="Close" role="button" />
 
@@ -1088,7 +1090,12 @@ $(document).on('click','#update', function() {
 	 $("#message").empty();
 	 $("#warning").empty();
 
-	
+	 var status=atrocitypetition();
+
+		if(status==false){
+				return false;
+			}
+
 	  var frm = $('#updateatrocity')[0];
 	var fdata = new FormData(frm);
 		$.ajax({
@@ -1103,7 +1110,6 @@ $(document).on('click','#update', function() {
                     $("#message").html("Details Updated Successfully");
 					}
 				else{
-					
                     $("#warning").html("Updation failed, try again");
 					}
 			}
@@ -1117,7 +1123,7 @@ $(document).on('click','#update', function() {
 
 function proceed(){
 	var table=$("#uploadTable tr").length;
-	if(table<1){
+	if(table==1){
 				alert("Add atleast one document/evidence");
 				$('#docDesc').focus();
 				return false;				
@@ -1318,6 +1324,9 @@ $(function(){
 						$("#uploadTable").show();
 						$("#docdiv").show();
 						$("#proceed").show();
+
+						$('#docDesc').val('');	
+						fileInput.value = '';
 					}
 				else{
 						alert("Document upload failed, try again");
@@ -1351,6 +1360,15 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 	var rowText;
 		//adding respondent details dynamically
 		function addRespondent(){
+
+
+
+			var status=respondentValidation();
+
+			if(status==false){
+					return false;
+				}
+			
 			
 			var respondentdetails = $("#respondentdetails").val();
 			var respondentdetailsText = $("#respondentdetails option:selected").text();
@@ -1396,7 +1414,7 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 									k = 0;
 								}
 								k = $(
-										'.table-bordered tr:last-child td:nth-child(2)')
+										'.table-bordered tr:last-child td:nth-child(2)').html();
 										.html();
 								if (isNaN(k)) {
 									k = 0;
@@ -1555,6 +1573,8 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 				'click',
 				'#updateRespondent',
 				function() {
+
+
 					
 					var name = $("#exampleModal1 #respName").val();
 					var address = $("#exampleModal1 #address").val();
@@ -1567,7 +1587,97 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 							.val();
 					var castevalue = $('#exampleModal1 #castevalue').val();
 					var petId = $('#petId').val();
-			
+
+					var regex = /^[a-zA-z]+([\s][a-zA-Z]+)*$/;
+
+					var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+					var phoneRegex = /^[6-9]\d{9}$/;
+
+					if (respondentdetails == "0") {
+						$(
+						'#exampleModal1 #respondentdetails').focus();
+						alert("Select Type of Respondent");
+						return false;
+					}
+
+					if (name.length == 0) {
+						$("#exampleModal1 #respName").focus();
+						alert("Name of the respondent is required");
+						return false;
+					}
+					if (regex.test(name) == false) {
+						$("#exampleModal1 #respName").focus();
+						alert("Invalid name of the respondent");
+						return false;
+					}
+
+					if (respondentdetails == "P") {
+						if (castevalue == "0") {
+							alert("Select Caste");
+							$('#exampleModal1 #castevalue').focus();
+							return false;
+						}
+					}
+					if (respProffesion.length == 0) {
+						$('#exampleModal1 #respProffesion')
+						.val();
+						$('#exampleModal1 #respProffesion')
+						.focus();
+						alert("Designation/Profession is required");
+						return false;
+					}
+					if (regex.test(respProffesion) == false) {
+						$('#exampleModal1 #respProffesion').focus();
+						alert("Invalid Designation/Profession");
+						return false;
+					}
+
+					if (district == "0") {
+						 $('#exampleModal1 #district').focus();
+						alert("Select District");
+						return false;
+					}
+
+					var newaddregex = /^[a-zA-Z0-9/(),+\-_.\s]+$/;
+					if (address.length == 0) {
+						$("#exampleModal1 #address").focus();
+						alert("Address is required");
+						return false;
+					}
+
+					if (newaddregex.test(address) == false) {
+						$("#exampleModal1 #address").focus();
+						alert("Invalid Address");
+						return false;
+					}
+
+					if (mobile.length == 0) {
+						alert("Mobile  Number is required");
+						$("#exampleModal1 #mobile").focus();
+
+						
+						return false;
+					}
+
+					if (phoneRegex.test(mobile) == false) {
+						alert("Not a valid mobile number");
+						$("#exampleModal1 #mobile").focus();
+						return false;
+					}
+
+
+					if (email.length == 0) {
+						alert("Email is required");
+						$("#exampleModal1 #email").focus();
+						return false;
+					}
+
+					if (emailRegex.test(email) == false) {
+						alert("Enter a valid Email");
+						$("#exampleModal1 #email").focus();
+						return false;
+					}
+						
 					$.ajax({
 						url : '/scst/petition/respondent/updaterespondent.htm/'
 								+ rowText,
@@ -1588,6 +1698,7 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 							if (response == "Y") {
 								alert("Respondent details updated")
 								getRespondentList();
+								$("#exampleModal1").modal('hide');
 							} else {
 								alert("Respondent details updation failed");
 							}
@@ -1680,8 +1791,6 @@ window.open("/scst/petition/documents/viewdoc?pid="+pid+"&docno="+response, 'tes
 								+ district,
 						success : function(
 								result) {
-
-							
 							$('#'+mandal+'').html('');
 							$('#'+mandal+'').append(new Option("--Select--", "0"));
 							var result = JSON

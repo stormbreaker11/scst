@@ -211,6 +211,6 @@ to {
 <br>
 
 <div align="center">
-<font size="6" >Your session has expired. Click here to  <a href="${pageContext.request.contextPath}/home">Login  </a>again</font></div>
+<font size="6" >Your session has expired. Click here to  <a href="${pageContext.request.contextPath}/">Login  </a>again</font></div>
 </body>
 </html>

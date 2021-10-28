@@ -39,7 +39,7 @@ response.setDateHeader("Expires", 0);
 <script src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/script.js"></script>
-<script src="${pageContext.request.contextPath}/static/js/landpetition.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/landpetition.js"></script>
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
@@ -268,11 +268,11 @@ margin-right: 10px;
 												class="col-sm-7 col-md-offset-2 form-group" >
 												<label class="col-md-6">Petition
 													in Detail
-													(500 words)
+													(1000 words)
 												<span class="star">*</span></label>
 												<div class="col-sm-6">
 													<form:textarea
-														cols="39" path="pet_detail" maxlength="500" id="pet_detail"
+														cols="39" path="pet_detail" maxlength="1000" id="pet_detail"
 														rows="7" tabindex="2" ></form:textarea>
 												</div>
 											</div>  <div class="col-md-offset-2 form-group " style="color: red;">
@@ -811,7 +811,6 @@ margin-right: 10px;
 
 
 			var appeal=$("#appeal").val().trim();
-			
 			var pet_detail=$("#pet_detail").val().trim();
 			var court=$("#court").val();
 			var courtName=$("#courtName").val().trim();
@@ -822,12 +821,13 @@ margin-right: 10px;
 			var casestatus=$("#casestatus").val().trim();
 			var courtorders=document.getElementById("courtorders");
 			var regex = /^[a-zA-Z]+(\s+[a-zA-Z]+)*$/;
+			var landappeal = /^[ A-Za-z0-9./-,]*$/; 	
 			if (appeal.length == 0) {
 					document.getElementById("appeal").focus();
 					alert("Appeal/prayer of the petitioner is required");
 					return false;
 				}
-			if (regex.test(appeal) == false) {
+			if (landappeal.test(appeal) == false) {
 				document.getElementById("appeal").focus();
 				alert("Invalid Appeal/prayer of the petitioner");
 				return false;
@@ -837,7 +837,7 @@ margin-right: 10px;
 				alert("Petition in Detail is required");
 				return false;
 			}
-			if (regex.test(pet_detail) == false) {
+			if (landappeal.test(pet_detail) == false) {
 				document.getElementById("pet_detail").focus();
 				alert("Invalid Petition in Detail");
 				return false;

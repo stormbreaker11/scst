@@ -171,6 +171,7 @@ public class ScstCommonsImpl implements ScstCommons {
 	@Override
 	public List<Mandal> getMandals(String id) {
 		
+	
 		String query="select mcode, mname from mandal where dcode=? order by mname";
 		List<Mandal> list = jdbcTemplate.query(query, new Object[] {Integer.parseInt(id)}, new RowMapper<Mandal>() {
 			public Mandal mapRow(ResultSet rs, int rownumber) throws SQLException {
@@ -182,6 +183,5 @@ public class ScstCommonsImpl implements ScstCommons {
 		});
 		return list;
 	}
-	
 	
 }

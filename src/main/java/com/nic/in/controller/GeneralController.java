@@ -55,7 +55,7 @@ public class GeneralController {
 
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		List<Petitioner> petitions = petitionerdao.getPetitions(login.getCompid());
 		mode.addAttribute("petitions", petitions);
@@ -67,7 +67,7 @@ public class GeneralController {
 	 {    
 		 Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 			if (login == null) {
-				return "redirect:sessexp";
+				return "redirect:sesexp";
 			}
 			String petitionID = (String) httpServletRequest.getSession().getAttribute("petitionID");
 	        int saveGeneralPetition = generaldao.saveGeneralPetition(general,login,petitionID);
@@ -112,7 +112,7 @@ public class GeneralController {
 			
 			Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 			if (login == null) {
-				return "redirect:sessexp";
+				return "redirect:sesexp";
 			}
 			String petid = (String) httpServletRequest.getSession().getAttribute("petitionID");
 			Petition petition=generaldao.getPetition(pid, petid);
@@ -150,7 +150,7 @@ public class GeneralController {
 		
 			//String petid = (String) request.getSession().getAttribute("petitionID");
 			String headerKey = "Content-Disposition";
-			String headerValue = "inline; filename=Atrocity" + petid + ".pdf";
+			String headerValue = "inline; filename=" + petid + ".pdf";
 			response.setHeader(headerKey, headerValue);
 
 			Petition petition = generaldao.getPetition(petitionerId, petid);

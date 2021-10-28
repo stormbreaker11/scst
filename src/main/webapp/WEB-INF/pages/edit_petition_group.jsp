@@ -40,8 +40,8 @@ response.setDateHeader("Expires", 0);
 	src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/script.js"></script>
-<script src="${pageContext.request.contextPath}/static/js/respondent.js"></script>
-<script src="${pageContext.request.contextPath}/static/js/petitionervalidations.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/respondent.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/petitionervalidations.js"></script>
 
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -53,12 +53,6 @@ response.setDateHeader("Expires", 0);
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-
-
-
-<!------ Include the above in your HEAD tag ---------->
-
-<!------ Include the above in your HEAD tag ---------->
 <style>
 .panel-primary>.panel-heading {
 	color: rgb(255, 255, 255);
@@ -395,11 +389,11 @@ margin-right: 10px;
 												class="col-sm-7 col-md-offset-2 form-group" >
 												<label class="col-md-6">Petition
 													in Detail
-													(500 words)
+													(1000 words)
 												<span class="star">*</span></label>
 												<div class="col-sm-6">
 													<form:textarea
-														cols="39" path="pet_detail" value="${landAppeal.pet_detail}" maxlength="500" id="pet_detail"
+														cols="39" path="pet_detail" value="${landAppeal.pet_detail}" maxlength="1000" id="pet_detail"
 														rows="7"></form:textarea>
 												</div>
 											</div>
@@ -504,7 +498,7 @@ margin-right: 10px;
 													<div
 														class="col-md-4">
 														<form:select class="form-control SelectStyle" path="courtDist"
-															id="courtDist">
+															id="courtDist" onchange="getMandals('courtDist', 'courtMandal', '${petitionland.courtMandal}')">
 															<form:option value="${petitionland.courtDistCode}" >${petitionland.courtDist}
 															</form:option>
 														
@@ -512,7 +506,7 @@ margin-right: 10px;
 													</div>
 												</div>
 											</div>
-											<div class="row">
+											<%-- <div class="row">
 												<div
 													class="col-sm-7 col-md-offset-2 form-group">
 													<label
@@ -525,7 +519,20 @@ margin-right: 10px;
 														
 													</div>
 												</div>
-											</div>
+											</div> --%>
+											<div class="col-sm-7 col-md-offset-2 form-group">
+						<label class="col-md-6">Select Mandal <span class="star">*</span>
+						</label>
+						<div class="col-md-4">
+							<form:select class="form-control SelectStyle" path="courtMandal"
+								id="courtMandal">
+								<form:option value="0" selected="true">--Select--</form:option>
+							</form:select>
+						</div>
+					</div>
+											
+											
+											
 											<div class="row">
 												<div
 													class="col-sm-7 col-md-offset-2 form-group">
@@ -647,7 +654,7 @@ margin-right: 10px;
 							class="star">*</span></label>
 						<div class="col-md-4">
 							<input type="file" 
-								class="form-control" id="file" name="file"
+								class="form-control" id="signfile" name="file"
 								onchange="validSign('file')"/>
 						</div>
 					</div>
@@ -1450,7 +1457,7 @@ margin-right: 10px;
 									<center>
 										<div role="group" aria-label="group button">
 
-											<input type="button" class="btn btn-primary" id="updateLand"
+											<input type="button" class="btn btn-primary" id="updateLand" 
 												 value="Update" role="button"  /> <input
 												type="button" class="btn btn-danger" data-dismiss="modal"
 												value="Close" role="button" />
@@ -1593,7 +1600,7 @@ margin-right: 10px;
 								<div role="group" aria-label="group button">
 
 									<input type="button" class="btn btn-primary"
-										id="updateRespondent"  value="Update"
+										id="updateRespondent"  value="Update" 
 										role="button" /> <input type="button" class="btn btn-danger"
 										data-dismiss="modal" value="Close" role="button" />
 
@@ -2138,8 +2145,9 @@ $(document).on('click','#exampleModal #updateLand', function() {
 		data : frm,
 		success : function(response) {
 		if(response=="Y"){
-			alert("Land Details Updated")
+			alert("Land Details Updated");
 			getLandList();
+			 $("#exampleModal").modal('hide');
 			}
 		else{
 			alert("Land details updation failed try again")
@@ -2206,7 +2214,7 @@ function getLandList(){
 function proceed(){
 
 	var table=$("#uploadTable tr").length;
-	if(table<1){
+	if(table==1){
 				alert("Add atleast one document/evidence");
 				$('#docDesc').focus();
 				return false;				
@@ -2371,6 +2379,9 @@ $(function(){
 						$("#uploadTable").show();
 						$("#docdiv").show();
 						$("#proceed").show();
+						
+						$('#docDesc').val('');
+						fileInput.value = '';
 					
 					}
 				else{
@@ -2789,8 +2800,10 @@ $(document).on('click','#edit', function() {
 						success : function(response) {
 							
 							if (response == "Y") {
-								alert("Respondent Details Updated")
+								alert("Respondent Details Updated");
+								
 								getRespondentList();
+								$("#exampleModal1").modal('hide');
 							} else {
 								alert("Respondent details updation failed");
 							}
@@ -2867,6 +2880,19 @@ $(document).on('click','#edit', function() {
 			document.getElementById("groupName").focus();
 		}
 
+		//changing district and state options onload 
+		$(document).ready(function(){
+		var state=$("#courtState").val();
+		if(state!=""){
+			$("#courtState").val(state).change();
+			
+		}
+		var dist=$("#courtDist").val();
+		if(dist!=""){
+			$("#courtDist").val(dist).change();
+		}
+		}); 
+		
 		//fetching districts onchange state select option 
 		$(document)
 		.ready(
@@ -2902,6 +2928,7 @@ $(document).on('click','#edit', function() {
 														}
 														$('#courtDist')
 																.append(s);
+													
 													}
 												});
 									});
@@ -2923,9 +2950,29 @@ $(document).on('click','#edit', function() {
 		//adding joint-petitioner details dynamically
 		function addpetitioners(){
 
-			
 			var name = $("#petionerName").val();
 			var petionerId = $("#petionerId").val();
+			var filesign=document.getElementById('signfile');
+			var filepath = filesign.value;
+			var allowedExtensions = /(\.jpg)$/i;
+
+
+			if(name==""){
+				$("#petionerName").focus();
+				alert("Joint Petitioner Name is required");
+				return false;
+				}
+			if (filepath == "") {
+				alert("File is required");
+				document.getElementById('signfile').focus();
+				return false;
+			}
+			if (!allowedExtensions.exec(filepath)) {
+				alert('Invalid file type');
+				filepath.value = '';
+				return false;
+			}
+			
 			  var form1 = $('#jointpetitioner')[0];
 			  var fdata = new FormData(form1);
 
@@ -2935,7 +2982,7 @@ $(document).on('click','#edit', function() {
 				if(name==""){
 					alert("Petitioner name is required")
 					$("#petionerName").focus();
-return false;
+						return false;
 					}
 					if( $("#tab7primary #file").val()=="")
 				{
@@ -2986,8 +3033,8 @@ return false;
 										+ '</td><td style="text-align: center;"    ><img height="22px" onclick="openRequestedPopup('+response+')" data-toggle="tooltip" title="Click to view Sign" id="edit" src="${pageContext.request.contextPath}/static/images/imageview.png"></img></td></td> <td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td></tr>'
 										$("#PetitionerTable").append($(s));
 
-								$("#petionerName").val('');
-								 $('#jointpetitioner #file').val()			
+										$("#petionerName").val('')
+										$("#signfile").val('')
 				}
 
 						}
@@ -3038,7 +3085,7 @@ return false;
 			
 			var district = $('#'+ditrict+'').val();
 
-			
+		
 			//var dist = $('#dist').val();
 			$
 					.ajax({
@@ -3064,16 +3111,14 @@ return false;
 							.append(s);
 
 							if(mandalvalue!=''){
-								$("#landmandaledit").val(mandalvalue);	
+								$('#'+mandal+'').val(mandalvalue);	
 								}
-							
 							}
 					});
 			
 			}
 
-				
-		
+
 
 </script>
 

@@ -46,7 +46,7 @@ response.setDateHeader("Expires", 0);
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/static/js/petitionervalidations.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/petitionervalidations.js"></script>
 <style>
 .panel-body
 .btn
@@ -270,17 +270,16 @@ px
 		</h1></div>
 		<div align="left" style="background: #2d3990; color: white; height: 30px; vertical-align: middle; padding-top: 5px; padding-left: 20px; ">
 													<b>Petitioner Details</b>
-													
 												</div>
 											
 		<br>
 		<form:form modelAttribute="register" name="register"
 			enctype="multipart/form-data">
-			
+			<input type="hidden" id="compid" value="${login.compid }">
 			<c:if test="${ empty error }">
 			<div class="row">
 				<div class="col-sm-7 col-md-offset-2 form-group">
-				<label class="col-md-6">&nbsp;&nbsp;Are You the <span
+				<label class="col-md-6">&nbsp;&nbsp;Are You the  <span
 						class="star">*</span></label>
 					<div class="form-check-inline">
 						<label class="col-md-2"> <form:radiobutton
@@ -296,11 +295,11 @@ px
 					</div>
 				</div>
 			</div></c:if>
+			
+		
 		<div align="center" ><h3><font color="red">${error}</font></h3></div>
 			<div class="applicantpetitioner" id="yes" style="display: none;">
-				<!-- <h5 class="subhead">
-						<b>PETITIONER DETAILS</b>
-					</h5> -->
+				
 				<br>
 				<div class="container-fluid">
 					<div class="row">
@@ -511,14 +510,7 @@ px
 							<div class="col-md-3">
 								<form:select class="form-control SelectStyle" id="Identitype"
 									path="prProofType">
-									<%-- 
-									<form:option value="0">--Select--</form:option>
-									<form:option value="1">Aadhaar ID</form:option>
-									<form:option value="2">Voter ID</form:option>
-									<form:option value="3">Driving Licence</form:option>
-									<form:option value="4">Passport</form:option>
-									<form:option value="5">Ration card</form:option>
-									<form:option value="6">Other Identity</form:option> --%>
+									
 									<form:option value="0">--Select1--</form:option>
 									<c:forEach items="${identities}" var="alt" >
 									<form:option value="${alt.idcode}">${alt.idname}</form:option>
@@ -607,13 +599,8 @@ px
 				</div>
 				
 				
-				
-				
-				
-				
-				
 
-				<div class="col-md-5 col-md-offset-4">
+			<div class="col-md-5 col-md-offset-4">
 					<a href=""><div class="btn btn-md btn-danger">Reset</div></a> <a
 						href="#"><div class="btn btn-md btn-primary" data-title="Edit"
 							data-toggle="modal" data-target="#edit" data-placement="top"
@@ -676,7 +663,7 @@ px
 		</div>
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
-				<label class="col-md-6">Identity Type <span class="star">*</span></label>
+				<label class="col-md-6">Identity Type of person who is applying on behalf of the petitioner<span class="star">*</span></label>
 				<div class="col-md-3">
 					<form:select class="form-control SelectStyle"  id="Identitypeno"
 						path="bprProofId" >
@@ -691,7 +678,7 @@ px
 		<div id="otherid2" style="display: none;">
 			<div class="row">
 				<div class="col-sm-7 col-md-offset-2 form-group">
-					<label class="col-md-6">Other Identity type :<span
+					<label class="col-md-6">Other Identity type <span
 						class="star">*</span>
 					</label>
 					<div class="col-md-6">
@@ -970,7 +957,7 @@ px
 		</div>
 		<div class="row">
 			<div class="col-sm-7 col-md-offset-2 form-group">
-				<label class="col-md-6">Identity Type <span class="star">*</span></label>
+				<label class="col-md-6">Identity Type of Petitioner <span class="star">*</span></label>
 				<div class="col-md-3">
 					<form:select class="form-control SelectStyle" id="brIdentitype"
 						path="bprprProofType" >
@@ -985,7 +972,7 @@ px
 		<div id="behalfother" style="display: none;">
 			<div class="row">
 				<div class="col-sm-7 col-md-offset-2 form-group">
-					<label class="col-md-6">Other Identity type : </label>
+					<label class="col-md-6">Other Identity type</label>
 					<div class="col-md-6">
 						<form:input type="text" class="form-control"
 							 path="bprprOtherProofType" id="bprprProofType" />
@@ -1065,6 +1052,11 @@ px
 			</a>
 		</div>
 	</div>
+	
+	<div style="display: none;" id="message">
+	
+	<div align="center"><h3 style="color: red;" id="messageText"></h3></div>
+	</div>
 	</form:form>
 	</div>
 	
@@ -1082,170 +1074,194 @@ px
 	//radio button switching script
 	$('#check2').on('click', function() {
 		if ($(this).val() === "Y") {
-			
-			$(".applicantpetitioner").show(); //petitioner self
-			$(".applicantpetitioner2").hide(); //on behalf
-		} 
-	});
-
-	//radio button switching script
-	$('#check3').on('click', function() {
-		
-		if ($(this).val() === "N") {
-		
-			$(".applicantpetitioner2").show(); //on behalf
-			$(".applicantpetitioner").hide(); //petitioner self
-		} 
-	});
 
 
-
-	//Other id text box script 
-	$('#Identitype').on('change', function() {
-		if ($(this).val() === "O") {
-			$("#otherid").show();
-		} else {
-			$("#otherid").hide();
-		}
-	});
-	
-	$('#brIdentitype').on('change', function() {
-	
-		if ($(this).val() === "O") {
-			$("#behalfother").show();
-		} else {
-			$("#behalfother").hide();
-		}
-	});
-	
-	$('#Identitypeno').on('change', function() {
-	
-		if ($(this).val() === "O") {
-			$("#otherid2").show();
-		} else {
-			$("#otherid2").hide();
-		}
-	});
-	
-	//fetching subcaste onchange caste select option 
-	$(document)
-	.ready(
-			function() {
-
-				$('#prcaste')
-						.on(
-								'change',
-								function() {
-									
-									var caste = $('#prcaste').val();
-
-							
-									//var dist = $('#dist').val();
-									$
-											.ajax({
-												type : 'GET',
-												url : '/scst/loadcaste/'
-														+ caste,
-												success : function(
-														result) {
-
-													
-													$('#prsubcaste').html('');
-													$("#prsubcaste").append(new Option("--Select--", "0"));
-													var result = JSON
-															.parse(result);
-													var s = '';
-													for (var i = 0; i < result.length; i++) {
-														s += '<option style="text-transform:capitalize"; value="'+result[i].ccode+'">'
-																+ result[i].cname
-																+ '</option>';
-													}
-													$('#prsubcaste')
-															.append(s);
+	//check for self entry on switching
+		var compid = $("#compid").val();
+								$
+										.ajax({
+											type : 'GET',
+											url : '/scst/checkpetitoner',
+											data : {
+												"userid" : compid
+											},
+											success : function(result) {
+										
+											if(result=="Y"){
+												$(".applicantpetitioner").hide(); //petitioner self
+												$(".applicantpetitioner2").hide(); //petitioner self
+												$("#message").show(); //on behalf
+												$("#messageText").html('You are already registered'); //on behalf
 												}
-											});
-								});
+											else{
+												$(".applicantpetitioner2").hide(); //on behalf
+												$(".applicantpetitioner").show(); //petitioner self
 
-			});
-
-
-
-
-
-
-
-	//fetching subcaste onchange caste select option 
-	$(document)
-	.ready(
-			function() {
-
-				$('#bprcaste')
-						.on(
-								'change',
-								function() {
-							
-									var caste = $('#bprcaste').val();
-
-							
-									//var dist = $('#dist').val();
-									$
-											.ajax({
-												type : 'GET',
-												url : '/scst/loadcaste/'
-														+ caste,
-												success : function(
-														result) {
-
-													
-													$('#bprsubcaste').html('');
-													$("#bprsubcaste").append(new Option("--Select--", "0"));
-													var result = JSON
-															.parse(result);
-													var s = '';
-													for (var i = 0; i < result.length; i++) {
-														s += '<option style="text-transform:capitalize"; value="'+result[i].ccode+'">'
-																+ result[i].cname
-																+ '</option>';
-													}
-													$('#bprsubcaste')
-															.append(s);
 												}
+											
+											}
+										});
+
+								
+							}
+						});
+
+		//radio button switching script
+		$('#check3').on('click', function() {
+			$("#messageText").empty(); //on behalf
+			if ($(this).val() === "N") {
+
+				$(".applicantpetitioner2").show(); //on behalf
+				$(".applicantpetitioner").hide(); //petitioner self
+			}
+		});
+
+		//Other id text box script 
+		$('#Identitype').on('change', function() {
+			if ($(this).val() === "O") {
+				$("#otherid").show();
+			} else {
+				$("#otherid").hide();
+			}
+		});
+
+		$('#brIdentitype').on('change', function() {
+
+			if ($(this).val() === "O") {
+				$("#behalfother").show();
+			} else {
+				$("#behalfother").hide();
+			}
+		});
+
+		$('#Identitypeno').on('change', function() {
+
+			if ($(this).val() === "O") {
+				$("#otherid2").show();
+			} else {
+				$("#otherid2").hide();
+			}
+		});
+
+		//fetching subcaste onchange caste select option 
+		$(document)
+				.ready(
+						function() {
+
+							$('#prcaste')
+									.on(
+											'change',
+											function() {
+
+												var caste = $('#prcaste').val();
+
+												//var dist = $('#dist').val();
+												$
+														.ajax({
+															type : 'GET',
+															url : '/scst/loadcaste/'
+																	+ caste,
+															success : function(
+																	result) {
+
+																$('#prsubcaste')
+																		.html(
+																				'');
+																$("#prsubcaste")
+																		.append(
+																				new Option(
+																						"--Select--",
+																						"0"));
+																var result = JSON
+																		.parse(result);
+																var s = '';
+																for (var i = 0; i < result.length; i++) {
+																	s += '<option style="text-transform:capitalize"; value="'+result[i].ccode+'">'
+																			+ result[i].cname
+																			+ '</option>';
+																}
+																$('#prsubcaste')
+																		.append(
+																				s);
+															}
+														});
 											});
-								});
 
-			});
-	//fetch mandals onchange 
-	function getMandals(ditrict,mandal){
-		var district = $('#'+ditrict+'').val();
-		//var dist = $('#dist').val();
-		$
-				.ajax({
-					type : 'GET',
-					url : '/scst/loadmandal/'
-							+ district,
-					success : function(
-							result) {
+						});
 
-						
-						$('#'+mandal+'').html('');
-						$('#'+mandal+'').append(new Option("--Select--", "0"));
-						var result = JSON
-								.parse(result);
-						var s = '';
-						for (var i = 0; i < result.length; i++) {
-							s += '<option style="text-transform:capitalize"; value="'+result[i].mcode+'">'
-									+ result[i].mname
-									+ '</option>';
+		//fetching subcaste onchange caste select option 
+		$(document)
+				.ready(
+						function() {
+
+							$('#bprcaste')
+									.on(
+											'change',
+											function() {
+
+												var caste = $('#bprcaste')
+														.val();
+
+												//var dist = $('#dist').val();
+												$
+														.ajax({
+															type : 'GET',
+															url : '/scst/loadcaste/'
+																	+ caste,
+															success : function(
+																	result) {
+
+																$(
+																		'#bprsubcaste')
+																		.html(
+																				'');
+																$(
+																		"#bprsubcaste")
+																		.append(
+																				new Option(
+																						"--Select--",
+																						"0"));
+																var result = JSON
+																		.parse(result);
+																var s = '';
+																for (var i = 0; i < result.length; i++) {
+																	s += '<option style="text-transform:capitalize"; value="'+result[i].ccode+'">'
+																			+ result[i].cname
+																			+ '</option>';
+																}
+																$(
+																		'#bprsubcaste')
+																		.append(
+																				s);
+															}
+														});
+											});
+
+						});
+		//fetch mandals onchange 
+		function getMandals(ditrict, mandal) {
+			var district = $('#' + ditrict + '').val();
+			//var dist = $('#dist').val();
+			$
+					.ajax({
+						type : 'GET',
+						url : '/scst/loadmandal/' + district,
+						success : function(result) {
+
+							$('#' + mandal + '').html('');
+							$('#' + mandal + '').append(
+									new Option("--Select--", "0"));
+							var result = JSON.parse(result);
+							var s = '';
+							for (var i = 0; i < result.length; i++) {
+								s += '<option style="text-transform:capitalize"; value="'+result[i].mcode+'">'
+										+ result[i].mname + '</option>';
+							}
+							$('#' + mandal + '').append(s);
 						}
-						$('#'+mandal+'')
-								.append(s);
-					}
-				});
-		
+					});
+
 		}
-	
-	
-	
 	</script>
 
 

@@ -876,11 +876,13 @@ response.setDateHeader("Expires", 0);
 						success : function(response) {
 							if (response == "Y") {
 							alert("Respondent details updated")
+							$('#squarespaceModal').modal('hide');
 								getRespondentList();
 							} else {
 								alert("Respondent details updation failed");
 							}
 						}
+						
 
 					});
 				});

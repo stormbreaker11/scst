@@ -62,7 +62,7 @@ public class LandPetitionController {
 		
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		String petitionId = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		model.addAttribute("type", type);
@@ -101,7 +101,7 @@ public class LandPetitionController {
 		
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		model.addAttribute("landdetails", new Land());
 		model.addAttribute("petitionerId", petitionerId);
@@ -157,7 +157,7 @@ public class LandPetitionController {
 		
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		String petid = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		Petition petition=landdao.getPetition(pid, petid);
@@ -228,7 +228,7 @@ public class LandPetitionController {
 	public String viewPetitionstatus(HttpServletRequest httpServletRequest, Model mode) {
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		List<Petitioner> petitions = prDao.getPetitions(login.getCompid());
 		mode.addAttribute("petitions", petitions);

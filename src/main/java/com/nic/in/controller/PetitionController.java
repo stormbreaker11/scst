@@ -49,11 +49,9 @@ public class PetitionController {
 
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:/sesexp";
 		}
 		String petitionId = petitiondao.createPetitionId(pid, petition.getPetitionType());
-		
-		
 		if (!petitionId.equals("")) {
 
 			model.addAttribute("type", petition.getPetitionType());
@@ -123,6 +121,7 @@ public class PetitionController {
 			}
 		}
 		model.addAttribute("error", "Error : Filing Petition, try again ");
+		model.addAttribute("petition", new Petition());
 		return "filepetition";
 	}
 
@@ -131,7 +130,7 @@ public class PetitionController {
 			@RequestParam String category, @RequestParam String type, Model model) {
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:/sesexp";
 		}
 		String pid = (String) httpServletRequest.getSession().getAttribute("petitionID");
 		int submit = petitiondao.submitPetition(petitionerId, pid);
@@ -168,7 +167,7 @@ public class PetitionController {
 	public String viewPetitionstatus(HttpServletRequest httpServletRequest, Model mode) {
 		Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		if (login == null) {
-			return "redirect:sessexp";
+			return "redirect:/sesexp";
 		}
 		List<Petitioner> petitions = petitionerdao.getPetitions(login.getCompid());
 		mode.addAttribute("petitions", petitions);

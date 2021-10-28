@@ -49,17 +49,16 @@ public class PetitionerController {
 		
 		
 		if (login == null) {
-
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
-
+	
 		Petitioner petitioner = new Petitioner();
 		List<Identity> identities = scstcommons.getIdentities();
 		model.addAttribute("identities", identities);
 		model.addAttribute("register", petitioner);
 		List<District> district = scstcommons.getDistrict("36");
-
 		model.addAttribute("district", district);
+		model.addAttribute("login", login);
 		return "petitioner";
 	}
 
@@ -82,7 +81,7 @@ Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		
 		if (login == null) {
 
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		try {
 			// byte[] bytes = IOUtils.toByteArray(prdocfile.getInputStream());
@@ -126,7 +125,7 @@ Login login = (Login) httpServletRequest.getSession().getAttribute("login");
 		
 		if (login == null) {
 
-			return "redirect:sessexp";
+			return "redirect:sesexp";
 		}
 		model.addAttribute("petition", new Petition());
 

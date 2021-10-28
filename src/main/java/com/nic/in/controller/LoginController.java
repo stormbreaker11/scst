@@ -55,7 +55,7 @@ public class LoginController {
 
 	
 	//session expiring page
-	@RequestMapping(value = "/sessexp", method = RequestMethod.GET)
+	@RequestMapping(value = "/sesexp", method = RequestMethod.GET)
 	public String sesexp(HttpServletRequest request, SessionStatus status) {
 		HttpSession session = request.getSession(false);
 

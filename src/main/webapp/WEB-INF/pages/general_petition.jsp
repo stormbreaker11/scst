@@ -39,6 +39,7 @@ response.setDateHeader("Expires", 0);
 <script src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/script.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/generalpetition.js"></script>
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
@@ -50,10 +51,17 @@ response.setDateHeader("Expires", 0);
 
 function proceed(){
 
-	document.filepetition.method="POST";
-	document.filepetition.action="/scst/petition/general/saveGeneral";
-	document.filepetition.submit();
-	
+	var method2 = generalpetition();
+	if(method2==true)
+		{
+			document.filepetition.method="POST";
+			document.filepetition.action="/scst/petition/general/saveGeneral";
+			document.filepetition.submit();
+		}
+	else
+		{
+			return false;
+		}
 }
 </script>
 
@@ -272,11 +280,11 @@ margin-right: 10px;
 												class="col-sm-7 col-md-offset-2 form-group" >
 												<label class="col-md-6">Petition
 													in Detail
-													(500 words)
+													(1000 words)
 												<span class="star">*</span></label>
 												<div class="col-md-6">
 													<form:textarea
-														path="pet_detail" maxlength="500"
+														path="pet_detail" maxlength="1000"
 														id="pet_detail"
 														cols="39" tabindex="2"
 														rows="7"></form:textarea>

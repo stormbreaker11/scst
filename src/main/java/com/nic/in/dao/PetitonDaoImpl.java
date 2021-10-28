@@ -77,16 +77,16 @@ public class PetitonDaoImpl implements PetitionDao {
 			map.addValue("pr_mobile", petitioner.getPrMobile());
 			map.addValue("pr_email", petitioner.getPrMail());
 			map.addValue("district", Integer.parseInt(petitioner.getDistrict()));
-			map.addValue("mandal", petitioner.getMandal());
+			map.addValue("mandal", Integer.parseInt(petitioner.getMandal()));
 			map.addValue("village", petitioner.getVillage());
-			map.addValue("pr_id_type", petitioner.getBprprProofType());
-			if(petitioner.getBprprProofType().equals("O")) {
+			map.addValue("pr_id_type", petitioner.getPrProofType());
+			if(petitioner.getPrProofType().equals("O")) {
 				map.addValue("pr_oth_id_name", petitioner.getPrOtherid());
 			}
 			else {
 				map.addValue("pr_oth_id_name", null);
 			}
-			map.addValue("pr_id_no", petitioner.getBprProofId());
+			map.addValue("pr_id_no", petitioner.getPrProofId());
 			map.addValue("pr_photo", petitioner.getPrPhoto());
 			map.addValue("pr_signature", petitioner.getPrSign());
 			map.addValue("b_pr_name", null);
@@ -114,9 +114,17 @@ public class PetitonDaoImpl implements PetitionDao {
 			map.addValue("pr_mobile", petitioner.getBprprMobile());
 			map.addValue("pr_email", petitioner.getBprprMail());
 			map.addValue("district", Integer.parseInt(petitioner.getBprdistrict()));
-			map.addValue("mandal", petitioner.getBprmandal());
+			map.addValue("mandal", Integer.parseInt(petitioner.getBprmandal()));
 			map.addValue("village", petitioner.getBprvillage());
 			map.addValue("pr_id_type", petitioner.getBprprProofType());
+			
+			if(petitioner.getBprprProofType().equals("O")) {
+				map.addValue("pr_oth_id_name", petitioner.getBprprOtherProofType());
+			}
+			else {
+				map.addValue("pr_oth_id_name", null);
+			}
+			
 			map.addValue("pr_id_no", petitioner.getBprprProofId());
 			map.addValue("pr_photo", petitioner.getBprprPhoto());
 			map.addValue("pr_signature", petitioner.getBprprSign());
@@ -127,10 +135,10 @@ public class PetitonDaoImpl implements PetitionDao {
 			map.addValue("b_pr_email", petitioner.getBprMail());
 			map.addValue("b_pr_id_type", petitioner.getBprProofId());
 			if(petitioner.getBprProofId().equals("O")) {
-				map.addValue("pr_oth_id_name", petitioner.getBprprOtherid());
+				map.addValue("b_pr_oth_id_name", petitioner.getBprotherid());
 			}
 			else {
-				map.addValue("pr_oth_id_name", null);
+				map.addValue("b_pr_oth_id_name", null);
 			}
 			map.addValue("b_pr_id_no", petitioner.getBprProofNo());
 			map.addValue("b_pr_signature", petitioner.getBprSign());
@@ -314,7 +322,7 @@ public class PetitonDaoImpl implements PetitionDao {
 				if (petitionId > 0) {
 				
 					String sqlMax = "select max(right(petition_id, 4)) as pid from petition_master where  "
-							+ "substring(petition_id from 3 for 4)=?";
+							+ "substring(petition_id from 3 for 4)=? ";
 					
 					idGenerate = "";
 					String newid = jdbcTemplate.queryForObject(sqlMax, new Object[] { String.valueOf(year) }, String.class);
@@ -353,75 +361,52 @@ public class PetitonDaoImpl implements PetitionDao {
 		@Override
 		public int insertPetition(Petition petition, Login login) {
 			int flag = 0;
-			TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
-			TransactionStatus status = transactionManager.getTransaction(transactionDefinition);
 
 			try {
-				String sql = "select count(*) from petition_master where petition_type=? and petition_category=? and petitioner_id=?";
-				int count = jdbcTemplate.queryForObject(sql,
-						new Object[] { petition.getPetitionType(), petition.getPetitionCat(), petition.getPetitionerId() }, Integer.class);
-				if (count == 0) {
-					String queryInsert = "INSERT INTO petition_master( "
-							+ " petition_id, petitioner_id, userid, petition_type, petition_category, "
-							+ " petition_status, status_date, final_submit, submit_date, group_name, nodal_name, nodal_desig,"
-							+ " nodal_mobile, nodal_email, nodal_sign, entry_date)"
-							+ " VALUES (:petition_id, :petitioner_id, :userid, :petition_type, :petition_category, "
-							+ " :petition_status, :status_date, :final_submit,"
-							+ " :submit_date, :group_name, :nodal_name, :nodal_desig, "
-							+ "	:nodal_mobile, :nodal_email, :nodal_sign, now())";
-					 
-					MapSqlParameterSource map = new MapSqlParameterSource();
+				String queryInsert = "INSERT INTO petition_master( "
+						+ " petition_id, petitioner_id, userid, petition_type, petition_category, "
+						+ " petition_status, status_date, final_submit, submit_date, group_name, nodal_name, nodal_desig,"
+						+ " nodal_mobile, nodal_email, nodal_sign, entry_date)"
+						+ " VALUES (:petition_id, :petitioner_id, :userid, :petition_type, :petition_category, "
+						+ " :petition_status, :status_date, :final_submit,"
+						+ " :submit_date, :group_name, :nodal_name, :nodal_desig, "
+						+ "	:nodal_mobile, :nodal_email, :nodal_sign, now())";
 
-					map.addValue("petition_id", petition.getPetitionId());
-					map.addValue("petitioner_id", petition.getPetitionerId());
-					map.addValue("userid", login.getCompid());
-					map.addValue("petition_type", petition.getPetitionType());
-					map.addValue("petition_category", petition.getPetitionCat());
-					map.addValue("petition_status", "1");
-					map.addValue("status_date", new Date());
-					map.addValue("final_submit", "N");
-					map.addValue("submit_date", new Date());
-					if(petition.getPetitionType().equals("G")) { //checking for type of petition G-Group , I-individual 
-						map.addValue("group_name", petition.getGroupName());
-						map.addValue("nodal_name", petition.getNodalName());
-						map.addValue("nodal_desig", petition.getNodalDesign());
-						map.addValue("nodal_mobile", petition.getNodalMobile());
-						map.addValue("nodal_email", petition.getNodalEmail());
-						map.addValue("nodal_sign", petition.getNodalSign());
-					}
-					else {
-						map.addValue("group_name", null);
-						map.addValue("nodal_name", null);
-						map.addValue("nodal_desig", null);
-						map.addValue("nodal_mobile", null);
-						map.addValue("nodal_email", null);
-						map.addValue("nodal_sign", null);
-						map.addValue("nodal_represent", null);
-					}
-					
-					int update = namedParameterJdbcTemplate.update(queryInsert, map);
-					String setPetition="Update petitioner set petition_id=:petition_id where petitioner_id=:petitioner_id";
-					
-					map = new MapSqlParameterSource();
-					map.addValue("petition_id", petition.getPetitionId());
-					map.addValue("petitioner_id", petition.getPetitionerId());
-					
-					int setpPid=namedParameterJdbcTemplate.update(setPetition,map);
-					if (update == 1 & setpPid==1) {
-						transactionManager.commit(status);
-						flag = 1;
-					}
-					else {
-						transactionManager.rollback(status);
-						flag = 0;
-					}
+				MapSqlParameterSource map = new MapSqlParameterSource();
+
+				map.addValue("petition_id", petition.getPetitionId());
+				map.addValue("petitioner_id", petition.getPetitionerId());
+				map.addValue("userid", login.getCompid());
+				map.addValue("petition_type", petition.getPetitionType());
+				map.addValue("petition_category", petition.getPetitionCat());
+				map.addValue("petition_status", "1");
+				map.addValue("status_date", new Date());
+				map.addValue("final_submit", "N");
+				map.addValue("submit_date", new Date());
+				if (petition.getPetitionType().equals("G")) { // checking for type of petition G-Group , I-individual
+					map.addValue("group_name", petition.getGroupName());
+					map.addValue("nodal_name", petition.getNodalName());
+					map.addValue("nodal_desig", petition.getNodalDesign());
+					map.addValue("nodal_mobile", petition.getNodalMobile());
+					map.addValue("nodal_email", petition.getNodalEmail());
+					map.addValue("nodal_sign", petition.getNodalSign());
+				} else {
+					map.addValue("group_name", null);
+					map.addValue("nodal_name", null);
+					map.addValue("nodal_desig", null);
+					map.addValue("nodal_mobile", null);
+					map.addValue("nodal_email", null);
+					map.addValue("nodal_sign", null);
+					map.addValue("nodal_represent", null);
 				}
+
+				flag = namedParameterJdbcTemplate.update(queryInsert, map);
+
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
-				transactionManager.rollback(status);
 				flag = 0;
 			}
-			
+
 			return flag;
 		}
 

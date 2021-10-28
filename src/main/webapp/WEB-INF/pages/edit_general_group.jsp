@@ -42,6 +42,8 @@ response.setDateHeader("Expires", 0);
 	src="${pageContext.request.contextPath}/static/js/jquery-1.7.1.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/main.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/script.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/respondent.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/validations/generalpetition.js"></script>
 
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -332,7 +334,7 @@ margin-right: 10px;
 									class="star">*</span></label>
 								<div class="col-md-4">
 									<form:input type="text" class="form-control SelectStyle" id="nodalMobile" path="nodalMobile"
-									value="${petition.nodalMobile }"	name="nodalMobile" />
+									value="${petition.nodalMobile }" 	name="nodalMobile" />
 										
 								</div>
 							</div>
@@ -395,7 +397,7 @@ margin-right: 10px;
 							class="star">*</span></label>
 						<div class="col-md-4">
 							<input type="file" 
-								class="form-control" name="file" id="file"
+								class="form-control" name="file" id="signfile"
 								/>
 						</div>
 					</div>
@@ -478,14 +480,14 @@ margin-right: 10px;
 												class="col-sm-7 col-md-offset-2 form-group" >
 												<label class="col-md-6">Petition
 													in Detail
-													(500 words)
+													(1000 words)
 												<span class="star">*</span></label>
 												<div class="col-md-6">
 													<form:textarea
 														path="pet_detail"
 														id="pet_detail"
 														cols="39"
-														rows="7"></form:textarea>
+														rows="7" maxlength="1000"></form:textarea>
 												</div>
 											</div>
 										</div>
@@ -1006,7 +1008,7 @@ margin-right: 10px;
 								<div role="group" aria-label="group button">
 
 									<input type="button" class="btn btn-primary"
-										id="updateRespondent"  value="Update"
+										id="updateRespondent"  value="Update" data-dismiss="modal"
 										role="button" /> <input type="button" class="btn btn-danger"
 										data-dismiss="modal" value="Close" role="button" />
 
@@ -1051,6 +1053,16 @@ $(document).on('click','#update', function() {
 
 	 $("#message").empty();
 	 $("#warning").empty();
+
+
+
+	 var status=generalpetition();
+
+		if(status==false){
+				return false;
+			}
+
+	 
 	    var frm = $('#updategeneral')[0];
 		var fdata = new FormData(frm);
 		   var k=0;
@@ -1078,7 +1090,7 @@ $(document).on('click','#update', function() {
 
 function proceed(){
 	var table=$("#uploadTable tr").length;
-	if(table<1){
+	if(table==1){
 				alert("Add atleast one document/evidence");
 				$('#docDesc').focus();
 				return false;				
@@ -1175,7 +1187,6 @@ $(document).on('click','#docdiv #btn-remove', function() {
 
 	});
 
-
 $(function(){
     $('#addDoc').on('click', function(){ 
 
@@ -1270,6 +1281,13 @@ $(function(){
 	var rowText;
 		//adding respondent details dynamically
 		function addRespondent(){
+
+
+			var status=respondentValidation();
+
+			if(status==false){
+					return false;
+				}
 			
 			var respondentdetails = $("#respondentdetails").val();
 			var respondentdetailsText = $("#respondentdetails option:selected").text();
@@ -1488,6 +1506,97 @@ $(function(){
 							.val();
 					var castevalue = $('#exampleModal1 #castevalue').val();
 					var petId = $('#petId').val();
+
+					var regex = /^[a-zA-z]+([\s][a-zA-Z]+)*$/;
+
+					var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+					var phoneRegex = /^[6-9]\d{9}$/;
+
+					if (respondentdetails == "0") {
+						$(
+						'#exampleModal1 #respondentdetails').focus();
+						alert("Select Type of Respondent");
+						return false;
+					}
+
+					if (name.length == 0) {
+						$("#exampleModal1 #respName").focus();
+						alert("Name of the respondent is required");
+						return false;
+					}
+					if (regex.test(name) == false) {
+						$("#exampleModal1 #respName").focus();
+						alert("Invalid name of the respondent");
+						return false;
+					}
+
+					if (respondentdetails == "P") {
+						if (castevalue == "0") {
+							alert("Select Caste");
+							$('#exampleModal1 #castevalue').focus();
+							return false;
+						}
+					}
+					if (respProffesion.length == 0) {
+						$('#exampleModal1 #respProffesion')
+						.val();
+						$('#exampleModal1 #respProffesion')
+						.focus();
+						alert("Designation/Profession is required");
+						return false;
+					}
+					if (regex.test(respProffesion) == false) {
+						$('#exampleModal1 #respProffesion').focus();
+						alert("Invalid Designation/Profession");
+						return false;
+					}
+
+					if (district == "0") {
+						 $('#exampleModal1 #district').focus();
+						alert("Select District");
+						return false;
+					}
+
+					var newaddregex = /^[a-zA-Z0-9/(),+\-_.\s]+$/;
+					if (address.length == 0) {
+						$("#exampleModal1 #address").focus();
+						alert("Address is required");
+						return false;
+					}
+
+					if (newaddregex.test(address) == false) {
+						$("#exampleModal1 #address").focus();
+						alert("Invalid Address");
+						return false;
+					}
+
+					if (mobile.length == 0) {
+						alert("Mobile  Number is required");
+						$("#exampleModal1 #mobile").focus();
+
+						
+						return false;
+					}
+
+					if (phoneRegex.test(mobile) == false) {
+						alert("Not a valid mobile number");
+						$("#exampleModal1 #mobile").focus();
+						return false;
+					}
+
+
+					if (email.length == 0) {
+						alert("Email is required");
+						$("#exampleModal1 #email").focus();
+						return false;
+					}
+
+					if (emailRegex.test(email) == false) {
+						alert("Enter a valid Email");
+						$("#exampleModal1 #email").focus();
+						return false;
+					}
+						
 			
 					$.ajax({
 						url : '/scst/petition/respondent/updaterespondent.htm/'
@@ -1594,6 +1703,82 @@ $(function(){
 		//update nodal onclick
 		$(document).on('click','#updateNodal', function() {
 
+
+
+			  var groupName=$("#groupName").val().trim();
+			  var nodalName=$("#nodalName").val().trim();
+			  var nodalDesign=$("#nodalDesign").val().trim();
+			  var nodalMobile=$("#nodalMobile").val().trim();
+			  var nodalEmail=$("#nodalEmail").val().trim();
+			  var file=document.getElementById("nodalfile");
+
+
+			    var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			  	var regex = /^[a-zA-Z]+(\s+[a-zA-Z]+)*$/;
+			  	var phoneRegex = /^[6-9]\d{9}$/;
+			  	
+
+					if (groupName == "") {
+				  		document.getElementById("groupName").focus();
+				  		alert("Name of the Organization/Group is required");
+				  		return false;
+				  	}
+				  	if (regex.test(groupName) == false) {
+				  		document.getElementById("groupName").focus();
+				  		alert("Invalid Name of the Organization/Group");
+				  		return false;
+				  	}
+				  	if (nodalName == "") {
+				  		document.getElementById("nodalName").focus();
+				  		alert("Name of the nodal person is required");
+				  		return false;
+				  	}
+				  	if (regex.test(nodalName) == false) {
+				  		document.getElementById("nodalName").focus();
+				  		alert("Invalid Name of the nodal person");
+				  		return false;
+				  	}
+				  	if (nodalDesign == "") {
+				  		document.getElementById("nodalDesign").focus();
+				  		alert("Designation/Profession is required");
+				  		return false;
+				  	}
+				  	if (regex.test(nodalDesign) == false) {
+				  		document.getElementById("nodalDesign").focus();
+				  		alert("Invalid Designation/Profession");
+				  		return false;
+				  	}
+
+				  	if(file.value==""){
+				  		document.getElementById("nodalfile").focus();
+				  		alert("Upload Signature of the nodal person ");
+				  		return false;0
+				  	  	}
+
+					if (nodalMobile.length == 0) {
+						alert("Nodal Mobile  Number is required");
+						document.getElementById("nodalMobile").focus();
+						return false;
+					}
+
+					if (phoneRegex.test(nodalMobile) == false) {
+						alert("Not a valid mobile number");
+						document.getElementById("nodalMobile").focus();
+						return false;
+					}
+					
+					if (nodalEmail.length == 0) {
+						alert("Email is required");
+						document.getElementById("nodalEmail").focus();
+						return false;
+					}
+
+					if (emailRegex.test(nodalEmail) == false) {
+						alert("Enter a valid Email");
+						document.getElementById("nodalEmail").focus();
+						return false;
+					}
+
 			
 			var form = $('#petition')[0];
 			var fdata = new FormData(form);
@@ -1622,8 +1807,31 @@ $(function(){
 		function addpetitioners(){
 
 			
+
+
 			var name = $("#petionerName").val();
 			var petionerId = $("#petionerId").val();
+			var filesign=document.getElementById('signfile');
+			var filepath = filesign.value;
+			var allowedExtensions = /(\.jpg)$/i;
+
+
+			if(name==""){
+				$("#petionerName").focus();
+				alert("Joint Petitioner Name is required");
+				return false;
+				}
+			if (filepath == "") {
+				alert("File is required");
+				document.getElementById('signfile').focus();
+				return false;
+			}
+			if (!allowedExtensions.exec(filepath)) {
+				alert('Invalid file type');
+				filepath.value = '';
+				return false;
+			}
+			
 			  var form1 = $('#jointpetitioner')[0];
 			  var fdata = new FormData(form1);
 			  fdata.append('name', name);
@@ -1662,6 +1870,8 @@ $(function(){
 										+ name
 										+ '</td><td style="text-align: center;"    ><img height="22px" onclick="openRequestedPopup('+response+')" data-toggle="tooltip" title="Click to view Sign" id="edit" src="${pageContext.request.contextPath}/static/images/imageview.png"></img></td></td> <td style="text-align: center;" id="btn-remove"   ><img height="22px"  data-toggle="tooltip" title="Click to delete"  src="${pageContext.request.contextPath}/static/images/delete-1-icon.png"></img></td></tr>'
 										$("#PetitionerTable").append($(s));
+										$("#petionerName").val('')
+										$("#signfile").val('')
 							}
 
 						}
